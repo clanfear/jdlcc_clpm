@@ -1,0 +1,289 @@
+---
+title: "Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
+author:
+  - Charles C. Lanfear
+  - Thiago R. Oliveira
+format: pdf
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+
+```
+
+> Abstract from panel; we may want to decide on specific illustrative case after we've laid out framework of paper, as we want our case to exhibit every potential issue.
+
+Reciprocal causal relationships are a common feature of criminological theories. For example, police forces tend to use force more often in areas where crime concentrates, while at the same time legal cynicism theory suggests that cumulative exposures to police use-of-force can foster criminal activity. When multiple observations over time are available, cross-lagged panel models are commonly used to estimate these reciprocal effects. This is often done without careful attention to the assumptions that must be satisfied to produce valid estimates, such as correctly specified temporal lags, sufficient inter-temporal variation, and proper accounting for unobserved heterogeneity. Failure to satisfy these assumptions can produce severe issues including spurious associations and parameter estimates that are biased or even reversed in direction. In addition, reciprocal relationships violate causal assumptions based on graphical tools; criminological theories that suggest reciprocal causal relationships usually have an underlying macro-micro mechanism often not accounted for in empirical models. We provide guidance on how to align theory, model specification, and choice of estimator and illustrate this using an empirical example. We use data from Chicago at the census tract level and model the potential reciprocal relationship between police use-of-force and violent crime between 2004 and 2016. We finalise highlighting the importance of criminological theory and careful attention to empirical implications of theoretical premises when investigating reciprocal relationships
+
+# Introduction
+
+* When do we expect reciprocal effects?
+   * What are reciprocal effects *really*?
+   * Separate theoretical and methodological concerns
+* What must a model do to capture these?
+* Use 3 wave model as example
+* Might be worth taking a clear but extremely concise perspective on causality to ward off pedants
+
+* Terminology
+   * Strict exogeneity
+   * Predetermined regressors (weakly exogenous, sequentially exogenous)
+
+# Notation and diagrams
+
+We should be specific and consistent in choosing graphical representations and notation.
+
+DAGs are easy to understand but rule out contemporaneous reciprocal relationships. This is good in one respect, as causal effects are always time ordered. Perhaps we separate causal models from statistical models explicitly by using DAGs for causal models and SEM path diagrams for statistical models. Then using that, we talk about situations under which modeling something as contemporaneous is necessary. 
+
+Relatedly, something I've never seen done is using DAGs to really elaborate how we should think about waves of panel data as snapshots during temporal processes. For example, you might imagine a causal process like that below where we only observe at times 1, 3, and 5 despite the process operating over 1 unit lags. This is a discretization, of course, and you can imagine many processes are essentially continuous with hundreds of steps in between observations.
+
+```{tikz fig-2-theory-dag, echo = FALSE, fig.cap = "Directed acyclic graph representation of CLPM"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node[hidden] (x2) at (2,2) {$X_2$};
+    \node (x3) at (4,2) {$X_3$};
+    \node[hidden] (x4) at (6,2) {$X_4$};
+    \node (x5) at (8,2) {$X_5$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node[hidden] (y2) at (2,0) {$Y_2$};
+    \node (y3) at (4,0) {$Y_3$};
+    \node[hidden] (y4) at (6,0) {$Y_4$};
+    \node (y5) at (8,0) {$Y_5$};
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    \path (x3) edge (x4);
+    \path (x4) edge (x5);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    \path (x3) edge (y4);
+    \path (x4) edge (y5);
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    \path (y3) edge (y4);
+    \path (y4) edge (y5);
+    
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    \path (y3) edge (x4);
+    \path (y4) edge (x5);
+
+  }
+```
+
+
+```{tikz fig-3-estimation, fig.cap = "SEM path diagram representation of CLPM"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node (x3) at (4,2) {$X_3$};
+    \node (x5) at (8,2) {$X_5$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node (y3) at (4,0) {$Y_3$};
+    \node (y5) at (8,0) {$Y_5$};
+    \path (x1) edge (x3);
+    \path (x3) edge (x5);
+    
+    \path (x1) edge (y3);
+    \path (x3) edge (y5);
+    
+    \path (y1) edge (y3);
+    \path (y3) edge (y5);
+    
+    \path (y1) edge (x3);
+    \path (y3) edge (x5);
+    
+    \path (x1) edge [bend right=45, arrows = <->] (y1);
+    \path (x3) edge [bend right=45, arrows = <->] (y3);
+    \path (x5) edge [bend right=45, arrows = <->] (y5)
+
+  }
+```
+
+* DAGs for theory, SEM path diagrams for estimation?
+
+
+# Motivating example
+
+> We've written up ESC using legla cynicism as motivating example, but if we find it to be too complicated, we could also use the Airbnb paper for ESC (doesn't make sense for JDLCC though). It is nice because it has a DAG to motivate an estimation strategy with contemporaneous effects:
+
+```{tikz airbnb-1, fig.cap = "Theoretical model. CE is collective efficacy, O is criminal opportunity, C is crime, A is short-term lettings, U is omitted confounders"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (a1) at (0,0) {$A_1$};
+    \node[hidden] (u) at (1,-1) {$U$};
+    \node (c1) at (0,2)  {$C_1$};
+    \node (a2) at (2,0)  {$A_2$};
+    \node (c2) at (2,2)  {$C_2$};
+    \node[hidden] (o1) at (0,1)  {$O_1$};
+    \node[hidden] (o2) at (2,1)  {$O_2$};
+    \node[hidden] (s1) at (-1,1) {$\textit{CE}_1$};
+    \node[hidden] (s2) at (1,1)  {$\textit{CE}_2$};
+    \path (a1) edge (o1);
+    \path (c1) edge [bend left=25] (o2);
+    \path (c1) edge [bend left=10] (s2);
+    \path (o1) edge (c1);
+    \path (a2) edge (o2);
+    \path (o2) edge (c2);
+    \path (a1) edge (a2);
+    \path (a1) edge (s2);
+    \path (a1) edge (s2);
+    \path (s2) edge (o2);
+    \path (s1) edge (o1);
+    \path (c1) edge [bend right=27] (a2);
+    \path (s1) edge [bend left=40] (s2);
+    \path (o1) edge [bend left=40] (o2);
+    \path (u) edge (a1);
+    \path (u) edge (a2);
+    \path (u) edge [bend left=45] (s1);
+    \path (u) edge (s2);
+    \path (u) edge (o1);
+    \path (u) edge (o2);
+    \path (u) edge [bend left=60] (c1);
+    \path (u) edge [bend right=60] (c2);
+  }
+```
+
+```{tikz airbnb-2,  fig.cap = "Estimation model. C is crime, A is short-term lettings, U is omitted time- and unit-specific confounders"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (a1) at (0,0) {$A_1$};
+    \node[hidden] (u) at (1,-1) {$U$};
+    \node (c1) at (0,2)  {$C_1$};
+    \node (a2) at (2,0)  {$A_2$};
+    \node (c2) at (2,2)  {$C_2$};
+    \path (a1) edge (c1);
+    \path (c1) edge (c2);
+    \path (a2) edge (c2);
+    \path (a1) edge (a2);
+    \path (a1) edge (c2);
+    \path (c1) edge (a2);
+    \path (u) edge (a1);
+    \path (u) edge (a2);
+    \path (u) edge [bend left=60] (c1);
+    \path (u) edge [bend right=60] (c2);
+  }
+```
+
+Alternatively, we might select something with ambiguous contemporaneous directionality to motivate different estimation approaches, e.g., the Vaisey & Miles both effects approach or the Allison unanalyzed correlation approach.
+
+# Issue 1: Temporal Order
+
+* Unusual form of bias as documented by Vaisey & Miles that can flip signs
+* Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
+
+## Solutions
+
+* Theoretical ideal: Get it right
+* Vaisey & Miles: Do both lagged and contemporaneous
+* Allison: Partial correlation model with lagged effect and contemporaneous residual covariance
+
+# Issue 2: Unobserved heterogeneity
+
+* Probably the most commonly encountered issue
+* Might also raise treatment heterogeneity here as different but related issue not as easily addressed in CLPMs as in TWFE
+   * Exception is time-specific treatment heterogeneity which is easily permitted by allowing wave-specific parameters as in Allison's model
+   * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
+
+## Solutions
+
+* RE
+   * Addresses within-unit or within-period heterogeneity uncorrelated with regressors
+   * Requires very strong assumptions in lagged DV setting
+* FE
+   * Addresses within-unit or within-period heterogeneity correlated with regressors
+   * Introduces Nickell bias with lagged DVs
+* Hybrid / Mundlak model (correlated RE)
+   * Can handle both under same assumptions and problems
+   * Allison's ML-SEM approach is related to this Mundlak model; augments it with predetermined regressors.
+
+# Issue 3: Inter-temporal variation
+
+* Maybe show some illustrative math here to show that $Var(Y_2|Y_1) \rightarrow 0$ as $\rho(Y_1,Y_2) \rightarrow 1$ approaches 1; i.e., you rapidly run out of anything to explain.
+   * This is essentially a multicollinearity problem: Unbiased and consistent but high variance in estimates makes any particular estimate suspect.
+* Rarely appreciated outside time series literature but common when waves are narrowly spaced
+* With random measurement error, the error becomes proportionally larger as time periods get narrower
+   * May mean you can address in part with measurement models
+   * Note the endogenous variables are regressors, so measurement error biases parameter estimates as well
+
+## Solutions
+
+* This is first and foremost a data problem, so you want to attack it during design of data collection if possible
+   * Sample to maximize change
+   * Look for shocks
+* If you can't collect new data, look at different aggregations or wave skips
+   * Small change at a large unit may mask larger changes in small units
+   * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
