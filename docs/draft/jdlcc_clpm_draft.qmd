@@ -40,6 +40,8 @@ DAGs are easy to understand but rule out contemporaneous reciprocal relationship
 
 Relatedly, something I've never seen done is using DAGs to really elaborate how we should think about waves of panel data as snapshots during temporal processes. For example, you might imagine a causal process like that below where we only observe at times 1, 3, and 5 despite the process operating over 1 unit lags. This is a discretization, of course, and you can imagine many processes are essentially continuous with hundreds of steps in between observations.
 
+> In below diagrams, I'd prob make the observed ones x1, x2, x3, y1, y2, y3 and intervening ones something else, e.g., x1.5
+
 ```{tikz fig-2-theory-dag, echo = FALSE, fig.cap = "Directed acyclic graph representation of CLPM"}
 \usetikzlibrary{positioning}
 \definecolor{black}{HTML}{000000}
@@ -61,34 +63,34 @@ Relatedly, something I've never seen done is using DAGs to really elaborate how 
 }
 \tikz{
     \node (x1) at (0,2) {$X_1$};
-    \node[hidden] (x2) at (2,2) {$X_2$};
-    \node (x3) at (4,2) {$X_3$};
-    \node[hidden] (x4) at (6,2) {$X_4$};
-    \node (x5) at (8,2) {$X_5$};
+    \node[hidden] (x15) at (2,2) {$X_1.5$};
+    \node (x2) at (4,2) {$X_2$};
+    \node[hidden] (x25) at (6,2) {$X_2.5$};
+    \node (x3) at (8,2) {$X_3$};
     \node (y1) at (0,0) {$Y_1$};
-    \node[hidden] (y2) at (2,0) {$Y_2$};
-    \node (y3) at (4,0) {$Y_3$};
-    \node[hidden] (y4) at (6,0) {$Y_4$};
-    \node (y5) at (8,0) {$Y_5$};
-    \path (x1) edge (x2);
-    \path (x2) edge (x3);
-    \path (x3) edge (x4);
-    \path (x4) edge (x5);
+    \node[hidden] (y15) at (2,0) {$Y_1.5$};
+    \node (y2) at (4,0) {$Y_2$};
+    \node[hidden] (y25) at (6,0) {$Y_2.5$};
+    \node (y3) at (8,0) {$Y_3$};
+    \path (x1) edge (x15);
+    \path (x15) edge (x2);
+    \path (x2) edge (x25);
+    \path (x25) edge (x3);
     
-    \path (x1) edge (y2);
-    \path (x2) edge (y3);
-    \path (x3) edge (y4);
-    \path (x4) edge (y5);
+    \path (x1) edge (y15);
+    \path (x15) edge (y2);
+    \path (x2) edge (y25);
+    \path (x25) edge (y3);
     
-    \path (y1) edge (y2);
-    \path (y2) edge (y3);
-    \path (y3) edge (y4);
-    \path (y4) edge (y5);
+    \path (y1) edge (y15);
+    \path (y15) edge (y2);
+    \path (y2) edge (y25);
+    \path (y25) edge (y3);
     
-    \path (y1) edge (x2);
-    \path (y2) edge (x3);
-    \path (y3) edge (x4);
-    \path (y4) edge (x5);
+    \path (y1) edge (x15);
+    \path (y15) edge (x2);
+    \path (y2) edge (x25);
+    \path (y25) edge (x3);
 
   }
 ```
@@ -115,36 +117,37 @@ Relatedly, something I've never seen done is using DAGs to really elaborate how 
 }
 \tikz{
     \node (x1) at (0,2) {$X_1$};
+    \node (x2) at (2,2) {$X_2$};
     \node (x3) at (4,2) {$X_3$};
-    \node (x5) at (8,2) {$X_5$};
     \node (y1) at (0,0) {$Y_1$};
+    \node (y2) at (2,0) {$Y_2$};
     \node (y3) at (4,0) {$Y_3$};
-    \node (y5) at (8,0) {$Y_5$};
-    \path (x1) edge (x3);
-    \path (x3) edge (x5);
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
     
-    \path (x1) edge (y3);
-    \path (x3) edge (y5);
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
     
-    \path (y1) edge (y3);
-    \path (y3) edge (y5);
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
     
-    \path (y1) edge (x3);
-    \path (y3) edge (x5);
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
     
-    \path (x1) edge [bend right=45, arrows = <->] (y1);
-    \path (x3) edge [bend right=45, arrows = <->] (y3);
-    \path (x5) edge [bend right=45, arrows = <->] (y5)
+    \path (x1) edge [bend right=60, arrows = <->] (y1);
+    \path (x2) edge [bend right=60, arrows = <->] (y2);
+    \path (x3) edge [bend right=60, arrows = <->] (y3);
 
   }
 ```
+
 
 * DAGs for theory, SEM path diagrams for estimation?
 
 
 # Motivating example
 
-> We've written up ESC using legla cynicism as motivating example, but if we find it to be too complicated, we could also use the Airbnb paper for ESC (doesn't make sense for JDLCC though). It is nice because it has a DAG to motivate an estimation strategy with contemporaneous effects:
+> We've written up ESC using legal cynicism as motivating example, but if we find it to be too complicated, we could also use the Airbnb paper for ESC (doesn't make sense for JDLCC though). It is nice because it has a DAG to motivate an estimation strategy with contemporaneous effects:
 
 ```{tikz airbnb-1, fig.cap = "Theoretical model. CE is collective efficacy, O is criminal opportunity, C is crime, A is short-term lettings, U is omitted confounders"}
 \usetikzlibrary{positioning}
@@ -200,6 +203,7 @@ Relatedly, something I've never seen done is using DAGs to really elaborate how 
   }
 ```
 
+
 ```{tikz airbnb-2,  fig.cap = "Estimation model. C is crime, A is short-term lettings, U is omitted time- and unit-specific confounders"}
 \usetikzlibrary{positioning}
 \definecolor{black}{HTML}{000000}
@@ -242,14 +246,74 @@ Alternatively, we might select something with ambiguous contemporaneous directio
 
 # Issue 1: Temporal Order
 
-* Unusual form of bias as documented by Vaisey & Miles that can flip signs
+* Unusual form of bias as documented by Vaisey & Miles that can flip signs:
+   * If true model is $y = \beta x_t + \alpha_i + e_{it}$ and you fit $y = \beta^* x_{t-t} + \alpha_i + e_{it}$, $E(\beta^*) = -0.5\beta$, i.e., as [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/) says "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect".
 * Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
+   * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
 
 ## Solutions
 
 * Theoretical ideal: Get it right
 * Vaisey & Miles: Do both lagged and contemporaneous
+   * If no contemporaneous effect, only lagged, you're probably fine. If contemporaneous shows up, you can't definitively determine direction of contemporaneous effect.
 * Allison: Partial correlation model with lagged effect and contemporaneous residual covariance
+   * This is least biased approach if parameter of interest is $\beta x_{t-1}$, but cannot estimate $\beta x_{t}$
+   * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
+
+```{tikz allison-2022, fig.cap = "Allison (2022) recommendation"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node (x2) at (2,2) {$X_2$};
+    \node (x3) at (4,2) {$X_3$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node (y2) at (2,0) {$Y_2$};
+    \node (y3) at (4,0) {$Y_3$};
+    \node (ex2) at (2.5,3) {$e_{x2}$};
+    \node (ey2) at (2.5,-1) {$e_{y2}$};
+    \node (ex3) at (4.5,3) {$e_{x3}$};
+    \node (ey3) at (4.5,-1) {$e_{y3}$};
+    
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    
+    \path (ex2) edge (x2);
+    \path (ex3) edge (x3);
+    
+    \path (ey2) edge (y2);
+    \path (ey3) edge (y3);
+    
+    \path (x1) edge [bend right=45, arrows = <->] (y1);
+    \path (ex2) edge [bend left=45, arrows = <->] (ey2);
+    \path (ex3) edge [bend left=45, arrows = <->] (ey3);
+  }
+```
 
 # Issue 2: Unobserved heterogeneity
 
