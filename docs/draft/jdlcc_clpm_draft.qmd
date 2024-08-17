@@ -27,10 +27,11 @@ Reciprocal causal relationships are a common feature of criminological theories.
 * What must a model do to capture these?
 * Use 3 wave model as example
 * Might be worth taking a clear but extremely concise perspective on causality to ward off pedants
-
 * Terminology
    * Strict exogeneity
    * Predetermined regressors (weakly exogenous, sequentially exogenous)
+* Explanation of how what we're doing is different from recent reviews of CLPM literature, e.g., Zyphur et al. (2020).
+   * Zyphur et al. elaborate a complete generalized cross-lagged panel model that accounts for a wider range of specifications. Here we focus on key problems that appear in applied literature.
 
 # Notation and diagrams
 
@@ -324,13 +325,10 @@ Alternatively, we might select something with ambiguous contemporaneous directio
 
 ## Solutions
 
-* RE
-   * Addresses within-unit or within-period heterogeneity uncorrelated with regressors
-   * Requires very strong assumptions in lagged DV setting
-* FE
-   * Addresses within-unit or within-period heterogeneity correlated with regressors
-   * Introduces Nickell bias with lagged DVs
-* Hybrid / Mundlak model (correlated RE)
+* RI-CLPM and related approaches
+   * These are correlated stable trait models; I'm not very familiar
+   * Seems to address time stable unit heterogeneity
+* Allison's FE dynamic panel model
    * Can handle both under same assumptions and problems
    * Allison's ML-SEM approach is related to this Mundlak model; augments it with predetermined regressors.
 
@@ -351,3 +349,9 @@ Alternatively, we might select something with ambiguous contemporaneous directio
 * If you can't collect new data, look at different aggregations or wave skips
    * Small change at a large unit may mask larger changes in small units
    * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
+
+# General Advice
+
+* Allison's FE model should prob be the default as it is most robust
+
+# Conclusion

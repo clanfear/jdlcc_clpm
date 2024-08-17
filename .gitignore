@@ -37,3 +37,6 @@
 
 # tex log files
 *.log
+
+# literature
+/lit/
