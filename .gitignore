@@ -38,5 +38,6 @@
 # tex log files
 *.log
 
-# literature
+# ignore dirs
 /lit/
+/ignore/
