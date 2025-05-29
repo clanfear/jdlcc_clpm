@@ -21,8 +21,19 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 # Introduction
 
-* When do we expect reciprocal effects?
+* Initial hook
+  * Tell you how to use a CLPM
+  * When do you use a CLPM
+  * Use it when you expect reciprocal effects
+  * ALso within and between, but NOT our focus; refer to XXX
+  * Only dynamic models, not static models -- though this is important for static models as well
+* When do we expect reciprocal effects? In context of theory testing
    * What are reciprocal effects *really*?
+     * There are no simultaneous effects
+     * Usually a time problem, either:
+       * Ambiguity from theory (i.e., reciprocality is substantive)
+       * COmpeting theory when they are specific (i.e., substantive, empirical adjudication problem)
+       * Purely empirical problem due to repeated observations (i.e., reciprocality is a nuisance)
    * Separate theoretical and methodological concerns
 * What must a model do to capture these?
 * Use 3 wave model as example
