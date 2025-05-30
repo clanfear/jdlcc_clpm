@@ -1,0 +1,394 @@
+---
+title: "Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
+author:
+  - Charles C. Lanfear
+  - Thiago R. Oliveira
+format: pdf
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+
+> Abstract from panel; we may want to decide on specific illustrative case after we've laid out framework of paper, as we want our case to exhibit every potential issue.
+
+Reciprocal causal relationships are a common feature of criminological theories. For example, police forces tend to use force more often in areas where crime concentrates, while at the same time legal cynicism theory suggests that cumulative exposures to police use-of-force can foster criminal activity. When multiple observations over time are available, cross-lagged panel models are commonly used to estimate these reciprocal effects. This is often done without careful attention to the assumptions that must be satisfied to produce valid estimates, such as correctly specified temporal lags, sufficient inter-temporal variation, and proper accounting for unobserved heterogeneity. Failure to satisfy these assumptions can produce severe issues including spurious associations and parameter estimates that are biased or even reversed in direction. In addition, reciprocal relationships violate causal assumptions based on graphical tools; criminological theories that suggest reciprocal causal relationships usually have an underlying macro-micro mechanism often not accounted for in empirical models. We provide guidance on how to align theory, model specification, and choice of estimator and illustrate this using an empirical example. We use data from Chicago at the census tract level and model the potential reciprocal relationship between police use-of-force and violent crime between 2004 and 2016. We finalise highlighting the importance of criminological theory and careful attention to empirical implications of theoretical premises when investigating reciprocal relationships
+
+# Introduction
+
+* Initial hook
+  * Tell you how to use a CLPM
+  * When do you use a CLPM? [DO this later in detail]
+  * Use it when you expect reciprocal effects
+  * ALso within and between, but NOT our focus; refer to XXX
+  * Only dynamic models, not static models -- though this is important for static models as well
+  * Explanation of how what we're doing is different from recent reviews of CLPM literature, e.g., Zyphur et al. (2020).
+     * Zyphur et al. elaborate a complete generalized cross-lagged panel model that accounts for a wider range of specifications. Here we focus on key problems that appear in applied literature.
+
+* Theory and reciprocality
+  * When do we expect reciprocal effects? In context of theory testing
+* The role of time
+  * What are reciprocal effects *really*?
+     * There are no simultaneous effects
+     * Usually a time problem, either:
+       * Ambiguity from theory (i.e., reciprocality is substantive)
+       * COmpeting theory when they are specific (i.e., substantive, empirical adjudication problem)
+       * Purely empirical problem due to repeated observations (i.e., reciprocality is a nuisance)
+   * Separate theoretical and methodological concerns
+   * Strong theories should be specific about timing in causal processes; e.g., alcohol to disinhibition; well-defined, observed biological process (a pint today may give you a headache tomorrow but won't reduce self-control; zero contemporaneous headache).
+
+* Introduce the CLPM
+   * What must a model do to capture these?
+   * Use 3 wave model as example
+
+
+
+
+
+
+> Thiago: I think that sounds great. I've always pictured this as going deep in the "what are reciprocal effects *really*?" question. The way I see it is the following. DAGs do not allow for reciprocal effects. Yet, lots of theories loosely suggest reciprocal effects. Some people suggest that this might be a limitation of causal graphs (need to find references for this). But I don't think it's a limitation of causal graphs at all, instead I think it's limitation in how we commonly translate theories into causal graphs. It is possible (even probable?) that all criminological theories that suggest reciprocal relationships are actually correct, but they're missing a crucial component: time. At close inspection, theories don't suggest that X causes Y and Y causes X simultaneously; they probably suggest that, in a very simple form, past X causes future Y and that past Y causes future X---and variations of that. So, one thing we can include here is the role of time in translating theories into DAGs---and, in doing so, more deeply discussing what reciprocal effects really are.
+
+> Thiago: I understand this rules out reciprocal simultaneous effects. I'm still not convinced those make sense theoretically (and even statistically, as per Allison).
+
+
+# Theoretical and statistical models
+
+> THIAGO
+
+Good empirical research starts with a strong theoretical foundation. It is from a clearly defined theoretical framework that observable implications can be deducted, and it is those observable implications which can then be tested against empirical data [@king1994designing]. Theory-testing empirical research is therefore conditional on a thorough and transparent theoretical model [@nagin2019real]. Given that most (all?) criminological theories presume causal processes, the first step should involve deriving a recursive model that accurately represents the theorized relationships---e.g., the theoretical model could be represented by a directed acyclic graph (DAG) [@pearl2009causality]. The DAG should be all-encompassing and include all relevant theorized pathways, including unobserved mechanisms.
+
+Once the theoretical model is specified, it should guide the selection of an appropriate estimator. When dealing with situations involving potential reciprocal relationships and/or reverse causality, we propose leveraging DAGs for theoretical models and drawing on the structural equation modelling (SEM) framework for estimation [@bollen2013eight]. A clear theoretical model is a necessary prerequisite for specifying an estimator. A key consideration in this process is the timing of effects: theorized effects can be contemporaneous (i.e., occur quickly) or lagged (i.e., unfold more gradually over time). While  both diagrams will not be exactly the same, we suggest that the premised DAG inform the *structural* components of the SEM (i.e., one-directional arrows)---i.e., the structural part of the SEM should be non-recursive. However, while the DAG is a non-parametric representation of theorized causal relationships, the estimator needs to handle theoretical ambiguities and minimize undesirable assumptions. Even though this essentially makes the SEM a non-recursive model, covariances (i.e., bi-directional arrows) need to be included. Simultaneous equations should only be used only as a last resort, given their often tenuous theoretical grounding and the risk of overfitting.
+
+## When is a CLPM needed?
+
+A cross-lagged panel model is only needed when reciprocal effects over time are presumed in the theoretical model. 
+
+
+  * When is a CLPM needed?
+    * Exposure is continuous / a process / happens repeatedly | doesn't work for single-event exposure (e.g., turning points)
+    * Ambiguous direction? (Theoretical reciprocality)
+      * Long concern of theory testers / criminologists
+      * Interested in both directions / no primary relationship
+    * Empirical problem due to research design (Reverse causality)
+      * Classic endogeneity; one primary relationship
+      * Long the concern of econometrics; note Arellano-Bond is a CLPM
+
+
+
+# Two Empirical Examples
+
+* One clearly substantive reciprocality
+  * Fear of crime and perceived disorder
+  * High fear of crime sensitizes you to local disorder, causing you to perceive more
+  * Perceiving disorder may increase your fear of crime
+  * BOth are rapidly-occurring updating processes; ambiguous and theoretically interesting which is stronger
+
+* One clearly reverse causality
+  * The effect of being employed on offending; this is of policy interest, e.g., jobs programs
+  * If you are employed, you are busy and have less chances to offend (outside the workplace anyway) (x->y contemporaneous)
+  * Being employed may produce identity change that reduces future offending (x - y lagged)
+  * Offending can result in losing your job, e.g., due to being arrested (y->x lagged), but we're not interested in that
+
+* The choice of which to think about it is (almost) entirely theoretical / due to researcher interest
+   * e.g., how offending leads to job loss or only interested in how fear changes how you perceive environment
+
+Theoretical and statistical models diagrams
+
+* Suppose you have 3 waves of data
+
+FIGURE: 3-wave theoretical model with two or three panels
+* CLassic simple model matches the fear / disorder (but VERY FAST)
+* Model with contemporaneous effects matches employment
+
+> In below diagrams, I'd prob make the observed ones x1, x2, x3, y1, y2, y3 and intervening ones something else, e.g., x1.5
+
+```{tikz fig-2-theory-dag, echo = FALSE, fig.cap = "Directed acyclic graph representation of CLPM"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node[hidden] (x15) at (2,2) {$X_1.5$};
+    \node (x2) at (4,2) {$X_2$};
+    \node[hidden] (x25) at (6,2) {$X_2.5$};
+    \node (x3) at (8,2) {$X_3$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node[hidden] (y15) at (2,0) {$Y_1.5$};
+    \node (y2) at (4,0) {$Y_2$};
+    \node[hidden] (y25) at (6,0) {$Y_2.5$};
+    \node (y3) at (8,0) {$Y_3$};
+    \path (x1) edge (x15);
+    \path (x15) edge (x2);
+    \path (x2) edge (x25);
+    \path (x25) edge (x3);
+    
+    \path (x1) edge (y15);
+    \path (x15) edge (y2);
+    \path (x2) edge (y25);
+    \path (x25) edge (y3);
+    
+    \path (y1) edge (y15);
+    \path (y15) edge (y2);
+    \path (y2) edge (y25);
+    \path (y25) edge (y3);
+    
+    \path (y1) edge (x15);
+    \path (y15) edge (x2);
+    \path (y2) edge (x25);
+    \path (y25) edge (x3);
+
+  }
+```
+
+
+```{tikz fig-3-estimation, fig.cap = "SEM path diagram representation of CLPM"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node (x2) at (2,2) {$X_2$};
+    \node (x3) at (4,2) {$X_3$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node (y2) at (2,0) {$Y_2$};
+    \node (y3) at (4,0) {$Y_3$};
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    
+    \path (x1) edge [bend right=60, arrows = <->] (y1);
+    \path (x2) edge [bend right=60, arrows = <->] (y2);
+    \path (x3) edge [bend right=60, arrows = <->] (y3);
+
+  }
+```
+
+
+> CHUCK
+
+## Imaginary data
+
+In both cases we have three waves of panel data measured in yearly waves.
+
+* For example 1, we know the updating happens much faster than over course of a year; even if we had daily data, it would still be too fast. COuld do it with lab equipment, but lose real world construct and external validity.
+* For example 2, is not as fast, but over course of year, still plenty of time for feedback; if we decreasaed gaps between waves, we'd begin to rule out reverse causality. Theory can imply how narrow a time period lets you rule out.
+* Reality and theory move at one recursive (really continuous) pace, but we get snapshots of data
+
+FIGURE: Time DAG
+
+* COntinuous time means you can imagine an infinite number of these "missing waves"; don't be too worried about that, but do read this stuff
+
+
+## SEM diagrams
+
+* SEM path diagrams for estimation
+  * The structural part of the SEM should also be a DAG, except in rare circumstances, e.g., pure simultaneous equations; these require very strong identifying assumptions.
+  * Work out the diagrams; see if they are the same? Probably are!
+* Data observed, and thus you must estimate, from discrete often arbitrarily spaced waves; this produces reverse causality
+
+FIGURE: Time estimator; the classic CLPM
+
+* Explain the classic CLPM as an estimator
+  * Strict exogeneity
+
+> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
+
+
+
+
+# How it can go wrong!
+
+* One para introducing the three key issues
+
+
+> DIVVY UP AFTER
+
+# Issue 1: Temporal Order
+
+* GEtting lag specification wrong is a big issue
+* THis assumes true or approximately true lag specification
+* Unusual form of bias as documented by Vaisey & Miles that can flip signs:
+   * If true model is $y = \beta x_t + \alpha_i + e_{it}$ and you fit $y = \beta^* x_{t-t} + \alpha_i + e_{it}$, $E(\beta^*) = -0.5\beta$, i.e., as [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/) says "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect".
+* Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
+   * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
+* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+
+## Solutions
+
+* Theoretical ideal: Get it right
+* Vaisey & Miles: Do both lagged and contemporaneous
+   * If no contemporaneous effect, only lagged, you're probably fine. If contemporaneous shows up, you can't definitively determine direction of contemporaneous effect.
+* Allison: Partial correlation model with lagged effect and contemporaneous residual covariance
+   * This is least biased approach if parameter of interest is $\beta x_{t-1}$, but cannot estimate $\beta x_{t}$
+   * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
+* Also good place to bring in predetermined regressors which are part of Allison approach and Arellano-Bond
+
+```{tikz allison-2022, fig.cap = "Allison (2022) recommendation"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node (x2) at (2,2) {$X_2$};
+    \node (x3) at (4,2) {$X_3$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node (y2) at (2,0) {$Y_2$};
+    \node (y3) at (4,0) {$Y_3$};
+    \node (ex2) at (2.5,3) {$e_{x2}$};
+    \node (ey2) at (2.5,-1) {$e_{y2}$};
+    \node (ex3) at (4.5,3) {$e_{x3}$};
+    \node (ey3) at (4.5,-1) {$e_{y3}$};
+    
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    
+    \path (ex2) edge (x2);
+    \path (ex3) edge (x3);
+    
+    \path (ey2) edge (y2);
+    \path (ey3) edge (y3);
+    
+    \path (x1) edge [bend right=45, arrows = <->] (y1);
+    \path (ex2) edge [bend left=45, arrows = <->] (ey2);
+    \path (ex3) edge [bend left=45, arrows = <->] (ey3);
+  }
+```
+
+# Issue 2: Unobserved heterogeneity
+
+* Probably the most commonly encountered issue; but also pretty much solved!
+* Most common concern is stable traits
+   * While really same problem, we treat time-varying and time-stable confounders as different problems in longitudinal models
+   * Autoregressive term alone does not solve problem
+   * Can't just toss in fixed effects due to Nickell bias from endogenous lag (shrinks in proportion to T); Arellano-Bond (and thus Allison) is removing Nickell bias
+
+* Including time-stable covariates in FE models
+
+* Might also raise treatment heterogeneity here as different but related issue not as easily addressed in CLPMs as in TWFE
+   * DEvelopmental theories often specify age-specific (life stage) treatment heterogeneity
+   * Freeing the parameter by wave allows for time heterogeneity but also effects to differ because wave spacing is different
+     * One reason for treatment heterogeneity among individuals is differing measurement times within waves
+   * Exception is time-specific treatment heterogeneity which is easily permitted by allowing wave-specific parameters as in Allison's model
+   * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
+* Predetermined regressors (weakly exogenous, sequentially exogenous)
+
+
+## Solutions
+
+* LArgely solved problems!
+* RI-CLPM and related approaches
+   * These are correlated stable trait models; I'm not very familiar
+   * Seems to address time stable unit heterogeneity
+* Allison's FE dynamic panel model
+   * Can handle both under same assumptions and problems
+   * Allison's ML-SEM approach is related to this Mundlak model; augments it with predetermined regressors.
+   
+> Thiago: I think the RI-CLPM is equivalent to Allison's FE DPM when it comes to handling unobserved heterogeneity, but need to check it out more closely.
+
+
+# Issue 3: Inter-temporal variation
+
+* Maybe show some illustrative math here to show that $Var(Y_2|Y_1) \rightarrow 0$ as $\rho(Y_1,Y_2) \rightarrow 1$ approaches 1; i.e., you rapidly run out of anything to explain.
+   * This is essentially a multicollinearity problem: Unbiased and consistent but high variance in estimates makes any particular estimate suspect.
+  * From time series lit: Stronger your autoregressive term is, the less there is to explain; rapidly approaches a time-stable
+* Rarely appreciated outside time series literature but common when waves are narrowly spaced
+* With random measurement error, the error becomes proportionally larger as time periods get narrower
+   * May mean you can address in part with measurement models
+   * Note the endogenous variables are regressors, so measurement error biases parameter estimates as well
+* Psychological constructs can be very stable over time! Life course trajectories are real!
+  * Peope even get more consistent over time
+
+## Solutions
+
+* This is first and foremost a data problem, so you want to attack it during design of data collection if possible
+   * Sample to maximize change
+   * Look for shocks
+* Can put time stable covariates using hybrid approach, but be aware, you're now looking at between-individual effects
+* If you can't collect new data, look at different aggregations or wave skips
+   * Small change at a large unit may mask larger changes in small units
+   * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
+* IF increasing error is what you're worried about, can potentially use measurement models
+  * SHould be doing this anyway because your outcomes are regressors, so measurement error attenuates estimates
+* Give up and go get a pint
+
+
+# General Advice
+
+* Separate theory problems from estimation problems
+  * Theory comes first
+  * Then a clear model
+  * Then estimator
+* Default to robust estimators
+  * Allison's FE model should prob be the default as it is most robust
+* Also need to think about all these issues not specific to CLPM or reciprocal effects
+  * Sequential ignorability
+  * Dynamic effects
+    * Other related strategies, e.g., for single outcomes with continuous time-varying confounded exposures
+
+# Conclusion
+
+> Thiago: Sounds great!
