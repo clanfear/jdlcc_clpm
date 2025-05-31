@@ -103,18 +103,7 @@ execute:
 
 ## Imaginary data
 
-* Reality and theory move at one recursive (really continuous) pace, but the practical limitations of empirical data collection result in snapshots of data---often captured at much lower resolution than our theory.
-* For the purpose of illustration, let us assume that in both cases we have three waves of panel data with yearly waves of observation.
-* The empirical observation periods clearly do not align with the theoretical causal process.
-* Theory can imply whether you can plausibly isolate or rule out reciprocal effects or reverse causality.
-* For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than over course of a year---more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity (i.e., real disorder out in the world).
-* For our second example of reverse causality between employment and offending, we expect the process to occur less quickly but there is still plenty of time for feedback in yearly observations. If we decreasaed gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality. 
-* More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in FIGX.
-* As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations.
-* One must always make some assumption about the way variables and relationships operate in these unobserved intervals.
-
-
-> I need to think harder about this "missing data" thing about whether it alone really introduces the contemporaneous reciprocality thing or if this really only occurs in the context of demeaned variables / fixed effects.
+Reality and theory move at one recursive (really continuous) pace, but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in FIGX. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
 
 ```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
 \usetikzlibrary{positioning}
@@ -165,6 +154,12 @@ execute:
   }
 ```
 
+For simplicity, let us assume that in both cases we have three waves of panel data with yearly waves of observation and continuous measures of our concepts. In our first example---the reciprocal effects of perceived disorder and fear of crime---both perceived disorder and fear of crime are measured at survey time with continuous measures derived from batteries of multiple indicators. In our second example---the effect of employment on offending and attendant reverse causality---employment is measured as the proportion of time spent employed in the last year and offending is a self-reported variety score of offenses committed in the past year.
+
+When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can isolate or rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume (present) employment can be affected by past-year offending but (present) employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
+
+For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than over course of a year---more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity (i.e., real disorder out in the world). For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive causal model (i.e., a DAG). As a result, FIGXXX illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction of contemporaneous relationships, here represented by the dashed and double-headed arrows.
+
 
 ```{tikz fig-time-dag-obs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with ambiguous contemporaneous relations."}
 \usetikzlibrary{positioning}
@@ -211,25 +206,19 @@ execute:
   }
 ```
 
-## SEM diagrams
+> Chuck: Can direct reader to appendix where we show DAG for simultaneity.
 
-Data observed, and thus you must estimate, from discrete often arbitrarily spaced waves; this produces reverse causality
+Once the theoretical model has been established, one can proceed to developing a statistical model that accounts for the constraints from the research design---including ambiguity about causal directions. Here, path diagrams from the structural equation modeling (SEM) tradition become useful. SEM diagrams encode both causal relations between variables---indicated by single-headed arrows pointing from cause to effect---and unanalyzed, unexplained, or "nuisance" associations---indicated by double-headed arrows pointing between two variables. That is, one explicitly distinguishes between causal relationships and ambiguous associations. Variables with any causal path leading into them are termed "endogenous" variables and those with no causal path leading into them are termed "exogenous". SEM diagrams depart from most DAGs by depicting the residuals or unexplained variation of endogenous variables as latent variables causally affecting the observed variable.
 
-Once the theoretical model has been established, one can proceed to developing a statistical model that accounts for the constraints from the research design. Here, path diagrams from the structural equation modeling (SEM) tradition become useful.
+> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
 
-* SEM diagrams encode both structural relations between variables indicated by single-headed arrows pointing from cause to effect and unanalyzed, often "nuisance" associations, indicated by double-headed arrows pointing between two variables. 
-* Our recommendation is that the structural part of the SEM diagram should be recursive, corresponding as closely as possible to the theoretical model. Reciprocal simultaneous effects should generally be avoided as they require strong identifying assumptions, e.g., valid and relevant instrumental variables (Green 2003; XXXX).
-* When the timing of observation results in ambiguity regarding the causal direction within any given time period---such as when periods $t=1.5$ and $t=2.5$ were not observed in Fig XXX---we can encode this ambiguity as an unanalyzed covariance.
+> Chuck: I need to read the above and revisit other materials to clean my language up. I am not confident the way I distinguish between "causal" and the rest of the model corresponds to the classic SEM distinction of structural model vs. measurement model, i.e., the residual covariances are still part of the structural model, I think.
 
+Our recommendation is that the causal part of the SEM diagram should be recursive, corresponding as closely as possible to the theoretical model. Reciprocal simultaneous effects should generally be avoided as they require strong identifying assumptions, e.g., valid and relevant instrumental variables (Green 2003; XXXX). When the timing of observation results in ambiguity regarding the causal direction within any given time period---such as when periods $t=1.5$ and $t=2.5$ were not observed in Fig XXX---we encode this ambiguity as an unanalyzed covariance between the variables in question. When the timing of observations closely corresponds to theory, these covariances are unnecessary and the resulting statistical model similarly corresponds directly to the theoretical model.
 
-  * Work out the diagrams; see if they are the same? Probably are!
+For both examples, following these guidelines leads us to the "classic" three-wave CLPM depicted in FIGXX. The causal relations consist of two sets of relationships: a) lagged (autoregressive) effects of variables in one period on their value in the next period, e.g., $x_{t} \rightarrow x_{t+1}$, and b) cross-lagged effects of variables in one period on the other variable in the next period, e.g., $x_{t} \rightarrow y_{t+1}$. The non-causal relations consist of two sets of covariances: a) between the exogenous $x_1$ and $y_1$, which merely permit the predictors to be correlated as in any typical regression model, and b) between the residuals of the endogenous variables ($\zeta_t$ and $\epsilon_t$)^[Omitting the residual covariances yields the oft-maligned cross-lagged correlations model.]. The residual covariances account for the ambiguous contemporaneous association between $x_t$ and $y_t$ but cannot tell us the direction of any causal effect between the two variables.
 
-FIGURE: Time estimator; the classic CLPM
-
-
-* Explain the classic CLPM as an estimator
-
-```{tikz fig-3-estimation, fig.cap = "SEM path diagram representation of three-wave CLPM"}
+```{tikz sem-clpm, fig.cap = "SEM path diagram representation of three-wave CLPM"}
 \usetikzlibrary{positioning}
 \definecolor{black}{HTML}{000000}
 \tikzset{
@@ -255,10 +244,10 @@ FIGURE: Time estimator; the classic CLPM
     \node (y1) at (0,0) {$Y_1$};
     \node (y2) at (2,0) {$Y_2$};
     \node (y3) at (4,0) {$Y_3$};
-    \node (ex2) at (2.5,3) {$e_{x2}$};
-    \node (ey2) at (2.5,-1) {$e_{y2}$};
-    \node (ex3) at (4.5,3) {$e_{x3}$};
-    \node (ey3) at (4.5,-1) {$e_{y3}$};
+    \node (ex2) at (2.5,3) {$\zeta_{2}$};
+    \node (ey2) at (2.5,-1) {$\epsilon_{2}$};
+    \node (ex3) at (4.5,3) {$\zeta_{3}$};
+    \node (ey3) at (4.5,-1) {$\epsilon_{3}$};
     \path (x1) edge (x2);
     \path (x2) edge (x3);
     \path (x1) edge (y2);
@@ -277,14 +266,4 @@ FIGURE: Time estimator; the classic CLPM
   }
 ```
 
-
-
-> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
-
-
-# How it can go wrong!
-
-* One para introducing the three key issues:
-  * Temporal order and timing
-  * Unobserved heterogeneity
-  * Lack of inter-temporal variation
+In principle, the classic CLPM permits identification of the cross-lagged effects under conventional assumptions common to most causal inference approaches (see Morgan & Winship; Wooldridge) and in paticular mediation analysis, e.g. sequential ignorability . In application, researchers using the classic CLPM may easily fall prey to a number of common issues that, if unaddressed, result in misleading inferences. Rather than providing an exhaustive list of problems that can arise with CLPMs, we focus on the three key issues we believe are the most important for researchers in developmental and life course criminology to be aware of due to the frequency with which they will be encountered and the severity of their effect on inferences: a) improperly specified temporal order, b) unobserved heterogeneity, c) insufficient inter-temporal variation. 
