@@ -53,43 +53,23 @@ Reciprocal causal relationships are a common feature of criminological theories.
 > Thiago: I understand this rules out reciprocal simultaneous effects. I'm still not convinced those make sense theoretically (and even statistically, as per Allison).
 
 
-# Theoretical and statistical models
+# Two Motivating Examples
 
-> THIAGO
-
-Good empirical research starts with a strong theoretical foundation. It is from a clearly defined theoretical framework that observable implications can be deducted, and it is those observable implications which can then be tested against empirical data [@king1994designing]. Theory-testing empirical research is therefore conditional on a thorough and transparent theoretical model [@nagin2019real]. Given that most (all?) criminological theories presume causal processes, the first step should involve deriving a recursive model that accurately represents the theorized relationships---e.g., the theoretical model could be represented by a directed acyclic graph (DAG) [@pearl2009causality]. The DAG should be all-encompassing and include all relevant theorized pathways, including unobserved mechanisms.
-
-Once the theoretical model is specified, it should guide the selection of an appropriate estimator. When dealing with situations involving potential reciprocal relationships and/or reverse causality, we propose leveraging DAGs for theoretical models and drawing on the structural equation modelling (SEM) framework for estimation [@bollen2013eight]. A clear theoretical model is a necessary prerequisite for specifying an estimator. A key consideration in this process is the timing of effects: theorized effects can be contemporaneous (i.e., occur quickly) or lagged (i.e., unfold more gradually over time). While  both diagrams will not be exactly the same, we suggest that the premised DAG inform the *structural* components of the SEM (i.e., one-directional arrows)---i.e., the structural part of the SEM should be non-recursive. However, while the DAG is a non-parametric representation of theorized causal relationships, the estimator needs to handle theoretical ambiguities and minimize undesirable assumptions. Even though this essentially makes the SEM a non-recursive model, covariances (i.e., bi-directional arrows) need to be included. Simultaneous equations should only be used only as a last resort, given their often tenuous theoretical grounding and the risk of overfitting.
-
-## When is a CLPM needed?
-
-A cross-lagged panel model is only needed when reciprocal effects over time are presumed in the theoretical model. 
+This section introduces two empirical examples that motivate our discussion on reciprocal relationships, reverse causality, and temporal ordering. The first is the relationship between occupational attainment and crime involvement, as highlighted by classic studies on developmental and life-course criminology [@sampson1993crime, @sampson1992crime]. The second is the relationship between perceptions of neighborhood disorder and fear of crime, often studied by neighborhood scholars [@brunton2011untangling, @jackson2014experience].
 
 
-  * When is a CLPM needed?
-    * Exposure is continuous / a process / happens repeatedly | doesn't work for single-event exposure (e.g., turning points)
-    * Ambiguous direction? (Theoretical reciprocality)
-      * Long concern of theory testers / criminologists
-      * Interested in both directions / no primary relationship
-    * Empirical problem due to research design (Reverse causality)
-      * Classic endogeneity; one primary relationship
-      * Long the concern of econometrics; note Arellano-Bond is a CLPM
-
-
-
-# Two Empirical Examples
-
-* One clearly substantive reciprocality
-  * Fear of crime and perceived disorder
-  * High fear of crime sensitizes you to local disorder, causing you to perceive more
-  * Perceiving disorder may increase your fear of crime
-  * BOth are rapidly-occurring updating processes; ambiguous and theoretically interesting which is stronger
 
 * One clearly reverse causality
   * The effect of being employed on offending; this is of policy interest, e.g., jobs programs
   * If you are employed, you are busy and have less chances to offend (outside the workplace anyway) (x->y contemporaneous)
   * Being employed may produce identity change that reduces future offending (x - y lagged)
   * Offending can result in losing your job, e.g., due to being arrested (y->x lagged), but we're not interested in that
+  
+* One clearly substantive reciprocality
+  * Fear of crime and perceived disorder
+  * High fear of crime sensitizes you to local disorder, causing you to perceive more
+  * Perceiving disorder may increase your fear of crime
+  * BOth are rapidly-occurring updating processes; ambiguous and theoretically interesting which is stronger
 
 * The choice of which to think about it is (almost) entirely theoretical / due to researcher interest
    * e.g., how offending leads to job loss or only interested in how fear changes how you perceive environment
@@ -102,107 +82,25 @@ FIGURE: 3-wave theoretical model with two or three panels
 * CLassic simple model matches the fear / disorder (but VERY FAST)
 * Model with contemporaneous effects matches employment
 
-> In below diagrams, I'd prob make the observed ones x1, x2, x3, y1, y2, y3 and intervening ones something else, e.g., x1.5
+# Theoretical and statistical models
 
-```{tikz fig-2-theory-dag, echo = FALSE, fig.cap = "Directed acyclic graph representation of CLPM"}
-\usetikzlibrary{positioning}
-\definecolor{black}{HTML}{000000}
-\tikzset{
-    > = stealth,
-    every node/.append style = {
-        draw = none
-    },
-    every path/.append style = {
-        arrows = ->,
-        draw = black,
-        fill = none
-    },
-    hidden/.style = {
-        draw = black,
-        shape = circle,
-        inner sep = 1pt
-    }
-}
-\tikz{
-    \node (x1) at (0,2) {$X_1$};
-    \node[hidden] (x15) at (2,2) {$X_1.5$};
-    \node (x2) at (4,2) {$X_2$};
-    \node[hidden] (x25) at (6,2) {$X_2.5$};
-    \node (x3) at (8,2) {$X_3$};
-    \node (y1) at (0,0) {$Y_1$};
-    \node[hidden] (y15) at (2,0) {$Y_1.5$};
-    \node (y2) at (4,0) {$Y_2$};
-    \node[hidden] (y25) at (6,0) {$Y_2.5$};
-    \node (y3) at (8,0) {$Y_3$};
-    \path (x1) edge (x15);
-    \path (x15) edge (x2);
-    \path (x2) edge (x25);
-    \path (x25) edge (x3);
-    
-    \path (x1) edge (y15);
-    \path (x15) edge (y2);
-    \path (x2) edge (y25);
-    \path (x25) edge (y3);
-    
-    \path (y1) edge (y15);
-    \path (y15) edge (y2);
-    \path (y2) edge (y25);
-    \path (y25) edge (y3);
-    
-    \path (y1) edge (x15);
-    \path (y15) edge (x2);
-    \path (y2) edge (x25);
-    \path (y25) edge (x3);
+> THIAGO
 
-  }
-```
+Good empirical research starts with a strong theoretical foundation. It is from a clearly defined theoretical framework that observable implications can be deducted, and it is those observable implications which can then be contrasted against empirical data [@king1994designing]. Theory-testing empirical research is therefore conditional on a thorough and transparent theoretical model [@nagin2019real]. Given that most (all?) criminological theories presume causal processes, the first step should involve deriving a recursive model that accurately represents the theorized relationships---e.g., the theoretical model could be represented by a directed acyclic graph (DAG). DAGs can formally represent a nonparametric structural equation model, avoiding functional-form and distributional assumptions [@pearl2009causality], and are increasingly used to portray premised causal relationships in criminological theory [@lanfear2020broken, @nivette2025asessing, @oliveira2024aggressive]. The DAG should be all-encompassing and include all relevant theorized pathways, including unobserved mechanisms.
 
+Once the theoretical model is specified, it should guide the selection of an appropriate estimator. When dealing with situations involving potential reciprocal relationships and/or reverse causality, we propose leveraging DAGs for theoretical models and drawing on the structural equation modelling (SEM) framework for estimation [@bollen2013eight]. A clear theoretical model is a necessary prerequisite for specifying an estimator. While  both diagrams will not be exactly the same, we suggest that the premised DAG inform the *structural* components of the SEM (i.e., one-directional arrows)---i.e., the structural part of the SEM should be non-recursive. For example, a key consideration in this process is the timing of effects: theorized effects can be contemporaneous (i.e., occur quickly) or lagged (i.e., unfold more gradually over time). However, while the DAG is a non-parametric representation of theorized causal relationships, the estimator needs to handle distributional and parametric assumptions and theoretical ambiguities. Even though this essentially makes the SEM a non-recursive model, covariances (i.e., bi-directional arrows) need to be included. Simultaneous equations should only be used only as a last resort, given their often tenuous theoretical grounding and the risk of overfitting.
 
-```{tikz fig-3-estimation, fig.cap = "SEM path diagram representation of CLPM"}
-\usetikzlibrary{positioning}
-\definecolor{black}{HTML}{000000}
-\tikzset{
-    > = stealth,
-    every node/.append style = {
-        draw = none
-    },
-    every path/.append style = {
-        arrows = ->,
-        draw = black,
-        fill = none
-    },
-    hidden/.style = {
-        draw = black,
-        shape = circle,
-        inner sep = 1pt
-    }
-}
-\tikz{
-    \node (x1) at (0,2) {$X_1$};
-    \node (x2) at (2,2) {$X_2$};
-    \node (x3) at (4,2) {$X_3$};
-    \node (y1) at (0,0) {$Y_1$};
-    \node (y2) at (2,0) {$Y_2$};
-    \node (y3) at (4,0) {$Y_3$};
-    \path (x1) edge (x2);
-    \path (x2) edge (x3);
-    
-    \path (x1) edge (y2);
-    \path (x2) edge (y3);
-    
-    \path (y1) edge (y2);
-    \path (y2) edge (y3);
-    
-    \path (y1) edge (x2);
-    \path (y2) edge (x3);
-    
-    \path (x1) edge [bend right=60, arrows = <->] (y1);
-    \path (x2) edge [bend right=60, arrows = <->] (y2);
-    \path (x3) edge [bend right=60, arrows = <->] (y3);
+## When is a CLPM needed?
 
-  }
-```
+A cross-lagged panel model is only needed when reciprocal effects over time are presumed in the theoretical model. When the researcher can theoretically assume no effects of the dependent variable on the independent variable over time, other statistical models will be more appropriate than a cross-lagged panel model. For example, research focused on the effects of a single-event exposure---a common topic in life-course criminology and the role of turning points, such as the long-term effects of school drop-out or marriage on offending [@sampson2016turning, @nguyen2018measurement]---would not benefit from cross-lagged panel models. 
 
+Instead, reciprocal effects over time are most often a threat when the exposure is a continuous process that happens repeatedly. There are two situations in which reciprocal effects could emerge from theoretical models, thus highlighting the need of cross-lagged panel models. We name them *reverse causality* and *theoretical reciprocality*.
+
+Reverse causality refers to situations in which researchers are primarily interested in assessing the effects of an exposure on an outcome but are concerned about the possibility that the outcome also influences future exposures. From our empirical example, assessing the effects of occupational attainment on crime involvement is of particular theoretical and policy relevance [@sampson1992crime]; in order to assess the relationship, however, one needs to take into account that offending behavior may also have an effect on employment, even though examining prospects of job loss following an arrest is not of substantive interest. This is a classic endogeneity problem, in which not controlling for reverse causality introduces CONFOUNDING (?) bias. This has been a long concern of econometricians---e.g., the Arellano-Bond estimator, which is essentially a cross-lagged panel model, was developed specifically to control for reverse causality [@arellano1991some, @moralbenito2019dynamic]. When dealing with reverse causality, researchers have predefined independent and dependent variables and interested in controlling away the effects of the dependent variable on the independent variable over time.
+
+What we call theoretical reciprocality, on the other hand, refers to situations in which the directionality of the effects is ambiguous. This could due to, for instance, competing theories suggesting opposing pathways between two variables. From our empirical example, some researchers argue that perceived disorder leads to increases in fear of crime [@wilson1982broken] whereas others approach this relationship from the opposite direction, arguing that fear of crime leads local residents to view disorderly signs in the neighborhood as problematic [@sampson2004seeing, @jackson2004experience]. This theoretical ambiguity implies that reciprocality is an empirical problem---a question that can be adjudicated by theory testers [@brunton2011untangling]. When dealing with theoretical reciprocality, researchers often do not have predefined independent and dependent variables and instead interested are interested in assessing both directions.
+
+In both cases, the theoretical model will highlight the threat of reciprocal relationships. A DAG will not distinguish between reciprocal effects due to theoretical reciprocality or due to reverse causality; this distinction is purely conceptual and should be dictated by the research question. Yet, we sustain that this is an important distinction. While in some cases the empirical solution will be similar, in others situations dealing with theoretical reciprocality or reverse causality may lead to different statistical estimators---we expand on this point below.
 
 > CHUCK
 
