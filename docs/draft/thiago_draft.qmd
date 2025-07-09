@@ -59,7 +59,7 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 # Two Motivating Examples
 
-This section introduces two empirical examples that motivate our discussion on reciprocal relationships, reverse causality, and temporal ordering. The first is the relationship between occupational attainment and crime involvement, as highlighted by classic studies on developmental and life-course criminology [@sampson1993crime, @sampson1992crime]. The second is the relationship between perceptions of neighborhood disorder and fear of crime, often studied by neighborhood scholars [@brunton2011untangling, @jackson2014experience].
+This section introduces two empirical examples that motivate our discussion on reciprocal relationships, reverse causality, and temporal ordering. The first is the relationship between occupational attainment and crime involvement, as highlighted by classic studies on developmental and life-course criminology [@sampson1992crime, @sampson1993crime]. The second is the relationship between perceptions of neighborhood disorder and fear of crime, often studied by neighborhood scholars [@brunton2011untangling, @jackson2004experience].
 
 
 
@@ -100,7 +100,7 @@ A cross-lagged panel model is only needed when reciprocal effects over time are 
 
 Instead, reciprocal effects over time are most often a threat when the exposure is a continuous process that happens repeatedly. There are two situations in which reciprocal effects could emerge from theoretical models, thus highlighting the need of cross-lagged panel models. We name them *reverse causality* and *theoretical reciprocality*.
 
-Reverse causality refers to situations in which researchers are primarily interested in assessing the effects of an exposure on an outcome but are concerned about the possibility that the outcome also influences future exposures. From our empirical example, assessing the effects of occupational attainment on crime involvement is of particular theoretical and policy relevance [@sampson1992crime]; in order to assess that relationship, however, one needs to take into account that offending behavior may also have an effect on future employment, even though examining prospects of job loss following an arrest is not of substantive interest. This is a classic endogeneity problem, in which not controlling for reverse causality introduces **CONFOUNDING (?)** bias. This has been a long concern of econometricians---e.g., the Arellano-Bond estimator, which is essentially a cross-lagged panel model, was developed specifically to control for reverse causality [@arellano1991some, @moralbenito2019dynamic]. When dealing with reverse causality, researchers have a predefined exposure and an outcome of interest and simply aiming to control away the effects of the outcome on the exposure over time.
+Reverse causality refers to situations in which researchers are primarily interested in assessing the effects of an exposure on an outcome but are concerned about the possibility that the outcome also influences future exposures. From our empirical example, assessing the effects of occupational attainment on crime involvement is of particular theoretical and policy relevance [@sampson1993crime]; in order to assess that relationship, however, one needs to take into account that offending behavior may also have an effect on future employment, even though examining prospects of job loss following an arrest is not of substantive interest. This is a classic endogeneity problem, in which not controlling for reverse causality introduces **CONFOUNDING (?)** bias. This has been a long concern of econometricians---e.g., the Arellano-Bond estimator, which is essentially a cross-lagged panel model, was developed specifically to control for reverse causality [@arellano1991some, @moralbenito2019dynamic]. When dealing with reverse causality, researchers have a predefined exposure and an outcome of interest and simply aiming to control away the effects of the outcome on the exposure over time.
 
 What we call theoretical reciprocality, on the other hand, refers to situations in which the directionality of the effects is ambiguous. This could due to, for instance, competing theories suggesting opposing pathways between two variables [@sturgis2004using]. From our empirical example, some researchers argue that perceived disorder leads to increases in fear of crime [@wilson1982broken] whereas others approach this relationship from the opposite direction, arguing that fear of crime leads local residents to view disorderly signs in the neighborhood as problematic [@sampson2004seeing, @jackson2004experience]. This theoretical ambiguity implies that reciprocality is an empirical problem---a question that can be adjudicated by theory testers [@brunton2011untangling]. When dealing with theoretical reciprocality, researchers often do not have a predefined exposure and an outcome of interest and instead aim to assess both directions.
 
@@ -165,60 +165,6 @@ FIGURE: Time estimator; the classic CLPM
    * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
 * Also good place to bring in predetermined regressors which are part of Allison approach and Arellano-Bond
 
-```{tikz allison-2022, fig.cap = "Allison (2022) recommendation"}
-\usetikzlibrary{positioning}
-\definecolor{black}{HTML}{000000}
-\tikzset{
-    > = stealth,
-    every node/.append style = {
-        draw = none
-    },
-    every path/.append style = {
-        arrows = ->,
-        draw = black,
-        fill = none
-    },
-    hidden/.style = {
-        draw = black,
-        shape = circle,
-        inner sep = 1pt
-    }
-}
-\tikz{
-    \node (x1) at (0,2) {$X_1$};
-    \node (x2) at (2,2) {$X_2$};
-    \node (x3) at (4,2) {$X_3$};
-    \node (y1) at (0,0) {$Y_1$};
-    \node (y2) at (2,0) {$Y_2$};
-    \node (y3) at (4,0) {$Y_3$};
-    \node (ex2) at (2.5,3) {$e_{x2}$};
-    \node (ey2) at (2.5,-1) {$e_{y2}$};
-    \node (ex3) at (4.5,3) {$e_{x3}$};
-    \node (ey3) at (4.5,-1) {$e_{y3}$};
-    
-    \path (x1) edge (x2);
-    \path (x2) edge (x3);
-    
-    \path (x1) edge (y2);
-    \path (x2) edge (y3);
-    
-    \path (y1) edge (y2);
-    \path (y2) edge (y3);
-    
-    \path (y1) edge (x2);
-    \path (y2) edge (x3);
-    
-    \path (ex2) edge (x2);
-    \path (ex3) edge (x3);
-    
-    \path (ey2) edge (y2);
-    \path (ey3) edge (y3);
-    
-    \path (x1) edge [bend right=45, arrows = <->] (y1);
-    \path (ex2) edge [bend left=45, arrows = <->] (ey2);
-    \path (ex3) edge [bend left=45, arrows = <->] (ey3);
-  }
-```
 
 # Issue 2: Unobserved heterogeneity
 
@@ -249,7 +195,74 @@ FIGURE: Time estimator; the classic CLPM
    * Can handle both under same assumptions and problems
    * Allison's ML-SEM approach is related to this Mundlak model; augments it with predetermined regressors.
    
-The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random Intercept Cross-Lagged Panel Model [R-CLPM; see also @mulder2021three]. To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's DPM, the first step involves estimating a latent variable that captures 
+While the traditional cross-lagged panel model cannot properly account for unobserved stable heterogeneity, some relatively recent extensions of the CLPM yield robust estimators that draw only on within-unit variation and effectively control for all unobserved time-stable traits [@leszczensky2019deal]. Specifically, @allison2017maximum's maximum likelihood structural equation fixed-effects dynamic panel method (ML-SEM) and @hamaker2015critique's random intercept cross-lagged panel model (RI-CLPM) model reciprocality and account for unobserved, time-stable features that impact both $Y_t$ and $X_t$.
+
+The first estimator is @allison2017maximum's ML-SEM. XXX
+
+```{tikz mlsem, fig.cap = "Maximum likelihood structural equation fixed-effects dynamic panel model (Allison et al., 2017)"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1.5pt
+    }
+}
+\tikz{
+    \node (x1) at (0,0) {$X_1$};
+    \node (x2) at (2,0) {$X_2$};
+    \node (x3) at (4,0) {$X_3$};
+    
+    \node (y1) at (-1,1) {$Y_1$};
+    \node (y2) at (2,2) {$Y_2$};
+    \node (y3) at (4,2) {$Y_3$};
+    \node (y4) at (6,2) {$Y_4$};
+    
+    \node[hidden] (alpha) at (7,0) {$\alpha$};
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    \path (y3) edge (y4);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    \path (x3) edge (y4);
+    
+    \path (alpha) edge[gray, thin] (y2);
+    \path (alpha) edge[gray, thin] (y3);
+    \path (alpha) edge[gray, thin] (y4);
+    
+    \path (alpha) edge [bend right=320, arrows = <->, gray, thin] (x3);
+    \path (alpha) edge [bend right=320, arrows = <->, gray, thin] (x2);
+    \path (alpha) edge [bend right=320, arrows = <->, gray, thin] (x1);
+    \path (alpha) edge [bend right=300, arrows = <->, gray, thin] (y1);
+    
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x1);
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x2);
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x3);
+    
+    \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x2);
+    \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    \path (x2) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    
+    \path (x3) edge [bend right=320, arrows = <->, gray, thin] (y2);
+    
+  }
+```
+
+The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random Intercept Cross-Lagged Panel Model [RI-CLPM; see also @mulder2021three]. To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's DPM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent variable is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
+
+While @allison2017maximum's approach involves allowing this latent variable to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent variable defined by all observations $X_t$ over time, thus creating a random intercept for $X$ that varies between units. The two latent variables reflecting random intercepts for $Y$ and $X$ (represented by $\alpha_Y$ and $\alpha_X$ in Figure @riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. Figure @riclpm depicts the the RI-CLPM.
 
 ```{tikz riclpm, fig.cap = "Random Intercept Cross-Lagged Panel Model (Hamaker et al., 2015)"}
 \usetikzlibrary{positioning}
@@ -331,6 +344,7 @@ The other alternative to the traditional cross-lagged panel model that actually 
   }
 ```
 
+To further ensure that only within-unit variation is taken into account, the RI-CLPM relies on a set of other latent variables. For each variable $Y_t$ and $X_t$, a new latent variable is estimated with a factor loading constrained to 1. These latent variables are represented in the diagram in Figure \@riclpm as $WY_t$ and $WX_t$. This implies that every single observed variable $Y_t$ and $X_t$ is defined by two latent variables: one capturing all differences between units (i.e., $\alpha_Y$ and $\alpha_X$), and one capturing everything else, i.e., within-unit differences (i.e., $WY_t$ and $WX_t$). Autoregressive and cross-lagged parameters are then included linking $WY_t$ and $WX_t$---resembling the traditional cross-lagged panel model, but exclusively focused on within-unit variation over time. By allowing both random intercepts to correlate, the RI-CLPM ensures that all unobserved stable heterogeneity is accounted for; and by estimating autoregressive and cross-lagged effects on latent variables capturing only within-unit variation, the model ensures that cross-lagged estimates reflect change over time. The RI-CLPM can easily be extended to other common features in SEMs, such as multiple indicators, covariate adjustment, and multi-group analysis [@mulder2021three].
 
 # Issue 3: Inter-temporal variation
 
@@ -373,4 +387,4 @@ The other alternative to the traditional cross-lagged panel model that actually 
 
 # Conclusion
 
-> Thiago: Sounds great!
+# References
