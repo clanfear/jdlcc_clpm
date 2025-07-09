@@ -1,0 +1,63 @@
+\documentclass[
+%% TIKZ_CLASSOPTION %%
+tikz
+]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{matrix}
+%% EXTRA_TIKZ_PREAMBLE_CODE %%
+\begin{document}
+%% TIKZ_CODE %%
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = .75pt
+    }
+    manifest/.style = {
+        draw = black,
+        shape = square,
+        inner sep = .75pt
+    }
+}
+\tikz{
+    \node[square] (x1) at (0,6) {$X_1$};
+    \node[square] (x2) at (2,6) {$X_2$};
+    \node[square] (x3) at (4,6) {$X_3$};
+    
+    \node[hidden] (wx1) at (0,4) {$W-X_1$};
+    \node[hidden] (wx2) at (2,4) {$W-X_2$};
+    \node[hidden] (wx3) at (4,4) {$W-X_3$};
+    
+    \node[hidden] (wy1) at (0,2) {$W-Y_1$};
+    \node[hidden] (wy2) at (2,2) {$W-Y_2$};
+    \node[hidden] (wy3) at (4,2) {$W-Y_3$};
+    
+    \node[square] (y1) at (0,0) {$Y_1$};
+    \node[square] (y2) at (2,0) {$Y_2$};
+    \node[square] (y3) at (4,0) {$Y_3$};
+    
+    \path (wx1) edge (wx2);
+    \path (wx2) edge (wx3);
+    
+    \path (wx1) edge (wy2);
+    \path (wx2) edge (wy3);
+    
+    \path (wy1) edge (wy2);
+    \path (wy2) edge (wy3);
+    
+    \path (wy1) edge (wx2);
+    \path (wy2) edge (wx3);
+    
+  }
+\end{document}
