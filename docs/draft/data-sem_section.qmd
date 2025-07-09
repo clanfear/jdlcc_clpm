@@ -98,12 +98,9 @@ execute:
 ```
 
 
+## Discordance between theory and data
 
-> CHUCK
-
-## Imaginary data
-
-Reality and theory move at one recursive (really continuous) pace, but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in FIGX. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
+Reality and theory move at one recursive (really continuous) pace, but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in @fig-time-dag-unobs. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
 
 ```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
 \usetikzlibrary{positioning}
@@ -154,9 +151,9 @@ Reality and theory move at one recursive (really continuous) pace, but practical
   }
 ```
 
-For simplicity, let us assume that in both cases we have three waves of panel data with yearly waves of observation and continuous measures of our concepts. In our first example---the reciprocal effects of perceived disorder and fear of crime---both perceived disorder and fear of crime are measured at survey time with continuous measures derived from batteries of multiple indicators. In our second example---the effect of employment on offending and attendant reverse causality---employment is measured as the proportion of time spent employed in the last year and offending is a self-reported variety score of offenses committed in the past year.
+For simplicity, let us assume that in both example cases we have three waves of panel data with yearly waves of observation and continuous measures of our concepts. In our first example---the reciprocal effects of perceived disorder and fear of crime---both perceived disorder and fear of crime are measured at survey time with continuous measures derived from batteries of multiple indicators. In our second example---the effect of employment on offending and attendant reverse causality---employment is measured as the proportion of time spent employed in the last year and offending is a self-reported variety score of offenses committed in the past year.
 
-When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can isolate or rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume (present) employment can be affected by past-year offending but (present) employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
+When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
 
 For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than over course of a year---more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity (i.e., real disorder out in the world). For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive causal model (i.e., a DAG). As a result, FIGXXX illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction of contemporaneous relationships, here represented by the dashed and double-headed arrows.
 
@@ -206,7 +203,157 @@ For our first example of the reciprocal effects of fear of crime and disorder pe
   }
 ```
 
-> Chuck: Can direct reader to appendix where we show DAG for simultaneity.
+
+### Temporality and composite variables
+
+Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, will we distinguish between two types of measure, which we will call *instantaneous variables* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time^[This may become somewhat ambiguous if respondents are asked to recall how they felt in the past or over a period of time.] This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
+
+In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of composite period measures. When our observation periods do not correspond to the timing of our underlying causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sumof values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them. This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address (see Berrie et al. 2025). 
+
+
+```{tikz, label=fig-app-latent, fig.cap = "Reciprocality due to composite period variable. Circled variables are latent. Double-arrows indicate observed variables are composite variables determined by their parents"}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every edge/.append style = {
+        arrows = ->,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+
+    \draw[|-|] (-0.6,4.25) -- (1.8,4.25);
+    \draw[-|] (1.8,4.25) -- (4.2,4.25);
+    \draw[-|] (4.2,4.25) -- (6.6,4.25);
+    
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (-0.6,4.25) -- (0.6,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (0.6,4.25) -- (1.8,4.25) node[midway,yshift=-1.5em]{B};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (1.8,4.25) -- (3,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (3,4.25) -- (4.2,4.25) node[midway,yshift=-1.5em]{B};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (4.2,4.25) -- (5.4,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (5.4,4.25) -- (6.6,4.25) node[midway,yshift=-1.5em]{B};
+    
+    
+    \node[align=center] (obs1) at (-2,4.25) {Time\\Intervals};
+    \node[align=center] (obs1) at (-2,1.5) {Latent\\Causal\\Model};
+    %\node[align=center] (obs1) at (-2,-2) {Observed\\Associations};%
+    
+    \node[align=center] (obs1) at (-0.6,4.75) {Start};
+    \node[align=center] (obs1) at (1.8,4.75) {Observation\\Time 1};
+    \node[align=center] (obs1) at (4.2,4.75) {Observation\\Time 2};
+    \node[align=center] (obs1) at (6.6,4.75) {Observation\\Time 3};
+    
+    
+    \node (y1) at (0.6,3) {$Y_1$};
+    \node (y2) at (3,3) {$Y_2$};
+    \node (y3) at (5.4,3) {$Y_3$};
+    
+    \node[hidden] (y1a) at (0,2) {$Y_{1A}$};
+    \node[hidden] (y1b) at (1.2,2) {$Y_{1B}$};
+    \node[hidden] (y2a) at (2.4,2) {$Y_{2A}$};
+    \node[hidden] (y2b) at (3.6,2) {$Y_{2B}$};
+    \node[hidden] (y3a) at (4.8,2) {$Y_{3A}$};
+    \node[hidden] (y3b) at (6,2) {$Y_{3B}$};
+    
+    \node (x1) at (0.6,0) {$X_1$};
+    \node (x2) at (3,0) {$X_2$};
+    \node (x3) at (5.4,0) {$X_3$};
+    
+    \node[hidden] (x1a) at (0,1) {$X_{1A}$};
+    \node[hidden] (x1b) at (1.2,1) {$X_{1B}$};
+    \node[hidden] (x2a) at (2.4,1) {$X_{2A}$};
+    \node[hidden] (x2b) at (3.6,1) {$X_{2B}$};
+    \node[hidden] (x3a) at (4.8,1) {$X_{3A}$};
+    \node[hidden] (x3b) at (6,1) {$X_{3B}$};
+    % latent -> obs
+       % X->X%
+    \draw[->, double] (x1a) to (x1);
+    \draw[->, double] (x1b) to (x1);
+    \draw[->, double] (x2a) to (x2);
+    \draw[->, double] (x2b) to (x2);
+    \draw[->, double] (x3a) to (x3); 
+    \draw[->, double] (x3b) to (x3); 
+    \draw[->, double] (y1a) to (y1);
+    \draw[->, double] (y1b) to (y1);
+    \draw[->, double] (y2a) to (y2);
+    \draw[->, double] (y2b) to (y2);
+    \draw[->, double] (y3a) to (y3); 
+    \draw[->, double] (y3b) to (y3); 
+    % Y->Y%
+    \path (y1a) edge (y1b);
+    \path (y1b) edge (y2a);
+    \path (y2a) edge (y2b);
+    \path (y2b) edge (y3a);
+    \path (y3a) edge (y3b);
+   % X->X%
+    \path (x1a) edge (x1b);
+    \path (x1b) edge (x2a);
+    \path (x2a) edge (x2b);
+    \path (x2b) edge (x3a);
+    \path (x3a) edge (x3b); 
+       % X->Y%
+    \path (x1a) edge (y1b);
+    \path (x1b) edge (y2a);
+    \path (x2a) edge (y2b);
+    \path (x2b) edge (y3a);
+    \path (x3a) edge (y3b); 
+       % Y->X%
+    \path (y1a) edge (x1b);
+    \path (y1b) edge (x2a);
+    \path (y2a) edge (x2b);
+    \path (y2b) edge (x3a);
+    \path (y3a) edge (x3b); 
+    
+    % \node (y1s) at (0.6,-1) {$Y_1$};
+    %\node (y2s) at (3,-1) {$Y_2$};
+    %\node (y3s) at (5.4,-1) {$Y_3$};
+    %\node (x1s) at (0.6,-3) {$X_1$};
+    %\node (x2s) at (3,-3) {$X_2$};
+    %\node (x3s) at (5.4,-3) {$X_3$};
+
+    %\path (x1s) edge (x2s);
+    %\path (x2s) edge (x3s);
+    
+    %\path (x1s) edge (y2s);
+    %\path (x2s) edge (y3s);
+    
+    % \path (y1s) edge (y2s);
+    %\path (y2s) edge (y3s);
+    
+    %\path (y1s) edge (x2s);
+    %\path (y2s) edge (x3s);
+    
+    %\path (x1s) edge [bend right=70, arrows = <->, dashed] (y1s);
+    %\path (x2s) edge [bend right=70, arrows = <->, dashed] (y2s);
+    %\path (x3s) edge [bend right=70, arrows = <->, dashed] (y3s);
+  }
+```
+
+
+@fig-app-latent illustrates a case where we are interested in the relationship between two period variables $A$ and $B$. The recall period for data collection encompasses 1 unit of time (e.g., an entire year) but the causal process relating the two period variables operates over smaller intervals (e.g., six months) denoted $A$ and $B$. This is represented by cross-lagged effects between latent $X$ and $Y$ variables occurring across each smaller interval. Because data were only collected at each observation time, the measured values represent a composite period variable combining the values from periods $A$ and $B$. For example, if $Y_1$ is the number of self-reported criminal offenses in a year, it would be the simple sum of offenses $Y_{1A} + Y_1{B}$. While we may know this sum, without additional information, we are uncertain of the value of either $Y_{1A}$ or $Y_1{B}$ (unless $Y_1=0$). Borrowing the notation of Berrie et al. (2025), the double-arrows indicate that $Y_t$ and $X_t$ are *deterministic* variables, i.e., they are fully determined by *some* combination of the underlying latent parent variables, even if we do not know their relative contribution^[If $Y_{tA}$ and/or $Y_{tB}$ contain measurement error, this full measurement error is propagated into the composite variable as well]. Note that despite $X_t = X_{ta} + X_{tb}$, $X_t$ is not a compositional variable as defined by Berrie et al. (2025), because the parents $X_{ta}$ and $X_{tb}$ are not simultaneously determined. Rather, $X_t$ is a composite derived variable where the parents are unobservable or latent.
+
+> It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes.
+
+Composite measures present unique challenges for causal inference (Berrie et al. 2025). 
+
+* Ignorability
+* Consistency
+* Composite variable bias: The estimated average causal effect of the composite variable will be a mean of the average causal effects of the parent variables that is proportionally weighted toward the parent(s) with larger variance(s).
+* Time-varying confounding can be a serious problem as Berrie et al. (2025:475) note: "...if the parent variables occur at different moments in time, it is possible they will have different relationships with the supposed confounders. Indeed, it is possible that a confounder for one parent variable may be a mediator for another, leaving no means to appropriately adjust for confounding without also blocking part of the true causal effect. Identifying the causal effect of a composite derived variable, as with any analysis of multiple exposures, therefore requires no time-varying confounding. "
+
+
+
+## Statistical Model
 
 Once the theoretical model has been established, one can proceed to developing a statistical model that accounts for the constraints from the research design---including ambiguity about causal directions. Here, path diagrams from the structural equation modeling (SEM) tradition become useful. SEM diagrams encode both causal relations between variables---indicated by single-headed arrows pointing from cause to effect---and unanalyzed, unexplained, or "nuisance" associations---indicated by double-headed arrows pointing between two variables. That is, one explicitly distinguishes between causal relationships and ambiguous associations. Variables with any causal path leading into them are termed "endogenous" variables and those with no causal path leading into them are termed "exogenous". SEM diagrams depart from most DAGs by depicting the residuals or unexplained variation of endogenous variables as latent variables causally affecting the observed variable.
 

@@ -1,0 +1,20 @@
+---
+title: "Appendix: Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
+author:
+  - Charles C. Lanfear
+  - Thiago R. Oliveira
+format: pdf
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+# Just here to make sure it renders in R
+```
+
+
+
+
