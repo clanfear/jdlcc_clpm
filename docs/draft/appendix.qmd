@@ -15,6 +15,73 @@ execute:
 # Just here to make sure it renders in R
 ```
 
+# TIme Varying Confounding (work in progress)
 
+```{tikz, label=fig-app-latent, fig.cap = "Reciprocality due to composite period variable. Circled variables are latent. Double-arrows indicate observed variables are composite variables determined by their parents"}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every edge/.append style = {
+        arrows = ->,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+
+    \node (y1) at (1,4) {$Y_1$};
+
+    
+    \node[hidden] (y1a) at (0,3) {$Y_{1A}$};
+    \node[hidden] (y1b) at (2,3) {$Y_{1B}$};
+
+    
+    \node (x1) at (1,0) {$X_1$};
+    
+    
+    \node (z1) at (1,2) {$Z_{1}$};
+    
+    \node[hidden] (x1a) at (0,1) {$X_{1A}$};
+    \node[hidden] (x1b) at (2,1) {$X_{1B}$};
+
+    % latent -> obs
+       % X->X%
+    \draw[->, double] (x1a) to (x1);
+    \draw[->, double] (x1b) to (x1);
+
+    \draw[->, double] (y1a) to (y1);
+    \draw[->, double] (y1b) to (y1);
+
+    % Y->Y%
+    \path (y1a) edge (y1b);
+
+   % X->X%
+    \path (x1a) edge (x1b);
+
+       % X->Y%
+    \path[bend right=340] (x1a) edge (y1b);
+
+       % Y->X%
+    \path (y1a)[bend right=20] edge (x1b);
+
+    
+    \path (x1a) edge (z1);
+    \path (y1a) edge (z1);
+    \path (z1) edge (x1b);
+    \path (z1) edge (y1b);
+
+    
+
+  }
+```
 
 
