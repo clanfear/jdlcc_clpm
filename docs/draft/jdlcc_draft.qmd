@@ -1,0 +1,732 @@
+---
+title: "Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
+author:
+  - Charles C. Lanfear
+  - Thiago R. Oliveira
+format: 
+  pdf:
+    citeproc: true
+    link-citations: true
+    colorlinks: true
+    linkcolor: blue
+editor: source
+bibliography: mybib.bib
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+# Just here to make sure it renders in R
+```
+
+> Abstract from panel; we may want to decide on specific illustrative case after we've laid out framework of paper, as we want our case to exhibit every potential issue.
+
+Reciprocal causal relationships are a common feature of criminological theories. For example, police forces tend to use force more often in areas where crime concentrates, while at the same time legal cynicism theory suggests that cumulative exposures to police use-of-force can foster criminal activity. When multiple observations over time are available, cross-lagged panel models are commonly used to estimate these reciprocal effects. This is often done without careful attention to the assumptions that must be satisfied to produce valid estimates, such as correctly specified temporal lags, sufficient inter-temporal variation, and proper accounting for unobserved heterogeneity. Failure to satisfy these assumptions can produce severe issues including spurious associations and parameter estimates that are biased or even reversed in direction. In addition, reciprocal relationships violate causal assumptions based on graphical tools; criminological theories that suggest reciprocal causal relationships usually have an underlying macro-micro mechanism often not accounted for in empirical models. We provide guidance on how to align theory, model specification, and choice of estimator and illustrate this using an empirical example. We use data from Chicago at the census tract level and model the potential reciprocal relationship between police use-of-force and violent crime between 2004 and 2016. We finalise highlighting the importance of criminological theory and careful attention to empirical implications of theoretical premises when investigating reciprocal relationships
+
+# Introduction
+
+* Initial hook
+  * Tell you how to use a CLPM
+  * When do you use a CLPM? [DO this later in detail]
+  * Use it when you expect reciprocal effects
+  * ALso within and between, but NOT our focus; refer to XXX
+  * Only dynamic models, not static models -- though this is important for static models as well
+  * Explanation of how what we're doing is different from recent reviews of CLPM literature, e.g., Zyphur et al. (2020).
+     * Zyphur et al. elaborate a complete generalized cross-lagged panel model that accounts for a wider range of specifications. Here we focus on key problems that appear in applied literature.
+
+* Theory and reciprocality
+  * When do we expect reciprocal effects? In context of theory testing
+* The role of time
+  * What are reciprocal effects *really*?
+     * There are no simultaneous effects
+     * Usually a time problem, either:
+       * Ambiguity from theory (i.e., reciprocality is substantive)
+       * COmpeting theory when they are specific (i.e., substantive, empirical adjudication problem)
+       * Purely empirical problem due to repeated observations (i.e., reciprocality is a nuisance)
+   * Separate theoretical and methodological concerns
+   * Strong theories should be specific about timing in causal processes; e.g., alcohol to disinhibition; well-defined, observed biological process (a pint today may give you a headache tomorrow but won't reduce self-control; zero contemporaneous headache).
+
+* Introduce the CLPM
+   * What must a model do to capture these?
+   * Use 3 wave model as example
+
+# Two motivating examples
+
+To illustrate our points, we consider two canonical longitudinal relationships in criminology. The first is the link between employment (occupational attainment) and offending---a focus of classic life‐course research [e.g., @sampson1992crime; @sampson1993crime]. The second is the link between residents’ perceptions of neighborhood disorder and their fear of crime---a central topic for neighborhood scholars [@sampson2004seeing; @brunton2011untangling]. In the employment–crime example, theory and policy concern center on the effect of employment on future offending, whereas in the fear–disorder example the direction of causation is itself debated.
+
+## Emplyment and crime
+
+Life‐course studies routinely find that obtaining stable employment tends to reduce criminal behavior [@ramakers2017not; @lageson2012work]. The logic is straightforward. In the short run, being employed fills one’s time with routine activities and conventional social bonds, which constrains opportunities and incentives for offending [@cohen2010social; @hirschi1969causes]. In the long run, it is not employment per se but stable, committed work that enhances social control and thereby reduces crime [@sampson1993crime]. In other words, the accumulation of conventional ties and responsibilities that are often associated with stable employment provides identity and that deter future offending [@ramakers2017not]. For example, longitudinal reviews show that employed individuals have significantly lower recidivism rates than the unemployed [@uggen2008have]. Indeed, some experimental job‐program evaluations have found that random assignment to job training can yield lower subsequent crime [@redcross2011more]. 
+
+Crucially, the reverse causal path is also possible. After all, criminal arrests or behavior can lead to job loss. Therefore, when estimating the effects on employment on crime, one needs to account for reverse causality. The crime $\rightarrow$ employment relationship is not of immediate substantive interest to most criminologists, so in this example we regard that as an endogeneity problem. Our substantive interest is in the effect of employment on later crime, treating any effects of crime involvement on occupational attainment as a nuisance and a source of bias which needs to be controlled for.
+
+## Fear of crime and perceived disorder
+
+By contrast, the relationship between perceived disorder and fear of crime is typically viewed as reciprocal. Some theories posit that visible disorder in the environment raises fear of crime---disorderly cues signal that an area is in decline and unable to control deviance [@kelling1982broken]. Others emphasize the opposite interpretation:  individuals with high levels of fear of crime are sensitized to local disorder, causing them to perceive and interpret interpret ambiguous cues as physical and social disorder [@sampson2004seeing; @jackson2004experience]. In practice, both processes may occur [@brunton2011untangling].
+
+Fear and disorder perceptions are also rapidly-occurring updating processes. Given the theoretical ambiguity and the possibility for reciprocal relationships over time, this example does not have clearly defined dependent and independent variables. Both fear of crime and perceived disorder are an outcome as well as a predictor of interest. Our substantive interest is therefore the reciprocality itself. We can use panel models either to adjudicate between competing theories or to discover actual reciprocal effects over time.
+
+Both examples are contrasted by how they are framed theoretically. In the employment–crime case, the cross‐lagged panel model is used mainly to control for the reverse effect (crime $\rightarrow$ job) and isolate the job $\rightarrow$ crime effect of interest. In the fear–disorder case, by contrast, both lagged paths are of substantive interest, reflecting genuine theoretical ambiguity. Which direction we emphasize is dictated by the research question. In the first example we treat the reverse path as a nuisance (a classic reverse‐causality scenario), whereas in the second we treat it as part of a mutually reciprocal process to be tested (i.e., theoretical reciprocality).
+
+# Theoretical and statistical models
+
+Good empirical research starts with a strong theoretical foundation. It is from a clearly defined theoretical framework that observable implications can be deducted, and it is those observable implications which can then be contrasted against empirical data [@king1994designing; @mayo2018statistical]. Theory-testing empirical research is therefore conditional on a thorough and transparent theoretical model [@nagin2019real]. Given that most criminological theories presume causal processes, the first step should normally involve deriving a non-recursive model that accurately represents the theorized relationships---e.g., the theoretical model could be represented by a directed acyclic graph (DAG). DAGs can formally represent a nonparametric structural equation model, avoiding functional-form and distributional assumptions [@pearl2009causality], and are increasingly used to portray premised causal relationships in criminological theory [@lanfear2020broken; @nivette2025assessing; @oliveira2024aggressive]. The DAG should be all-encompassing and include all relevant theorized pathways, including unobserved mechanisms.
+
+Once the theoretical model is specified, it should guide the selection of an appropriate estimator. It is important to distinguish the theoretical model from the statistical model: while the latter should approximate the former as much as possible, the statistical model will unavoidably have to handle imprecision and uncertainty that are bound to exist when dealing with empirical data, such as distributional and parametric assumptions and unexplained covariances due to theoretical ambiguities. When dealing with situations involving potential reciprocal relationships and/or reverse causality, we propose leveraging DAGs for theoretical models and drawing on the structural equation modeling (SEM) framework for estimation [@bollen2013eight]. A clear theoretical model is a necessary prerequisite for specifying an estimator. While  both diagrams will not be exactly the same, we suggest that the premised DAG inform some elements of the SEM. Specifically, uni-directional arrows in the structural model should be non-recursive, as per the theoretical model.^[SEMs include a measurement component, which specifies measurement models linking manifest indicators and latent variables, and a structural component, which specifies the relationships between latent variables. For now, we are exclusively referring to the structural component of an SEM. Those include bi-directional arrows, which depict the estimation of a covariance between (the error terms of) two variables, and one-directional arrows, which indicate the estimation of directional association based on regression modeling.] For example, a key consideration in this process is the timing of effects: theorized effects can be contemporaneous (i.e., occur quickly) or lagged (i.e., unfold more gradually over time). Yet, while the theoretical model displays a non-parametric representation of theorized causal relationships, the SEM can include bi-directional arrows representing empirically observed covariances between variables not explained by the premised DAG---making the statistical model a recursive model. Simultaneous equations should only be used only as a last resort, given their often tenuous theoretical grounding and the risk of overfitting.
+
+## When is a CLPM needed?
+
+A cross-lagged panel model is only needed when reciprocal effects over time are presumed in the theoretical model. When the researcher can theoretically assume no effects of the dependent variable on the independent variable over time, other statistical models will be more appropriate than a cross-lagged panel model [see @imai2019should]. For example, research focused on the effects of a single-event exposure---a common topic in life-course criminology and the role of turning points, such as the long-term effects of school drop-out or marriage on offending [@sampson2016turning; @nguyen2018measurement]---would not benefit from cross-lagged panel models.
+
+Instead, reciprocal effects over time are most often a threat when the exposure is a continuous process that happens repeatedly. There are two situations in which reciprocal effects could emerge from theoretical models, thus highlighting the need of cross-lagged panel models. We name them *reverse causality* and *theoretical reciprocality*.
+
+Reverse causality refers to situations in which researchers are primarily interested in assessing the effects of an exposure on an outcome but are concerned about the possibility that the outcome also influences future exposures. From our empirical example, assessing the effects of occupational attainment on crime involvement is of particular theoretical and policy relevance [@sampson1993crime]; in order to assess that relationship, however, one needs to take into account that offending behavior may also have an effect on future employment, even though examining prospects of job loss following a criminal arrest or behavior is not of substantive interest. This is a classic endogeneity problem, in which not controlling for reverse causality introduces bias. This has been a long concern of econometricians---e.g., the Arellano-Bond estimator, which is essentially a cross-lagged panel model, was developed specifically to control for reverse causality [@arellano1991some; @moral2019dynamic]. When dealing with reverse causality, researchers have a predefined exposure and an outcome of interest and simply aiming to control away the effects of the outcome on the exposure over time.
+
+What we call theoretical reciprocality, on the other hand, refers to situations in which the directionality of the effects is ambiguous. This could due to, for instance, competing theories suggesting opposing pathways between two variables [@sturgis2004using]. From our empirical example, some researchers argue that perceived disorder leads to increases in fear of crime [@kelling1982broken] whereas others approach this relationship from the opposite direction, arguing that fear of crime leads local residents to view disorderly signs in the neighborhood as problematic [@sampson2004seeing; @jackson2004experience]. This theoretical ambiguity implies that reciprocality is an empirical problem---a question that can be adjudicated by theory testers [@brunton2011untangling]. When dealing with theoretical reciprocality, researchers often do not have a predefined exposure and an outcome of interest and instead aim to assess both directions.
+
+In both cases, the theoretical model will highlight the threat of reciprocal relationships. A DAG will not distinguish between reciprocal effects due to theoretical reciprocality or due to reverse causality; this distinction is purely conceptual and should be dictated by the research question. Yet, we sustain that this is an important distinction. While in some cases the empirical solution will be similar, in other situations dealing with theoretical reciprocality or reverse causality may lead to different statistical estimators---we expand on this point below.
+
+> CCL: Need to slot these in somewhere.
+
+```{tikz fig-classic-clpm, echo = FALSE, fig.cap = "Directed acyclic graph representation of cross-lagged panel models with (a) lagged effects only or (b) with contemporaneous effects included (b)"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node[align=center] (title1) at (2,2.75) {(a) Lagged effects only};
+    \node (y1a) at (0,2) {$Y_1$};
+    \node (y2a) at (2,2) {$Y_2$};
+    \node (y3a) at (4,2) {$Y_3$};
+    \node (x1a) at (0,0) {$X_1$};
+    \node (x2a) at (2,0) {$X_2$};
+    \node (x3a) at (4,0) {$X_3$};
+    \path (x1a) edge (x2a);
+    \path (x2a) edge (x3a);
+    \path (x1a) edge (y2a);
+    \path (x2a) edge (y3a);
+    \path (y1a) edge (y2a);
+    \path (y2a) edge (y3a);
+    \path (y1a) edge (x2a);
+    \path (y2a) edge (x3a);
+    
+    \node[align=center] (title1) at (8,2.75) {(b) Contemporaneous effects};
+    \node (y1b) at (6,2) {$Y_1$};
+    \node (y2b) at (8,2) {$Y_2$};
+    \node (y3b) at (10,2) {$Y_3$};
+    \node (x1b) at (6,0) {$X_1$};
+    \node (x2b) at (8,0) {$X_2$};
+    \node (x3b) at (10,0) {$X_3$};
+    \path (x1b) edge (x2b);
+    \path (x2b) edge (x3b);
+    \path (x1b) edge (y2b);
+    \path (x2b) edge (y3b);
+    \path (y1b) edge (y2b);
+    \path (y2b) edge (y3b);
+    \path (y1b) edge (x2b);
+    \path (y2b) edge (x3b);
+    \path (x1b) edge (y1b);
+    \path (x2b) edge (y2b);
+    \path (x3b) edge (y3b);
+  }
+```
+
+
+## Discordance between theory and data
+
+> CCL: Probably best to approach this with Rohrer's framing that "true causal timing" should prob be abandoned and replaced with a well-defined estimand; the timing is a choice, e.g., what is the correct causal timing for the effect of drinking a pint on your judgment? Consider this effect at 20 seconds, 20 minutes, and 20 hours. What about on your thirst or your headache? Strong theory---whether from knowledge of biological mechanisms or personal experience---informs what sort of causal timings are of interest. This framing is useful because it allows us to hammer on theory even more; you can't just toss variables in and assume what you see is the "true process". Authors need to make an argument that the time lag they're studying is useful and can be studied with the data they have.
+
+> CCL: This also sets up an important interpretation point raised by Rohrer: discrepant results between studies may purely be due to different time lags. Old lit on this, e.g., GOllob & Reichardt 1987
+
+Theory is recursive and operates at some defined pace---often discrete but sometimes continuous---but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in @fig-time-dag-unobs. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
+
+```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+
+    
+    \node (y1) at (0,2) {$Y_1$};
+    \node[hidden] (y15) at (2,2) {$Y_{1.5}$};
+    \node (y2) at (4,2) {$Y_2$};
+    \node[hidden] (y25) at (6,2) {$Y_{2.5}$};
+    \node (y3) at (8,2) {$Y_3$};
+    \node (x1) at (0,0) {$X_1$};
+    \node[hidden] (x15) at (2,0) {$X_{1.5}$};
+    \node (x2) at (4,0) {$X_2$};
+    \node[hidden] (x25) at (6,0) {$X_{2.5}$};
+    \node (x3) at (8,0) {$X_3$};
+    \path (x1) edge (x15);
+    \path (x15) edge (x2);
+    \path (x2) edge (x25);
+    \path (x25) edge (x3);
+    \path (x1) edge (y15);
+    \path (x15) edge (y2);
+    \path (x2) edge (y25);
+    \path (x25) edge (y3);
+    \path (y1) edge (y15);
+    \path (y15) edge (y2);
+    \path (y2) edge (y25);
+    \path (y25) edge (y3);
+    \path (y1) edge (x15);
+    \path (y15) edge (x2);
+    \path (y2) edge (x25);
+    \path (y25) edge (x3);
+  }
+```
+
+For simplicity, let us assume that in both example cases we have three waves of panel data with yearly waves of observation and continuous measures of our concepts. In our first example---the reciprocal effects of perceived disorder and fear of crime---both perceived disorder and fear of crime are measured at survey time with continuous measures derived from batteries of multiple indicators. In our second example---the effect of employment on offending and attendant reverse causality---employment is measured as the proportion of time spent employed in the last year and offending is a self-reported variety score of offenses committed in the past year.
+
+> CCL: Define estimands here but make them ones people really want not ones that are easy to estimate, e.g., employment -> offending is prob roughly instantaneous but measurement means time-varying confounding will be serious problem. Could expand thinking about disorder as it doesn't exactly have time varying confounding unless one is interested in real exposure to disorder, which we know happened in past, but has an uncertain time association with perceptions.
+
+> CCL: For employment, if your theory is control theory that says employment restrains crime by keeping you busy, you can an instantaneous contemporaneous effect. That's a challenge for CLPMs!
+
+When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
+
+> CCL: Focus will be on when processes we are interested in are faster than our data are observed. When your data are more granular, it is not a problem, because you can either aggregate the data or, better yet, specify more complicated lag structures.
+
+For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than over course of a year---more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity (i.e., real disorder out in the world). For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive causal model (i.e., a DAG). As a result, @fig-time-dag-obs illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships, here represented by the dashed and double-headed arrows.
+
+
+```{tikz fig-time-dag-obs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with ambiguous contemporaneous relations."}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (y1) at (0,2) {$Y_1$};
+    \node (y2) at (2,2) {$Y_2$};
+    \node (y3) at (4,2) {$Y_3$};
+    \node (x1) at (0,0) {$X_1$};
+    \node (x2) at (2,0) {$X_2$};
+    \node (x3) at (4,0) {$X_3$};
+    
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    
+    \path (x1) edge [bend right=60, arrows = <->, dashed] (y1);
+    \path (x2) edge [bend right=60, arrows = <->, dashed] (y2);
+    \path (x3) edge [bend right=60, arrows = <->, dashed] (y3);
+  }
+```
+
+
+### Temporality and composite variables
+
+Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, will we distinguish between two types of measure, which we will call *instantaneous variables* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
+
+> CCL: Instantaneous measures have an advantage that you can easily define a counterfactual and not worry so much about late confounding even cross-lag confounding; that stuff is all post-treatment issues. But it still requires some assumptions about how the instant measure relates to the proximate causal one varying over time, e.g., about how stable it is.
+
+In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of composite period measures. When our observation periods do not correspond to the timing of our underlying causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sumof values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them. This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address (see Berrie et al. 2025). 
+
+
+> CCL: Between these two types of measures are what Mulder et al. refer to as "time aggregation" of variables, where the measurement represents some average over the time period. They focus on survey measures asking respondents to report how they felt on average over a period of time. It seems like quite a stretch to consider these composite variables, so it would be better to approach them with common thinking around recall bias.
+
+```{tikz fig-app-latent, fig.cap = "Reciprocality due to composite period variable. Circled variables are latent. Double-arrows indicate observed variables are composite variables determined by their parents"}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every edge/.append style = {
+        arrows = ->,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+
+    \draw[|-|] (-0.6,4.25) -- (1.8,4.25);
+    \draw[-|] (1.8,4.25) -- (4.2,4.25);
+    \draw[-|] (4.2,4.25) -- (6.6,4.25);
+    
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (-0.6,4.25) -- (0.6,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (0.6,4.25) -- (1.8,4.25) node[midway,yshift=-1.5em]{B};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (1.8,4.25) -- (3,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (3,4.25) -- (4.2,4.25) node[midway,yshift=-1.5em]{B};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (4.2,4.25) -- (5.4,4.25) node[midway,yshift=-1.5em]{A};
+    \draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=1ex}] (5.4,4.25) -- (6.6,4.25) node[midway,yshift=-1.5em]{B};
+    
+    
+    \node[align=center] (obs1) at (-2,4.25) {Time\\Intervals};
+    \node[align=center] (obs1) at (-2,1.5) {Latent\\Causal\\Model};
+    %\node[align=center] (obs1) at (-2,-2) {Observed\\Associations};%
+    
+    \node[align=center] (obs1) at (-0.6,4.75) {Start};
+    \node[align=center] (obs1) at (1.8,4.75) {Observation\\Time 1};
+    \node[align=center] (obs1) at (4.2,4.75) {Observation\\Time 2};
+    \node[align=center] (obs1) at (6.6,4.75) {Observation\\Time 3};
+    
+    
+    \node (y1) at (0.6,3) {$Y_1$};
+    \node (y2) at (3,3) {$Y_2$};
+    \node (y3) at (5.4,3) {$Y_3$};
+    
+    \node[hidden] (y1a) at (0,2) {$Y_{1A}$};
+    \node[hidden] (y1b) at (1.2,2) {$Y_{1B}$};
+    \node[hidden] (y2a) at (2.4,2) {$Y_{2A}$};
+    \node[hidden] (y2b) at (3.6,2) {$Y_{2B}$};
+    \node[hidden] (y3a) at (4.8,2) {$Y_{3A}$};
+    \node[hidden] (y3b) at (6,2) {$Y_{3B}$};
+    
+    \node (x1) at (0.6,0) {$X_1$};
+    \node (x2) at (3,0) {$X_2$};
+    \node (x3) at (5.4,0) {$X_3$};
+    
+    \node[hidden] (x1a) at (0,1) {$X_{1A}$};
+    \node[hidden] (x1b) at (1.2,1) {$X_{1B}$};
+    \node[hidden] (x2a) at (2.4,1) {$X_{2A}$};
+    \node[hidden] (x2b) at (3.6,1) {$X_{2B}$};
+    \node[hidden] (x3a) at (4.8,1) {$X_{3A}$};
+    \node[hidden] (x3b) at (6,1) {$X_{3B}$};
+    % latent -> obs
+       % X->X%
+    \draw[->, double] (x1a) to (x1);
+    \draw[->, double] (x1b) to (x1);
+    \draw[->, double] (x2a) to (x2);
+    \draw[->, double] (x2b) to (x2);
+    \draw[->, double] (x3a) to (x3); 
+    \draw[->, double] (x3b) to (x3); 
+    \draw[->, double] (y1a) to (y1);
+    \draw[->, double] (y1b) to (y1);
+    \draw[->, double] (y2a) to (y2);
+    \draw[->, double] (y2b) to (y2);
+    \draw[->, double] (y3a) to (y3); 
+    \draw[->, double] (y3b) to (y3); 
+    % Y->Y%
+    \path (y1a) edge (y1b);
+    \path (y1b) edge (y2a);
+    \path (y2a) edge (y2b);
+    \path (y2b) edge (y3a);
+    \path (y3a) edge (y3b);
+   % X->X%
+    \path (x1a) edge (x1b);
+    \path (x1b) edge (x2a);
+    \path (x2a) edge (x2b);
+    \path (x2b) edge (x3a);
+    \path (x3a) edge (x3b); 
+       % X->Y%
+    \path (x1a) edge (y1b);
+    \path (x1b) edge (y2a);
+    \path (x2a) edge (y2b);
+    \path (x2b) edge (y3a);
+    \path (x3a) edge (y3b); 
+       % Y->X%
+    \path (y1a) edge (x1b);
+    \path (y1b) edge (x2a);
+    \path (y2a) edge (x2b);
+    \path (y2b) edge (x3a);
+    \path (y3a) edge (x3b); 
+  }
+```
+
+
+@fig-app-latent illustrates a case where we are interested in the relationship between two period variables $A$ and $B$. The recall period for data collection encompasses 1 unit of time (e.g., an entire year) but the causal process relating the two period variables operates over smaller intervals (e.g., six months) denoted $A$ and $B$. This is represented by cross-lagged effects between latent $X$ and $Y$ variables occurring across each smaller interval. Because data were only collected at each observation time, the measured values represent a composite period variable combining the values from periods $A$ and $B$. For example, if $Y_1$ is the number of self-reported criminal offenses in a year, it would be the simple sum of offenses $Y_{1A} + Y_1{B}$. While we may know this sum, without additional information, we are uncertain of the value of either $Y_{1A}$ or $Y_1{B}$ (unless $Y_1=0$). Borrowing the notation of Berrie et al. (2025), the double-arrows indicate that $Y_t$ and $X_t$ are *deterministic* variables, i.e., they are fully determined by *some* combination of the underlying latent parent variables, even if we do not know their relative contribution^[If $Y_{tA}$ and/or $Y_{tB}$ contain measurement error, this full measurement error is propagated into the composite variable as well]. Note that despite $X_t = X_{ta} + X_{tb}$, $X_t$ is not a compositional variable as defined by Berrie et al. (2025), because the parents $X_{ta}$ and $X_{tb}$ are not simultaneously determined. Rather, $X_t$ is a composite derived variable where the parents are unobservable or latent.
+
+> CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes.
+
+> CCL: Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/
+
+Composite measures present unique challenges for causal inference (Berrie et al. 2025). 
+
+* Ignorability: Need to deal with all confounders for each parent, but these may be different.
+   * Time-varying confounding can be a serious problem as Berrie et al. (2025:475) note: "...if the parent variables occur at different moments in time, it is possible they will have different relationships with the supposed confounders. Indeed, it is possible that a confounder for one parent variable may be a mediator for another, leaving no means to appropriately adjust for confounding without also blocking part of the true causal effect. Identifying the causal effect of a composite derived variable, as with any analysis of multiple exposures, therefore requires no time-varying confounding."
+   * In rare case you have a strong theoretical reason to believe a variable affects one parent but is exogenous to the other, you could use it as an instrument to isolate the parent you are interested in, e.g., a randomized employment program affecting only the second half of the year.
+* Consistency: One can arrive at the same value of a child treatment variable through multiple combinations of the parent variables.
+* Composite variable bias: The estimated average causal effect of the composite variable will be a mean of the average causal effects of the parent variables that is proportionally weighted toward the parent(s) with larger variance(s).
+
+* Mulder et al. (2025): "low process coverage" occurs when intervals that are too long to capture process combine with time aggregated variables to make it so an insufficient amount of the underlying continuous process is captured.
+
+
+## Statistical Model
+
+Once the theoretical model has been established, one can proceed to developing a statistical model that accounts for the constraints from the research design---including ambiguity about causal directions. Here, path diagrams from the structural equation modeling (SEM) tradition become useful. SEM diagrams encode both causal relations between variables---indicated by single-headed arrows pointing from cause to effect---and unanalyzed, unexplained, or "nuisance" associations---indicated by double-headed arrows pointing between two variables. That is, one explicitly distinguishes between causal relationships and ambiguous associations. Variables with any causal path leading into them are termed "endogenous" variables and those with no causal path leading into them are termed "exogenous". SEM diagrams depart from most DAGs by depicting the residuals or unexplained variation of endogenous variables as latent variables causally affecting the observed variable.
+
+> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
+
+> Chuck: I need to read the above and revisit other materials to clean my language up. I am not confident the way I distinguish between "causal" and the rest of the model corresponds to the classic SEM distinction of structural model vs. measurement model, i.e., the residual covariances are still part of the structural model, I think.
+
+Our recommendation is that the causal part of the SEM diagram should be recursive, corresponding as closely as possible to the theoretical model. Reciprocal simultaneous effects should generally be avoided as they require strong identifying assumptions, e.g., valid and relevant instrumental variables (Green 2003; XXXX). When the timing of observation results in ambiguity regarding the causal direction within any given time period---such as when periods $t=1.5$ and $t=2.5$ were not observed in Fig XXX---we encode this ambiguity as an unanalyzed covariance between the variables in question. When the timing of observations closely corresponds to theory, these covariances are unnecessary and the resulting statistical model similarly corresponds directly to the theoretical model.
+
+For both examples, following these guidelines leads us to the "classic" three-wave CLPM depicted in FIGXX. The causal relations consist of two sets of relationships: a) lagged (autoregressive) effects of variables in one period on their value in the next period, e.g., $x_{t} \rightarrow x_{t+1}$, and b) cross-lagged effects of variables in one period on the other variable in the next period, e.g., $x_{t} \rightarrow y_{t+1}$. The non-causal relations consist of two sets of covariances: a) between the exogenous $x_1$ and $y_1$, which merely permit the predictors to be correlated as in any typical regression model, and b) between the residuals of the endogenous variables ($\zeta_t$ and $\epsilon_t$)^[Omitting the residual covariances yields the oft-maligned cross-lagged correlations model.]. The residual covariances account for the ambiguous contemporaneous association between $x_t$ and $y_t$ but cannot tell us the direction of any causal effect between the two variables.
+
+```{tikz sem-clpm, fig.cap = "SEM path diagram representation of three-wave CLPM"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+    \node (x1) at (0,2) {$X_1$};
+    \node (x2) at (2,2) {$X_2$};
+    \node (x3) at (4,2) {$X_3$};
+    \node (y1) at (0,0) {$Y_1$};
+    \node (y2) at (2,0) {$Y_2$};
+    \node (y3) at (4,0) {$Y_3$};
+    \node (ex2) at (2.5,3) {$\zeta_{2}$};
+    \node (ey2) at (2.5,-1) {$\epsilon_{2}$};
+    \node (ex3) at (4.5,3) {$\zeta_{3}$};
+    \node (ey3) at (4.5,-1) {$\epsilon_{3}$};
+    \path (x1) edge (x2);
+    \path (x2) edge (x3);
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    \path (y1) edge (x2);
+    \path (y2) edge (x3);
+    \path (x1) edge [bend right=60, arrows = <->] (y1);
+    \path (ex2) edge [bend left=45, arrows = <->] (ey2);
+    \path (ex3) edge [bend left=45, arrows = <->] (ey3);
+    \path (ex2) edge (x2);
+    \path (ex3) edge (x3);
+    \path (ey2) edge (y2);
+    \path (ey3) edge (y3);
+  }
+```
+
+In principle, the classic CLPM permits identification of the cross-lagged effects under conventional assumptions common to most causal inference approaches (see Morgan & Winship; Wooldridge) and in paticular mediation analysis, e.g. sequential ignorability . In application, researchers using the classic CLPM may easily fall prey to a number of common issues that, if unaddressed, result in misleading inferences. Rather than providing an exhaustive list of problems that can arise with CLPMs, we focus on the three key issues we believe are the most important for researchers in developmental and life course criminology to be aware of due to the frequency with which they will be encountered and the severity of their effect on inferences: a) improperly specified temporal order, b) unobserved heterogeneity, c) insufficient inter-temporal variation. 
+
+
+> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
+
+
+
+
+# How it can go wrong!
+
+* One para introducing the three key issues
+
+
+> DIVVY UP AFTER
+
+# Issue 1: Temporal Order
+
+* GEtting lag specification wrong is a big issue
+* THis assumes true or approximately true lag specification
+* Unusual form of bias as documented by Vaisey & Miles that can flip signs:
+   * If true model is $y = \beta x_t + \alpha_i + e_{it}$ and you fit $y = \beta^* x_{t-t} + \alpha_i + e_{it}$, $E(\beta^*) = -0.5\beta$, i.e., as [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/) says "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect".
+* Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
+   * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
+* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+
+## Solutions
+
+* Theoretical ideal: Get it right
+* Vaisey & Miles: Do both lagged and contemporaneous
+   * If no contemporaneous effect, only lagged, you're probably fine. If contemporaneous shows up, you can't definitively determine direction of contemporaneous effect.
+* Allison: Partial correlation model with lagged effect and contemporaneous residual covariance
+   * This is least biased approach if parameter of interest is $\beta x_{t-1}$, but cannot estimate $\beta x_{t}$
+   * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
+* Also good place to bring in predetermined regressors which are part of Allison approach and Arellano-Bond
+
+
+# Issue 2: Unobserved heterogeneity
+
+* Probably the most commonly encountered issue; but also pretty much solved!
+* Most common concern is stable traits
+   * While really same problem, we treat time-varying and time-stable confounders as different problems in longitudinal models
+   * Autoregressive term alone does not solve problem
+   * Can't just toss in fixed effects due to Nickell bias from endogenous lag (shrinks in proportion to T); Arellano-Bond (and thus Allison) is removing Nickell bias
+
+* Including time-stable covariates in FE models
+
+* Might also raise treatment heterogeneity here as different but related issue not as easily addressed in CLPMs as in TWFE
+   * DEvelopmental theories often specify age-specific (life stage) treatment heterogeneity
+   * Freeing the parameter by wave allows for time heterogeneity but also effects to differ because wave spacing is different
+     * One reason for treatment heterogeneity among individuals is differing measurement times within waves
+   * Exception is time-specific treatment heterogeneity which is easily permitted by allowing wave-specific parameters as in Allison's model
+   * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
+* Predetermined regressors (weakly exogenous, sequentially exogenous)
+
+
+## Solutions
+
+While the traditional cross-lagged panel model cannot properly account for unobserved stable heterogeneity, some relatively recent extensions of the CLPM yield robust estimators that draw only on within-unit variation and effectively control for all unobserved time-stable traits [@leszczensky2019deal]. Specifically, @allison2017maximum's maximum likelihood structural equation fixed-effects dynamic panel method (ML-SEM) and @hamaker2015critique's random intercept cross-lagged panel model (RI-CLPM) model reciprocality and account for unobserved, time-stable features that impact both $Y_t$ and $X_t$.
+   
+### Fixed-effects dynamic panel model with maximum likelihood
+
+In ML‐SEM [@allison2017maximum], a standard dynamic panel model (with a lagged dependent variable) is recast as a structural equation model that explicitly partials out all unobserved stable heterogeneity. In practice, one introduces a latent "fixed‐effect" factor (often denoted $\alpha$) that loads with coefficient 1 on every observed $Y_t$ for individual $i$. This latent random intercept factor is the same as the one often included in latent growth curve models, representing between-unit differences. By fixing the factor loadings of the random intercept to 1, the model effectively "demeans" each unit’s scores and thus conditions out all time‐constant heterogeneity. 
+
+Crucially, this latent random intercept factor is allowed to freely covary with all the time‐varying exogenous predictors (including any predetermined regressors and the initial outcome $Y_{i1}$). This model is exactly a correlated‐random‐effects model [@mundlak1978pooling]: by letting $\alpha_i$ correlate without restriction with the $X$’s, the SEM mimics a fixed‐effects specification (the contrast being that a classical random‐effects model would force $\alpha_i$ to be independent of $X$). As @allison2017maximum note, allowing $\alpha_i$ to covary with $X$'s enforces a fixed-effects model that accounts for all unobserved, stable confounders. This means that the ML-SEM assumes a key outcome (e.g., $Y$) and a key predictor (e.g., $X$) of interest, and the whole is set in such a way so as to find effects of the predictor on the outcome (e.g., effects of $X_{t-1}$ and/or $X_t$ on $Y_t$) while accounting for potential effects of $Y_{t-1}$ on $X_t$. If the effects of $Y_{t-1}$ or $Y_t$ on $X_t$ are also of substantive interest, one needs to fit a separate ML-SEM with that specification.
+
+In implementation, the entire system of autoregressive and cross‐lagged equations is cast as a single SEM. For example, with four waves one writes each $Y_{it}$ on its lagged value $Y_{i,t-1}$ and on lagged $X_{i,t-1}$, as well as on a latent factor $\alpha_i$ loading on each $Y_{it}$. Figure @fig-mlsem illustrates this: $\alpha$ represents the latent random intercept factor as is reflected by all observations $Y_t$ (except for the initial observation $Y_{t=1}$) with factor loadings constrained to 1, and all $X_t$ are allowed to correlate with $\alpha$ (and with each other and with $Y_{t=1}$). In this setup, the first observation $Y_{t=1}$ is treated like any exogenous covariate. Importantly, observed time-varying regressors ($X_t$) are specified as predetermined---that is, they are allowed to correlate with past residuals (i.e., with $\epsilon_{i,t-1}$), reflecting the idea that predictors may be influenced by prior outcomes. The model is equivalent to the Arellano-Bond method estimated with the generalized method of moments [@arellano1991some], but it requires no stationarity assumption on initial conditions (given that initial observations $Y_1$ and $X_1$ are simply treated as additional exogenous predictors). The ML-SEM also expands upon the Arellano-Bond method as it can handle missing data with full information maximum likelihood, it can easily extend to multiple indicators, and it can incorporate time-constant covariates and different timing effects. The ML‐SEM model is a standard SEM with autoregressive and cross-lagged parameter using only within-unit variation and a latent random intercept $\alpha$ factor soaking up all between‐unit variation. Figure @fig-mlsem depicts the ML-SEM.
+
+
+```{tikz fig-mlsem, fig.cap = "Maximum likelihood structural equation fixed-effects dynamic panel model (Allison et al., 2017)"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1.5pt
+    }
+}
+\tikz{
+    \node (x1) at (0,0) {$X_1$};
+    \node (x2) at (2,0) {$X_2$};
+    \node (x3) at (4,0) {$X_3$};
+    
+    \node (y1) at (-1,1) {$Y_1$};
+    \node (y2) at (2,2) {$Y_2$};
+    \node (y3) at (4,2) {$Y_3$};
+    \node (y4) at (6,2) {$Y_4$};
+    
+    \node[hidden] (alpha) at (7,0) {$\alpha$};
+    
+    \node (ey2) at (2,3) {$\epsilon_{y_2}$};
+    \node (ey3) at (4,3) {$\epsilon_{y_3}$};
+    \node (ey4) at (6,3) {$\epsilon_{y_4}$};
+    
+    \path (y1) edge (y2);
+    \path (y2) edge (y3);
+    \path (y3) edge (y4);
+    
+    \path (x1) edge (y2);
+    \path (x2) edge (y3);
+    \path (x3) edge (y4);
+    
+    \path (alpha) edge [gray, thin] (y2);
+    \path (alpha) edge [gray, thin] (y3);
+    \path (alpha) edge [gray, thin] (y4);
+    
+    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x3);
+    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x2);
+    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x1);
+    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (y1);
+    
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x1);
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x2);
+    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x3);
+    
+    \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x2);
+    \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    \path (x2) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    
+    \path (x3) edge [bend left=80, arrows = <->, gray, thin] (ey2.225);
+    
+    \path (ey2) edge [gray, thin] (y2);
+    \path (ey3) edge [gray, thin] (y3);
+    \path (ey4) edge [gray, thin] (y4);
+    
+  }
+```
+
+### Random intercept cross-lagged panel model
+
+The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random Intercept Cross-Lagged Panel Model (RI-CLPM). To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's ML-SEM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent variable is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
+
+While @allison2017maximum's approach involves allowing this latent variable to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent variable defined by all observations $X_t$ over time, thus creating a random intercept for $X$ that varies between units. Treating such unit-specific random intercepts as random variables (as opposed to fixed parameters) usually implies that they do not capture all unobserved stable heterogeneity. However, in the RI-CLPM, the two latent variables reflecting random intercepts for $Y$ and $X$ (represented by $\alpha_Y$ and $\alpha_X$ in Figure @fig-riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. Figure @fig-riclpm depicts the the RI-CLPM.
+
+```{tikz fig-riclpm, fig.cap = "Random Intercept Cross-Lagged Panel Model (Hamaker et al., 2015)"}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = .75pt
+    },
+    manifest/.style = {
+        draw = black,
+        shape = rectangle,
+        inner sep = 2.5pt
+    }
+}
+\tikz{
+    \node[manifest] (x1) at (0,6) {$X_1$};
+    \node[manifest] (x2) at (2,6) {$X_2$};
+    \node[manifest] (x3) at (4,6) {$X_3$};
+    
+    \node[hidden] (wx1) at (0,4) {$WX_1$};
+    \node[hidden] (wx2) at (2,4) {$WX_2$};
+    \node[hidden] (wx3) at (4,4) {$WX_3$};
+    
+    \node[hidden] (wy1) at (0,2) {$WY_1$};
+    \node[hidden] (wy2) at (2,2) {$WY_2$};
+    \node[hidden] (wy3) at (4,2) {$WY_3$};
+    
+    \node[manifest] (y1) at (0,0) {$Y_1$};
+    \node[manifest] (y2) at (2,0) {$Y_2$};
+    \node[manifest] (y3) at (4,0) {$Y_3$};
+    
+    \node [hidden] (bx1) at (-3,5) {$\alpha_X$};
+    \node [hidden] (by1) at (-3,1) {$\alpha_Y$};
+    
+    \path (wx1) edge[gray, thin] (x1);
+    \path (wx2) edge[gray, thin] (x2);
+    \path (wx3) edge[gray, thin](x3);
+    
+    \path (wy1) edge[gray, thin] (y1);
+    \path (wy2) edge[gray, thin] (y2);
+    \path (wy3) edge[gray, thin] (y3);
+    
+    \path  (bx1) edge[gray, thin] (x1);
+    \path  (bx1) edge[gray, thin] (x2);
+    \path  (bx1) edge[gray, thin] (x3);
+    
+    \path  (by1) edge[gray, thin] (y1);
+    \path  (by1) edge[gray, thin] (y2);
+    \path  (by1) edge[gray, thin] (y3);
+    
+    \path (wx1) edge (wx2);
+    \path (wx2) edge (wx3);
+    
+    \path (wx1) edge (wy2);
+    \path (wx2) edge (wy3);
+    
+    \path (wy1) edge (wy2);
+    \path (wy2) edge (wy3);
+    
+    \path (wy1) edge (wx2);
+    \path (wy2) edge (wx3);
+    
+    \path (bx1) edge [bend right=45, arrows = <->] (by1);
+    \path (wx1) edge [bend right=45, arrows = <->] (wy1);
+    \path (wx2) edge [bend right=320, arrows = <->] (wy2);
+    \path (wx3) edge [bend right=320, arrows = <->] (wy3);
+    
+  }
+```
+
+To further ensure that only within-unit variation is taken into account, the RI-CLPM relies on a set of other latent variables. For each variable $Y_t$ and $X_t$, a new latent variable is estimated with a factor loading constrained to 1. These latent variables are represented in the diagram in Figure @fig-riclpm as $WY_t$ and $WX_t$. This implies that every single observed variable $Y_t$ and $X_t$ is defined by two latent variables: one capturing all differences between units (i.e., $\alpha_Y$ and $\alpha_X$), and one capturing everything else, i.e., within-unit differences (i.e., $WY_t$ and $WX_t$). Autoregressive and cross-lagged parameters are then included linking $WY_t$ and $WX_t$---resembling the traditional cross-lagged panel model, but exclusively focused on within-unit variation over time. By allowing both random intercepts to covary, the RI-CLPM ensures that all unobserved stable heterogeneity is accounted for; and by estimating autoregressive and cross-lagged effects on latent variables capturing only within-unit variation, the model ensures that cross-lagged estimates reflect change over time. The RI-CLPM can easily be extended to other common features in SEMs, such as multiple indicators, covariate adjustment, and multiple-group analysis [@mulder2021three].
+
+# Issue 3: Inter-temporal variation
+
+* Maybe show some illustrative math here to show that $Var(Y_2|Y_1) \rightarrow 0$ as $\rho(Y_1,Y_2) \rightarrow 1$ approaches 1; i.e., you rapidly run out of anything to explain.
+   * This is essentially a multicollinearity problem: Unbiased and consistent but high variance in estimates makes any particular estimate suspect.
+  * From time series lit: Stronger your autoregressive term is, the less there is to explain; rapidly approaches a time-stable
+* Rarely appreciated outside time series literature but common when waves are narrowly spaced
+* With random measurement error, the error becomes proportionally larger as time periods get narrower
+   * May mean you can address in part with measurement models
+   * Note the endogenous variables are regressors, so measurement error biases parameter estimates as well
+* Psychological constructs can be very stable over time! Life course trajectories are real!
+  * Peope even get more consistent over time
+
+## Solutions
+
+* This is first and foremost a data problem, so you want to attack it during design of data collection if possible
+   * Sample to maximize change
+   * Look for shocks
+* Can put time stable covariates using hybrid approach, but be aware, you're now looking at between-individual effects
+* If you can't collect new data, look at different aggregations or wave skips
+   * Small change at a large unit may mask larger changes in small units
+   * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
+* IF increasing error is what you're worried about, can potentially use measurement models
+  * SHould be doing this anyway because your outcomes are regressors, so measurement error attenuates estimates
+* Give up and go get a pint
+
+
+# General Advice
+
+* Separate theory problems from estimation problems
+  * Theory comes first
+  * Then a clear model
+  * Then estimator
+* Default to robust estimators
+  * Allison's FE model should prob be the default as it is most robust
+* Also need to think about all these issues not specific to CLPM or reciprocal effects
+  * Sequential ignorability
+  * Dynamic effects
+    * Other related strategies, e.g., for single outcomes with continuous time-varying confounded exposures
+* Given timing issues, longitudinal data are much better equipped to study the key elements of life course theories (e.g., trajectories and turning points) than rapid and transient processes. Prob be good to say you simply aren't going to get anything useful from yearly panel data on fast moving things.
+   * Exogenous shocks and interventions can bypass a lot of these problems.
+* Recommendations for data collection include having people fill out repeated or momentary assessments, calendars, etc.
+
+# Conclusion
+
+# References
