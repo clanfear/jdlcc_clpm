@@ -160,6 +160,8 @@ For simplicity, let us assume that in both example cases we have three waves of 
 
 > Define estimands here but make them ones people really want not ones that are easy to estimate, e.g., employment -> offending is prob roughly instantaneous but measurement means time-varying confounding will be serious problem. Could expand thinking about disorder as it doesn't exactly have time varying confounding unless one is interested in real exposure to disorder, which we know happened in past, but has an uncertain time association with perceptions.
 
+> For employment, if your theory is control theory that says employment restrains crime by keeping you busy, you can an instantaneous contemporaneous effect. That's a challenge for CLPMs!
+
 When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
 
 > Focus will be on when processes we are interested in are faster than our data are observed. When your data are more granular, it is not a problem, because you can either aggregate the data or, better yet, specify more complicated lag structures.
