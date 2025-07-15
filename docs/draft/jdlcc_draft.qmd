@@ -270,11 +270,11 @@ For our first example of the reciprocal effects of fear of crime and disorder pe
 
 ### Temporality and composite variables
 
-Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, will we distinguish between two types of measure, which we will call *instantaneous variables* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
+Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, we will distinguish between two types of measure, which we will call *instantaneous variables* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
 
 > CCL: Instantaneous measures have an advantage that you can easily define a counterfactual and not worry so much about late confounding even cross-lag confounding; that stuff is all post-treatment issues. But it still requires some assumptions about how the instant measure relates to the proximate causal one varying over time, e.g., about how stable it is.
 
-In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of composite period measures. When our observation periods do not correspond to the timing of our underlying causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sumof values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them. This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address (see Berrie et al. 2025). 
+In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of composite period measures. When our observation periods do not correspond to the timing of our underlying causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sum of values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them. This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address [see @berrie2025depicting]. 
 
 
 > CCL: Between these two types of measures are what Mulder et al. refer to as "time aggregation" of variables, where the measurement represents some average over the time period. They focus on survey measures asking respondents to report how they felt on average over a period of time. It seems like quite a stretch to consider these composite variables, so it would be better to approach them with common thinking around recall bias.
@@ -385,13 +385,13 @@ In contrast, a period measure is one where the measured value corresponds to som
 ```
 
 
-@fig-app-latent illustrates a case where we are interested in the relationship between two period variables $A$ and $B$. The recall period for data collection encompasses 1 unit of time (e.g., an entire year) but the causal process relating the two period variables operates over smaller intervals (e.g., six months) denoted $A$ and $B$. This is represented by cross-lagged effects between latent $X$ and $Y$ variables occurring across each smaller interval. Because data were only collected at each observation time, the measured values represent a composite period variable combining the values from periods $A$ and $B$. For example, if $Y_1$ is the number of self-reported criminal offenses in a year, it would be the simple sum of offenses $Y_{1A} + Y_1{B}$. While we may know this sum, without additional information, we are uncertain of the value of either $Y_{1A}$ or $Y_1{B}$ (unless $Y_1=0$). Borrowing the notation of Berrie et al. (2025), the double-arrows indicate that $Y_t$ and $X_t$ are *deterministic* variables, i.e., they are fully determined by *some* combination of the underlying latent parent variables, even if we do not know their relative contribution^[If $Y_{tA}$ and/or $Y_{tB}$ contain measurement error, this full measurement error is propagated into the composite variable as well]. Note that despite $X_t = X_{ta} + X_{tb}$, $X_t$ is not a compositional variable as defined by Berrie et al. (2025), because the parents $X_{ta}$ and $X_{tb}$ are not simultaneously determined. Rather, $X_t$ is a composite derived variable where the parents are unobservable or latent.
+@fig-app-latent illustrates a case where we are interested in the relationship between two period variables $A$ and $B$. The recall period for data collection encompasses 1 unit of time (e.g., an entire year) but the causal process relating the two period variables operates over smaller intervals (e.g., six months) denoted $A$ and $B$. This is represented by cross-lagged effects between latent $X$ and $Y$ variables occurring across each smaller interval. Because data were only collected at each observation time, the measured values represent a composite period variable combining the values from periods $A$ and $B$. For example, if $Y_1$ is the number of self-reported criminal offenses in a year, it would be the simple sum of offenses $Y_{1A} + Y_1{B}$. While we may know this sum, without additional information, we are uncertain of the value of either $Y_{1A}$ or $Y_1{B}$ (unless $Y_1=0$). Borrowing the notation of @berrie2025depicting, the double-arrows indicate that $Y_t$ and $X_t$ are *deterministic* variables, i.e., they are fully determined by *some* combination of the underlying latent parent variables, even if we do not know their relative contribution^[If $Y_{tA}$ and/or $Y_{tB}$ contain measurement error, this full measurement error is propagated into the composite variable as well.]. Note that despite $X_t = X_{ta} + X_{tb}$, $X_t$ is not a compositional variable as defined by @berrie2025depicting, because the parents $X_{ta}$ and $X_{tb}$ are not simultaneously determined. Rather, $X_t$ is a composite derived variable where the parents are unobservable or latent.
 
 > CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes.
 
 > CCL: Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/
 
-Composite measures present unique challenges for causal inference (Berrie et al. 2025). 
+Composite measures present unique challenges for causal inference [@berrie2025depicting]. 
 
 * Ignorability: Need to deal with all confounders for each parent, but these may be different.
    * Time-varying confounding can be a serious problem as Berrie et al. (2025:475) note: "...if the parent variables occur at different moments in time, it is possible they will have different relationships with the supposed confounders. Indeed, it is possible that a confounder for one parent variable may be a mediator for another, leaving no means to appropriately adjust for confounding without also blocking part of the true causal effect. Identifying the causal effect of a composite derived variable, as with any analysis of multiple exposures, therefore requires no time-varying confounding."
@@ -516,6 +516,8 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
    * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
 * Predetermined regressors (weakly exogenous, sequentially exogenous)
 
+One of the biggest advantages of drawing on longitudinal data is the ability to focus exclusively on within-unit variation (i.e., change over time) and control away any stable differences between units. 
+
 
 ## Solutions
 
@@ -523,11 +525,11 @@ While the traditional cross-lagged panel model cannot properly account for unobs
    
 ### Fixed-effects dynamic panel model with maximum likelihood
 
-In ML‐SEM [@allison2017maximum], a standard dynamic panel model (with a lagged dependent variable) is recast as a structural equation model that explicitly partials out all unobserved stable heterogeneity. In practice, one introduces a latent "fixed‐effect" factor (often denoted $\alpha$) that loads with coefficient 1 on every observed $Y_t$ for individual $i$. This latent random intercept factor is the same as the one often included in latent growth curve models, representing between-unit differences. By fixing the factor loadings of the random intercept to 1, the model effectively "demeans" each unit’s scores and thus conditions out all time‐constant heterogeneity. 
+In ML‐SEM [@allison2017maximum], a standard dynamic panel model (with a lagged dependent variable) is recast as a structural equation model that explicitly partials out all unobserved stable heterogeneity. In practice, latent random intercept factor (often denoted $\alpha$) is introduced with a factor loading constrained to 1 on every observed $Y_t$. This latent random intercept factor is the same as the one often included in latent growth curve models (e.g., a random intercept reflecting the starting point of latent trajectories) and represents all between-unit differences. By fixing the factor loadings of the random intercept to 1, the model effectively "demeans" each unit’s scores and thus conditions out all time‐constant heterogeneity. 
 
-Crucially, this latent random intercept factor is allowed to freely covary with all the time‐varying exogenous predictors (including any predetermined regressors and the initial outcome $Y_{i1}$). This model is exactly a correlated‐random‐effects model [@mundlak1978pooling]: by letting $\alpha_i$ correlate without restriction with the $X$’s, the SEM mimics a fixed‐effects specification (the contrast being that a classical random‐effects model would force $\alpha_i$ to be independent of $X$). As @allison2017maximum note, allowing $\alpha_i$ to covary with $X$'s enforces a fixed-effects model that accounts for all unobserved, stable confounders. This means that the ML-SEM assumes a key outcome (e.g., $Y$) and a key predictor (e.g., $X$) of interest, and the whole is set in such a way so as to find effects of the predictor on the outcome (e.g., effects of $X_{t-1}$ and/or $X_t$ on $Y_t$) while accounting for potential effects of $Y_{t-1}$ on $X_t$. If the effects of $Y_{t-1}$ or $Y_t$ on $X_t$ are also of substantive interest, one needs to fit a separate ML-SEM with that specification.
+Crucially, this latent random intercept factor is allowed to freely covary with all the time‐varying exogenous predictors (including any predetermined regressors and the initial outcome $Y_1$). This model is exactly a correlated‐random‐effects model [@mundlak1978pooling]: by letting $\alpha$ correlate without restriction with the $X$’s, the SEM mimics a fixed‐effects specification (the contrast being that a classical random‐effects model would force $\alpha$ to be independent of $X$). As @allison2017maximum note, allowing $\alpha$ to covary with $X$'s enforces a fixed-effects model that accounts for all unobserved, stable confounders. This means that the ML-SEM assumes a key outcome (e.g., $Y$) and a key predictor (e.g., $X$) of interest, and the whole model is set in such a way so as to find effects of the predictor on the outcome (e.g., cross-lagged and/or contemporaneous effects of $X$ on $Y$) while accounting for a potential covariance between past outcome ($Y_{t-1}$) and current predictor ($X_t$). If cross-lagged or contemporaneous effects of the outcome $Y$ (e.g., $Y_{t-1}$ or $Y_t$) on the predictor $X_t$ are also of substantive interest, one needs to fit a separate ML-SEM with that specification.
 
-In implementation, the entire system of autoregressive and cross‐lagged equations is cast as a single SEM. For example, with four waves one writes each $Y_{it}$ on its lagged value $Y_{i,t-1}$ and on lagged $X_{i,t-1}$, as well as on a latent factor $\alpha_i$ loading on each $Y_{it}$. Figure @fig-mlsem illustrates this: $\alpha$ represents the latent random intercept factor as is reflected by all observations $Y_t$ (except for the initial observation $Y_{t=1}$) with factor loadings constrained to 1, and all $X_t$ are allowed to correlate with $\alpha$ (and with each other and with $Y_{t=1}$). In this setup, the first observation $Y_{t=1}$ is treated like any exogenous covariate. Importantly, observed time-varying regressors ($X_t$) are specified as predetermined---that is, they are allowed to correlate with past residuals (i.e., with $\epsilon_{i,t-1}$), reflecting the idea that predictors may be influenced by prior outcomes. The model is equivalent to the Arellano-Bond method estimated with the generalized method of moments [@arellano1991some], but it requires no stationarity assumption on initial conditions (given that initial observations $Y_1$ and $X_1$ are simply treated as additional exogenous predictors). The ML-SEM also expands upon the Arellano-Bond method as it can handle missing data with full information maximum likelihood, it can easily extend to multiple indicators, and it can incorporate time-constant covariates and different timing effects. The ML‐SEM model is a standard SEM with autoregressive and cross-lagged parameter using only within-unit variation and a latent random intercept $\alpha$ factor soaking up all between‐unit variation. Figure @fig-mlsem depicts the ML-SEM.
+In implementation, the entire system of autoregressive and cross‐lagged equations is cast as a single SEM. For example, each outcome ($Y_t$) is regressed on its lagged value ($Y_{t-1}$), on a contemporaneous ($X_t$) and/or a lagged value of the predictor ($X_{t-1}$), and on a latent random intercept factor $\alpha$ with a constrained loading---here specified as a fixed effect. @fig-mlsem illustrates the ML-SEM with four waves.^[The ML-SEM requires at least four waves of data to be implemented.] $\alpha$ represents the latent random intercept factor as is reflected by all observations $Y_t$ (except for the initial observation $Y_{t=1}$) with factor loadings constrained to 1, and all $X_t$ are allowed to correlate with $\alpha$ (and with each other and with $Y_1$). In this setup, the first observation $Y_1$ is treated like any exogenous covariate. Importantly, observed time-varying regressors ($X_t$) are specified as predetermined---that is, they are allowed to correlate with past residuals (i.e., with $\epsilon_{y,t-1}$), reflecting the idea that predictors may be influenced by prior outcomes. The model is equivalent to the Arellano-Bond method estimated with the generalized method of moments [@arellano1991some], but it requires no stationarity assumption on initial conditions (given that initial observations $Y_1$ and $X_1$ are simply treated as additional exogenous predictors). The ML-SEM also expands upon the Arellano-Bond method as it can handle missing data with full information maximum likelihood, it can easily extend to multiple indicators, and it can incorporate time-constant covariates and different timing effects. The ML‐SEM model is a standard SEM with autoregressive and cross-lagged parameter using only within-unit variation and a latent random intercept $\alpha$ factor soaking up all between‐unit variation.
 
 
 ```{tikz fig-mlsem, fig.cap = "Maximum likelihood structural equation fixed-effects dynamic panel model (Allison et al., 2017)"}
@@ -546,20 +548,21 @@ In implementation, the entire system of autoregressive and cross‐lagged equati
     hidden/.style = {
         draw = black,
         shape = circle,
-        inner sep = 1.5pt
+        inner sep = 2pt
     }
 }
 \tikz{
     \node (x1) at (0,0) {$X_1$};
     \node (x2) at (2,0) {$X_2$};
     \node (x3) at (4,0) {$X_3$};
+    \node (x4) at (6,0) {$X_4$};
     
-    \node (y1) at (-1,1) {$Y_1$};
+    \node (y1) at (0,2) {$Y_1$};
     \node (y2) at (2,2) {$Y_2$};
     \node (y3) at (4,2) {$Y_3$};
     \node (y4) at (6,2) {$Y_4$};
     
-    \node[hidden] (alpha) at (7,0) {$\alpha$};
+    \node[hidden] (alpha) at (-2,1) {$\alpha$};
     
     \node (ey2) at (2,3) {$\epsilon_{y_2}$};
     \node (ey3) at (4,3) {$\epsilon_{y_3}$};
@@ -577,20 +580,26 @@ In implementation, the entire system of autoregressive and cross‐lagged equati
     \path (alpha) edge [gray, thin] (y3);
     \path (alpha) edge [gray, thin] (y4);
     
-    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x3);
-    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x2);
-    \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (x1);
+    \path (alpha) edge [bend right=45, arrows = <->, gray, thin] (x1);
+    \path (alpha) edge [bend right=60, arrows = <->, gray, thin] (x2);
+    \path (alpha) edge [bend right=75, arrows = <->, gray, thin] (x3);
+    \path (alpha) edge [bend right=75, arrows = <->, gray, thin] (x4);
     \path (alpha) edge [bend left=45, arrows = <->, gray, thin] (y1);
     
     \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x1);
-    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x2);
-    \path (y1) edge [bend right=60, arrows = <->, gray, thin] (x3);
+    \path (y1) edge [bend right=75, arrows = <->, gray, thin] (x2);
+    \path (y1) edge [bend right=90, arrows = <->, gray, thin] (x3);
+    \path (y1) edge [bend right=90, arrows = <->, gray, thin] (x4);
     
     \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x2);
     \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    \path (x1) edge [bend right=45, arrows = <->, gray, thin] (x4);
     \path (x2) edge [bend right=45, arrows = <->, gray, thin] (x3);
+    \path (x2) edge [bend right=45, arrows = <->, gray, thin] (x4);
+    \path (x3) edge [bend right=45, arrows = <->, gray, thin] (x4);
     
     \path (x3) edge [bend left=80, arrows = <->, gray, thin] (ey2.225);
+    \path (x4) edge [bend left=80, arrows = <->, gray, thin] (ey3.225);
     
     \path (ey2) edge [gray, thin] (y2);
     \path (ey3) edge [gray, thin] (y3);
@@ -601,9 +610,9 @@ In implementation, the entire system of autoregressive and cross‐lagged equati
 
 ### Random intercept cross-lagged panel model
 
-The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random Intercept Cross-Lagged Panel Model (RI-CLPM). To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's ML-SEM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent variable is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
+The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random intercept cross-lagged panel model (RI-CLPM). To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's ML-SEM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent random intercept factor is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
 
-While @allison2017maximum's approach involves allowing this latent variable to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent variable defined by all observations $X_t$ over time, thus creating a random intercept for $X$ that varies between units. Treating such unit-specific random intercepts as random variables (as opposed to fixed parameters) usually implies that they do not capture all unobserved stable heterogeneity. However, in the RI-CLPM, the two latent variables reflecting random intercepts for $Y$ and $X$ (represented by $\alpha_Y$ and $\alpha_X$ in Figure @fig-riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. Figure @fig-riclpm depicts the the RI-CLPM.
+While @allison2017maximum's approach involves allowing latent random intercept factor to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent random intercept factor defined by all observations $X_t$ over time, thus creating a random intercept for $X$ that varies between units. Treating such unit-specific random intercepts as random variables (as opposed to fixed parameters) usually implies that they do not capture all unobserved stable heterogeneity. However, in the RI-CLPM, the two latent rando intercept factors for $Y_t$ and $X_t$ (represented by $\alpha_Y$ and $\alpha_X$ in @fig-riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. @fig-riclpm depicts the the RI-CLPM.
 
 ```{tikz fig-riclpm, fig.cap = "Random Intercept Cross-Lagged Panel Model (Hamaker et al., 2015)"}
 \usetikzlibrary{positioning}
@@ -622,32 +631,27 @@ While @allison2017maximum's approach involves allowing this latent variable to c
         draw = black,
         shape = circle,
         inner sep = .75pt
-    },
-    manifest/.style = {
-        draw = black,
-        shape = rectangle,
-        inner sep = 2.5pt
     }
 }
 \tikz{
-    \node[manifest] (x1) at (0,6) {$X_1$};
-    \node[manifest] (x2) at (2,6) {$X_2$};
-    \node[manifest] (x3) at (4,6) {$X_3$};
+    \node (y1) at (0,5) {$Y_1$};
+    \node (y2) at (2,5) {$Y_2$};
+    \node (y3) at (4,5) {$Y_3$};
     
-    \node[hidden] (wx1) at (0,4) {$WX_1$};
-    \node[hidden] (wx2) at (2,4) {$WX_2$};
-    \node[hidden] (wx3) at (4,4) {$WX_3$};
+    \node[hidden] (wy1) at (0,4) {$W_{Y_1}$};
+    \node[hidden] (wy2) at (2,4) {$W_{Y_2}$};
+    \node[hidden] (wy3) at (4,4) {$W_{Y_3}$};
     
-    \node[hidden] (wy1) at (0,2) {$WY_1$};
-    \node[hidden] (wy2) at (2,2) {$WY_2$};
-    \node[hidden] (wy3) at (4,2) {$WY_3$};
+    \node[hidden] (wx1) at (0,2) {$W_{X_1}$};
+    \node[hidden] (wx2) at (2,2) {$W_{X_2}$};
+    \node[hidden] (wx3) at (4,2) {$W_{X_3}$};
     
-    \node[manifest] (y1) at (0,0) {$Y_1$};
-    \node[manifest] (y2) at (2,0) {$Y_2$};
-    \node[manifest] (y3) at (4,0) {$Y_3$};
+    \node (x1) at (0,1) {$X_1$};
+    \node (x2) at (2,1) {$X_2$};
+    \node (x3) at (4,1) {$X_3$};
     
-    \node [hidden] (bx1) at (-3,5) {$\alpha_X$};
-    \node [hidden] (by1) at (-3,1) {$\alpha_Y$};
+    \node [hidden] (by1) at (-3,4.5) {$\alpha_Y$};
+    \node [hidden] (bx1) at (-3,1.5) {$\alpha_X$};
     
     \path (wx1) edge[gray, thin] (x1);
     \path (wx2) edge[gray, thin] (x2);
@@ -677,15 +681,15 @@ While @allison2017maximum's approach involves allowing this latent variable to c
     \path (wy1) edge (wx2);
     \path (wy2) edge (wx3);
     
-    \path (bx1) edge [bend right=45, arrows = <->] (by1);
-    \path (wx1) edge [bend right=45, arrows = <->] (wy1);
-    \path (wx2) edge [bend right=320, arrows = <->] (wy2);
-    \path (wx3) edge [bend right=320, arrows = <->] (wy3);
+    \path (bx1) edge [bend left=45, arrows = <->] (by1);
+    \path (wx1) edge [bend left=45, arrows = <->] (wy1);
+    \path (wx2) edge [bend right=45, arrows = <->] (wy2);
+    \path (wx3) edge [bend right=45, arrows = <->] (wy3);
     
   }
 ```
 
-To further ensure that only within-unit variation is taken into account, the RI-CLPM relies on a set of other latent variables. For each variable $Y_t$ and $X_t$, a new latent variable is estimated with a factor loading constrained to 1. These latent variables are represented in the diagram in Figure @fig-riclpm as $WY_t$ and $WX_t$. This implies that every single observed variable $Y_t$ and $X_t$ is defined by two latent variables: one capturing all differences between units (i.e., $\alpha_Y$ and $\alpha_X$), and one capturing everything else, i.e., within-unit differences (i.e., $WY_t$ and $WX_t$). Autoregressive and cross-lagged parameters are then included linking $WY_t$ and $WX_t$---resembling the traditional cross-lagged panel model, but exclusively focused on within-unit variation over time. By allowing both random intercepts to covary, the RI-CLPM ensures that all unobserved stable heterogeneity is accounted for; and by estimating autoregressive and cross-lagged effects on latent variables capturing only within-unit variation, the model ensures that cross-lagged estimates reflect change over time. The RI-CLPM can easily be extended to other common features in SEMs, such as multiple indicators, covariate adjustment, and multiple-group analysis [@mulder2021three].
+To further ensure that only within-unit variation is taken into account, the RI-CLPM relies on a set of other latent variables. For each variable $Y_t$ and $X_t$, a new latent variable is estimated with a factor loading constrained to 1. These latent variables are represented in the diagram in @fig-riclpm as $W_{Y_t}$ and $W_{X_t}$. This implies that every single observed variable $Y_t$ and $X_t$ is defined by two latent variables: one capturing all differences between units (i.e., $\alpha_Y$ and $\alpha_X$), and one capturing everything else, i.e., within-unit differences (i.e., $W_{Y_t}$ and $W_{X_t}$). Autoregressive and cross-lagged parameters are then included linking $W_{Y_t}$ and $W_{X_t}$---resembling the traditional cross-lagged panel model, but exclusively focused on within-unit variation over time. By allowing both latent random intercept factors to covary, the RI-CLPM ensures that all unobserved stable heterogeneity is accounted for; and by estimating autoregressive and cross-lagged effects on latent variables capturing only within-unit variation, the model ensures that cross-lagged estimates reflect change over time. The RI-CLPM can easily be extended to other common features in SEMs, such as multiple indicators, covariate adjustment, and multiple-group analysis [@mulder2021three].
 
 # Issue 3: Inter-temporal variation
 
