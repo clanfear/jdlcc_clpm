@@ -37,15 +37,31 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 * Theory and reciprocality
   * When do we expect reciprocal effects? In context of theory testing
-* The role of time
   * What are reciprocal effects *really*?
-     * There are no simultaneous effects
-     * Usually a time problem, either:
-       * Ambiguity from theory (i.e., reciprocality is substantive)
-       * COmpeting theory when they are specific (i.e., substantive, empirical adjudication problem)
-       * Purely empirical problem due to repeated observations (i.e., reciprocality is a nuisance)
-   * Separate theoretical and methodological concerns
-   * Strong theories should be specific about timing in causal processes; e.g., alcohol to disinhibition; well-defined, observed biological process (a pint today may give you a headache tomorrow but won't reduce self-control; zero contemporaneous headache).
+    * Often unexamined mechanisms, often operating at what one might call a "lower level" in a micro-macro model.
+    * Functional processes (Stinchcombe 1968)
+  * Two general forms:
+      * Theoretical reciprocality (i.e., substantively interesting)
+          * Theory says there is a feedback process
+          * Adjudicating between two theories that propose opposite causal directions
+       * Reverse causality (i.e., reciprocality is a nuisance) 
+  * Separate theoretical and methodological concerns
+
+
+<!--CCL: -->
+* The role of time
+  * There are no simultaneous effects; when researchers posit them, it is for convenience (Strotz & Wold 1960).
+
+* Estimands
+  * The estimand is the quantitative definition of the causal effect of interest, e.g., a difference in potential outcomes.
+  * Estimands do not exist out in the world; they are chosen by researchers.
+  * There is no "true causal timing" because causal timing is one of a number of choices a researcher makes when defining their estimand of interest. To illustrate, consider what is the true causal timing of drinking a pint of beer on your judgment? Consider this effect at 20 seconds, 20 minutes, and 20 hours. What about the effect on your thirst or your headache? Strong theories are specific about timing in causal processes and inform what sort of causal timings are of interest. Researchers need to make an argument that the estimand they are studying, including the timing of the effect, is useful and can be studied with the data they have. While we focus here on longitudinal data, this applies just as much to cross-sectional data, except there researchers have less control over what timings they may examine. Even provided otherwise identical estimands, discrepant results between studies may be due to different choices of causal timing (Gollob & Reichardt 1987; see also Vaisey & Miles 2017).
+
+
+Ref to Lundberg et al. (2021) but avoid getting into too much detail here
+
+<!-- CCL: Old lit on  e.g., GOllob & Reichardt 1987; Strotz & Wold 1960; and waaay on back -->
+
 
 * Introduce the CLPM
    * What must a model do to capture these?
@@ -58,15 +74,9 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 To illustrate our points, we consider two canonical longitudinal relationships in criminology. The first is the link between employment and offending---a focus of classic life‐course research [e.g., @sampson1992crime; @crutchfield2014get]. The second is the link between residents’ perceptions of neighborhood disorder and their fear of crime---a central topic for neighborhood scholars [@sampson2004seeing; @obrien2019looking]. In the employment–crime example, theory and policy concern center on the effect of employment on future offending, whereas in the fear–disorder example the direction of causation is itself debated.
 
-<!-- CCL: Disorder and fear annual review (not mine): 10.1146/annurev-criminol-011518-024638 -->
-<!-- TO: Done -->
-
 ## Employment and crime
 
 Life‐course studies routinely find that obtaining stable employment tends to reduce criminal behavior [@ramakers2017not; @lageson2012work]. The logic is straightforward. In the short run, being employed fills one’s time with routine activities and conventional social bonds, which constrains opportunities and incentives for offending [@cohen2010social; @hirschi1969causes]. In the long run, it is not employment per se but stable, committed work that enhances social control and thereby reduces crime [@sampson1993crime]. In other words, the accumulation of conventional ties and responsibilities that are often associated with stable employment provides identity and that deters future offending [@ramakers2017not]. For example, longitudinal reviews show that employed individuals have significantly lower recidivism rates than the unemployed [@uggen2008have; although see @crutchfield2014get]. Indeed, some experimental job‐program evaluations have found that random assignment to job training can yield lower subsequent crime [@redcross2011more]. 
-
-<!-- CCL: Would be nice to cite my friend Bob Crutchfield on complexity of the employment-crime link: 10.18574/nyu/9780814717073.001.0001 -->
-<!-- TO: Done above and here -->
 
 Crucially, the reverse causal path is also possible. After all, criminal arrests or behavior can lead to job loss [@crutchfield2014get]. Therefore, when estimating the effects on employment on crime, one needs to account for reverse causality. The crime $\rightarrow$ employment relationship is not of immediate substantive interest to most criminologists, so in this example we regard that as an endogeneity problem. Our substantive interest is in the effect of employment on later crime, treating any effects of crime involvement on employment as a nuisance and a source of bias which needs to be controlled for.
 
@@ -170,10 +180,12 @@ Yet, while the theoretical model displays a non-parametric representation of the
     \node (x1) at (0,0) {$X_1$};
     \node (x2) at (2,0) {$X_2$};
     \node (x3) at (4,0) {$X_3$};
-    \node (ey2) at (2.5,3) {$\epsilon_{2}$};
-    \node (ex2) at (2.5,-1) {$\zeta_{2}$};
-    \node (ey3) at (4.5,3) {$\epsilon_{3}$};
-    \node (ex3) at (4.5,-1) {$\zeta_{3}$};
+    
+    \node[hidden] (ey2) at (2.5,3) {$\epsilon_{2}$};
+    \node[hidden] (ex2) at (2.5,-1) {$\zeta_{2}$};
+    \node[hidden] (ey3) at (4.5,3) {$\epsilon_{3}$};
+    \node[hidden] (ex3) at (4.5,-1) {$\zeta_{3}$};
+    
     \path (x1) edge (x2);
     \path (x2) edge (x3);
     \path (x1) edge (y2);
@@ -182,9 +194,9 @@ Yet, while the theoretical model displays a non-parametric representation of the
     \path (y2) edge (y3);
     \path (y1) edge (x2);
     \path (y2) edge (x3);
-    \path (x1) edge [bend left=60, arrows = <->] (y1);
-    \path (ex2) edge [bend right=30, arrows = <->] (ey2);
-    \path (ex3) edge [bend right=30, arrows = <->] (ey3);
+    \path (x1) edge [gray, thin, bend left=60, arrows = <->] (y1);
+    \path (ex2) edge [gray, thin, bend right=30, arrows = <->] (ey2);
+    \path (ex3) edge [gray, thin, bend right=30, arrows = <->] (ey3);
     \path (ex2) edge (x2);
     \path (ex3) edge (x3);
     \path (ey2) edge (y2);
@@ -198,11 +210,11 @@ Yet, while the theoretical model displays a non-parametric representation of the
     \node (x2b) at (8,0) {$X_2$};
     \node (x3b) at (10,0) {$X_3$};
     
-    \node (ey1b) at (6.5,3) {$\epsilon_{1}$};
-    \node (ey2b) at (8.5,3) {$\epsilon_{2}$};
-    \node (ex2b) at (8.5,-1) {$\zeta_{2}$};
-    \node (ey3b) at (10.5,3) {$\epsilon_{3}$};
-    \node (ex3b) at (10.5,-1) {$\zeta_{3}$};
+    \node[hidden] (ey1b) at (6.5,3) {$\epsilon_{1}$};
+    \node[hidden] (ey2b) at (8.5,3) {$\epsilon_{2}$};
+    \node[hidden] (ex2b) at (8.5,-1) {$\zeta_{2}$};
+    \node[hidden] (ey3b) at (10.5,3) {$\epsilon_{3}$};
+    \node[hidden] (ex3b) at (10.5,-1) {$\zeta_{3}$};
     
     
     \path (x1b) edge (x2b);
@@ -238,7 +250,7 @@ Instead, reciprocal effects over time are most often a threat when the exposure 
 
 Reverse causality refers to situations in which researchers are primarily interested in assessing the effects of an exposure on an outcome but are concerned about the possibility that the outcome also influences future exposures. From our empirical example, assessing the effects of employment on crime involvement is of particular theoretical and policy relevance [@sampson1993crime; @crutchfield2014get]; in order to assess that relationship, however, one needs to take into account that offending behavior may also have an effect on future employment, even though examining prospects of job loss following a criminal arrest or behavior is not of substantive interest. This is a classic endogeneity problem, in which not controlling for reverse causality introduces bias. This has been a long concern of econometricians---e.g., the Arellano-Bond estimator, which is essentially a cross-lagged panel model, was developed specifically to control for reverse causality [@arellano1991some; @moral2019dynamic]. When dealing with reverse causality, researchers have a predefined exposure and an outcome of interest and simply aiming to control away the effects of the outcome on the exposure over time.
 
-> CCL: The canonical Arellano-Bond is one side of a CLPM with contemporaneous effects and unit fixed effects (Y = beta X + rhoY + alpha), so it assumes a particular time structure to reciprocality; i.e., that x -> y is fast and y -> x is slow (no contemporaneous feedback). The main issue it tries to deal with is endogeneity (in econ terms) resulting from first differencing / unit fixed effects with a lagged DV. Note Allison also focuses on this contemporaneous effect model in the 2018 paper in Applied Economics. His Socius paper, though, only has lagged effects on both sides.
+<!-- CCL: CCL: The canonical Arellano-Bond is one side of a CLPM with contemporaneous effects and unit fixed effects (Y = beta X + rhoY + alpha), so it assumes a particular time structure to reciprocality; i.e., that x -> y is fast and y -> x is slow (no contemporaneous feedback). The main issue it tries to deal with is endogeneity (in econ terms) resulting from first differencing / unit fixed effects with a lagged DV. Note Allison also focuses on this contemporaneous effect model in the 2018 paper in Applied Economics. His Socius paper, though, only has lagged effects on both sides. -->
 
 What we call theoretical reciprocality, on the other hand, refers to situations in which the directionality of the effects is ambiguous. This could due to, for instance, competing theories suggesting opposing pathways between two variables [@sturgis2004using]. From our empirical example, some researchers argue that perceived disorder leads to increases in fear of crime [@kelling1982broken] whereas others approach this relationship from the opposite direction, arguing that fear of crime leads local residents to view disorderly signs in the neighborhood as problematic [@sampson2004seeing; @jackson2004experience]. This theoretical ambiguity implies that reciprocality is an empirical problem---a question that can be adjudicated by theory testers [@brunton2011untangling]. When dealing with theoretical reciprocality, researchers often do not have a predefined exposure and an outcome of interest and instead aim to assess both directions.
 
@@ -248,19 +260,17 @@ In both cases, the theoretical model will highlight the threat of reciprocal rel
 
 For the discussion that follows, let us assume that in both example cases we have three waves of panel data with yearly waves of observation and continuous measures of our concepts. In our first example---the effect of employment on offending and attendant reverse causality---employment is measured as the proportion of days spent employed in the last year and offending is a self-reported count of offenses committed in the past year. In both cases, the measures are taken at survey time but describe conditions or events occurring some time over the span of the year prior to each survey wave. In our second example---the theoretical reciprocal effects of perceived disorder and fear of crime---both perceived disorder and fear of crime are measured at survey time with continuous measures derived from batteries of multiple indicators. That is, we observe respondents' "current" perceptions of disorder in their neighborhood and their "current" fear of crime in that neighborhood. 
 
-> CCL: Define estimands here but make them ones people really want not ones that are easy to estimate, e.g., employment -> offending is prob roughly instantaneous but measurement means time-varying confounding will be serious problem. Could expand thinking about disorder as it doesn't exactly have time varying confounding unless one is interested in real exposure to disorder, which we know happened in past, but has an uncertain time association with perceptions.
+<!-- CCL: Define estimands here but make them ones people really want not ones that are easy to estimate, e.g., employment -> offending is prob roughly instantaneous but measurement means time-varying confounding will be serious problem. Could expand thinking about disorder as it doesn't exactly have time varying confounding unless one is interested in real exposure to disorder, which we know happened in past, but has an uncertain time association with perceptions. -->
 
-> CCL: For employment, if your theory is control theory that says employment restrains crime by keeping you busy, you can an instantaneous contemporaneous effect. That's a challenge for CLPMs!
+<!-- CCL: CCL: For employment, if your theory is control theory that says employment restrains crime by keeping you busy, you can an instantaneous contemporaneous effect. That's a challenge for CLPMs! -->
 
 ## Example statistical models
 
 ## Time
 
-> CCL: Probably best to approach this with Rohrer's framing that "true causal timing" should prob be abandoned and replaced with a well-defined estimand; the timing is a choice, e.g., what is the correct causal timing for the effect of drinking a pint on your judgment? Consider this effect at 20 seconds, 20 minutes, and 20 hours. What about on your thirst or your headache? Strong theory---whether from knowledge of biological mechanisms or personal experience---informs what sort of causal timings are of interest. This framing is useful because it allows us to hammer on theory even more; you can't just toss variables in and assume what you see is the "true process". Authors need to make an argument that the time lag they're studying is useful and can be studied with the data they have.
 
-> CCL: This also sets up an important interpretation point raised by Rohrer: discrepant results between studies may purely be due to different time lags. Old lit on this, e.g., GOllob & Reichardt 1987
 
-Theory is recursive and operates at some defined pace---often discrete but sometimes continuous---but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated in @fig-time-dag-unobs. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
+Theory is recursive and operates at some defined pace---often discrete but sometimes continuous---but practical limitations of measurement result in snapshots or waves of data. The widths of time intervals between waves are usually determined by pragmatic considerations rather than theory, and thus the timing of observations rarely corresponds to the timing we expect in our theories. Often timing is inconsistent across variables as well, e.g., measures describing activities in the past year sit alongside measures of present perceptions. More generally, we can imagine the discordance between our theoretical model and our empirical data collection as a missing data or latent variable problem as illustrated earlier in panel (b) of @fig-sem-clpm. As noted, in the real world, time is continuous, so one might imagine there exists an infinite number of these "missing waves" between observations. Whether explicit or not, researchers alway make assumption about the way variables and relationships operate within these unobserved intervals. Theory should and sometimes even does provide a guide to what assumptions are reasonable to make.
 
 ```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
 \usetikzlibrary{positioning}
@@ -315,68 +325,24 @@ Theory is recursive and operates at some defined pace---often discrete but somet
 
 When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process.
 
-> CCL: Focus will be on when processes we are interested in are faster than our data are observed. When your data are more granular, it is not a problem, because you can either aggregate the data or, better yet, specify more complicated lag structures.
+<!-- CCL: Focus will be on when processes we are interested in are faster than our data are observed. When your data are more granular, it is not a problem, because you can either aggregate the data or, better yet, specify more complicated lag structures. -->
 <!-- TO: I made this point in my LDA course too. At this point, it's just a matter of finding the optimal level of aggregation---not different from when dealing with spatial data -->
 
 For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than over course of a year---more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity (i.e., real disorder out in the world). For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive causal model (i.e., a DAG). As a result, @fig-time-dag-obs illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships, here represented by the dashed and double-headed arrows.
 
 
-```{tikz fig-time-dag-obs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with ambiguous contemporaneous relations."}
-\usetikzlibrary{positioning}
-\definecolor{black}{HTML}{000000}
-\tikzset{
-    > = stealth,
-    every node/.append style = {
-        draw = none
-    },
-    every path/.append style = {
-        arrows = ->,
-        draw = black,
-        fill = none
-    },
-    hidden/.style = {
-        draw = black,
-        shape = circle,
-        inner sep = 1pt
-    }
-}
-\tikz{
-    \node (y1) at (0,2) {$Y_1$};
-    \node (y2) at (2,2) {$Y_2$};
-    \node (y3) at (4,2) {$Y_3$};
-    \node (x1) at (0,0) {$X_1$};
-    \node (x2) at (2,0) {$X_2$};
-    \node (x3) at (4,0) {$X_3$};
-    
-    \path (x1) edge (x2);
-    \path (x2) edge (x3);
-    
-    \path (x1) edge (y2);
-    \path (x2) edge (y3);
-    
-    \path (y1) edge (y2);
-    \path (y2) edge (y3);
-    
-    \path (y1) edge (x2);
-    \path (y2) edge (x3);
-    
-    \path (x1) edge [bend right=60, arrows = <->, dashed] (y1);
-    \path (x2) edge [bend right=60, arrows = <->, dashed] (y2);
-    \path (x3) edge [bend right=60, arrows = <->, dashed] (y3);
-  }
-```
 
 
 ### Temporality and composite variables
 
 Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, we will distinguish between two types of measure, which we will call *instantaneous variables* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
 
-> CCL: Instantaneous measures have an advantage that you can easily define a counterfactual and not worry so much about late confounding even cross-lag confounding; that stuff is all post-treatment issues. But it still requires some assumptions about how the instant measure relates to the proximate causal one varying over time, e.g., about how stable it is.
+<!-- CCL: Instantaneous measures have an advantage that you can easily define a counterfactual and not worry so much about late confounding even cross-lag confounding; that stuff is all post-treatment issues. But it still requires some assumptions about how the instant measure relates to the proximate causal one varying over time, e.g., about how stable it is. -->
 
 In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of composite period measures. When our observation periods do not correspond to the timing of our underlying causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sum of values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them. This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address [see @berrie2025depicting]. 
 
 
-> CCL: Between these two types of measures are what Mulder et al. refer to as "time aggregation" of variables, where the measurement represents some average over the time period. They focus on survey measures asking respondents to report how they felt on average over a period of time. It seems like quite a stretch to consider these composite variables, so it would be better to approach them with common thinking around recall bias.
+<!-- CCL: CCL: Between these two types of measures are what Mulder et al. refer to as "time aggregation" of variables, where the measurement represents some average over the time period. They focus on survey measures asking respondents to report how they felt on average over a period of time. It seems like quite a stretch to consider these composite variables, so it would be better to approach them with common thinking around recall bias. -->
 
 ```{tikz fig-app-latent, fig.cap = "Reciprocality due to composite period variable. Circled variables are latent. Double-arrows indicate observed variables are composite variables determined by their parents"}
 \usetikzlibrary{positioning}
@@ -488,9 +454,7 @@ In contrast, a period measure is one where the measured value corresponds to som
 
 <!-- TO: This is such a cool point -->
 
-> CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes.
-
-> CCL: Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/
+<!-- CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes. Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/ -->
 
 Composite measures present unique challenges for causal inference [@berrie2025depicting]. 
 
@@ -507,9 +471,9 @@ Composite measures present unique challenges for causal inference [@berrie2025de
 
 Once the theoretical model has been established, one can proceed to developing a statistical model that accounts for the constraints from the research design---including ambiguity about causal directions. Here, path diagrams from the structural equation modeling (SEM) tradition become useful. SEM diagrams encode both causal relations between variables---indicated by single-headed arrows pointing from cause to effect---and unanalyzed, unexplained, or "nuisance" associations---indicated by double-headed arrows pointing between two variables. That is, one explicitly distinguishes between causal relationships and ambiguous associations. Variables with any causal path leading into them are termed "endogenous" variables and those with no causal path leading into them are termed "exogenous". SEM diagrams depart from most DAGs by depicting the residuals or unexplained variation of endogenous variables as latent variables causally affecting the observed variable.
 
-> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
+<!-- TO: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes. -->
 
-> Chuck: I need to read the above and revisit other materials to clean my language up. I am not confident the way I distinguish between "causal" and the rest of the model corresponds to the classic SEM distinction of structural model vs. measurement model, i.e., the residual covariances are still part of the structural model, I think.
+<!-- CCL: Chuck: I need to read the above and revisit other materials to clean my language up. I am not confident the way I distinguish between "causal" and the rest of the model corresponds to the classic SEM distinction of structural model vs. measurement model, i.e., the residual covariances are still part of the structural model, I think. -->
 
 Our recommendation is that the causal part of the SEM diagram should be recursive, corresponding as closely as possible to the theoretical model. Reciprocal simultaneous effects should generally be avoided as they require strong identifying assumptions, e.g., valid and relevant instrumental variables (Green 2003; XXXX). When the timing of observation results in ambiguity regarding the causal direction within any given time period---such as when periods $t=1.5$ and $t=2.5$ were not observed in Fig XXX---we encode this ambiguity as an unanalyzed covariance between the variables in question. When the timing of observations closely corresponds to theory, these covariances are unnecessary and the resulting statistical model similarly corresponds directly to the theoretical model.
 
@@ -519,7 +483,7 @@ For both examples, following these guidelines leads us to the "classic" three-wa
 In principle, the classic CLPM permits identification of the cross-lagged effects under conventional assumptions common to most causal inference approaches (see Morgan & Winship; Wooldridge) and in paticular mediation analysis, e.g. sequential ignorability . In application, researchers using the classic CLPM may easily fall prey to a number of common issues that, if unaddressed, result in misleading inferences. Rather than providing an exhaustive list of problems that can arise with CLPMs, we focus on the three key issues we believe are the most important for researchers in developmental and life course criminology to be aware of due to the frequency with which they will be encountered and the severity of their effect on inferences: a) improperly specified temporal order, b) unobserved heterogeneity, c) insufficient inter-temporal variation. 
 
 
-> Thiago: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes.
+<!-- TO: Bollen & Pearl 2009 provide a nice discussion about the notational relationship between SEM path diagrams and DAGs.We should also look at Imai & Kim's three papers on causal inference with panel data. They use DAGs and they're so well written. I don't think they discuss reciprocal effects at all (could be wrong), but we could rely on them from a notational point of view in using DAGs to depict temporal processes. -->
 
 
 
@@ -528,8 +492,7 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 * One para introducing the three key issues
 
-
-> DIVVY UP AFTER
+<!-- divvy up after -->
 
 # Issue 1: Temporal Order
 
