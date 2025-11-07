@@ -26,6 +26,13 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 # Introduction
 
+<!-- THIAGO -->
+
+Reciprocal relationships and reverse causality are a common feature of criminological theories. In some cases, theories suggest that two variables are reciprocally related, reproducing each other over time in a vicious cycle. For example, labeling theory suggests individuals labelled as criminals are more likely to engage in criminal activity, which then contributes to reinforce their labels as criminals, forming a cyclic pattern of criminal reproduction [@becker1963outsiders]. In other cases, competing theories suggest distinct explanations in relation to the causal direction of an established association. For example, social disorganization theories suggest social and physical disorder in the neighborhood increases people's fear of crime, whereas socio-psychological theories suggest that fear of crime contributes to heightened perceptions neighborhood disorder [@sampson2004seeing; @jackson2004experience]. In other cases, theories suggest a causal effect of a treatment on an outcome, while also cautioning that the outcome can also affect the treatment over time. For example, developmental and life-course criminology suggests that stable employment reduces criminal behavior, whereas criminal behavior can sometimes also lead to job loss [@ramakers2017not; @crutchfield2014get]. Across all these examples, reciprocality is at the heart of the blablabla.
+
+
+
+
 * Initial hook
   * Tell you how to use a CLPM
   * When do you use a CLPM? [DO this later in detail]
@@ -449,6 +456,9 @@ In contrast, a period measure is one where the measured value corresponds to som
 
 <!-- CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes. Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/ -->
 
+
+<!-- CHUCK -->
+
 Composite measures present unique challenges for causal inference [@berrie2025depicting]. 
 
 * Ignorability: Need to deal with all confounders for each parent, but these may be different.
@@ -489,15 +499,36 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 # Issue 1: Temporal Order
 
-* GEtting lag specification wrong is a big issue
-* THis assumes true or approximately true lag specification
-* Unusual form of bias as documented by Vaisey & Miles that can flip signs:
-   * If true model is $y = \beta x_t + \alpha_i + e_{it}$ and you fit $y = \beta^* x_{t-t} + \alpha_i + e_{it}$, $E(\beta^*) = -0.5\beta$, i.e., as [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/) says "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect".
+<!-- CHUCK -->
+
+* Getting lag specification wrong is a big issue
+* This assumes true or approximately true lag specification
+* Specify the lag structure correctly for your estimand
+
+Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure. Simulations specifying such effects show that incorrect specification of temporal lags can produce estimates with severe bias including flipped signs. As Vaisey & Miles (XXXX) document, if the "true" true model is $y = \beta x_t + \alpha_i + e_{it}$ (contemporaneos effect of $x$) and you fit $y = \beta^* x_{t-1} + \alpha_i + e_{it}$ (a lagged effect of $x$), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+
+* Largely about being wrong when there is ambiguity in the contemporaneous effect.
+* But these correspond to different estimands!
+   * Is this then a misspecification problem?
+      * If the one of interest is the lag, then strong assumption that there is no contemporaneous association
+      * If that is case, you're probably worried about reverse causality and thus should be fitting the covariance
+
+* How does the composite time variable factor into this?
+   * Does it get addressed in any way by the contemporaneous covariance?
+
 * Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
    * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
+   * A true null effect for a particular time lag may be compatible with a non-null effect at a different time period.
+   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+
+
 * Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+* Estimand thinking will help a lot here
 
 ## Solutions
+
+
+* Determining which lags are of theoretical interest is an exploratory research question.
 
 * Theoretical ideal: Get it right
 * Vaisey & Miles: Do both lagged and contemporaneous
@@ -510,41 +541,27 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 # Issue 2: Unobserved heterogeneity
 
-* Probably the most commonly encountered issue; but also pretty much solved!
-* Most common concern is stable traits
-   * While really same problem, we treat time-varying and time-stable confounders as different problems in longitudinal models
-   * Autoregressive term alone does not solve problem
-   * Can't just toss in fixed effects due to Nickell bias from endogenous lag (shrinks in proportion to T); Arellano-Bond (and thus Allison) is removing Nickell bias
+<!-- THIAGO -->
 
-* Including time-stable covariates in FE models
+One of the biggest advantages of drawing on longitudinal data is the ability to focus exclusively on within-unit variation (i.e., change over time) and control away any stable, trait-like differences between units [@imai2019should; @allison2017maximum]. For example, by only drawing on within-unit variation, the family of regression models known as fixed effects models ensure that any confounding bias emerging from time-constant confounders is immediately accounted for [although see @imai2019should]. In the traditional cross-lagged panel model, autoregressive paths are supposed to serve as a proxy for fixed effects, capturing all stable heterogeneity, thus accounting for time-invariant traits and ensuring that cross-lagged paths reflect effects on change over time.
 
-* Might also raise treatment heterogeneity here as different but related issue not as easily addressed in CLPMs as in TWFE
-   * DEvelopmental theories often specify age-specific (life stage) treatment heterogeneity
-   * Freeing the parameter by wave allows for time heterogeneity but also effects to differ because wave spacing is different
-     * One reason for treatment heterogeneity among individuals is differing measurement times within waves
-   * Exception is time-specific treatment heterogeneity which is easily permitted by allowing wave-specific parameters as in Allison's model
-   * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
-* Predetermined regressors (weakly exogenous, sequentially exogenous)
+However, autoregressive parameters alone are not sufficient to remove all unobserved stable heterogeneity [@morgan2014counterfactuals]. Any stable between-person unit---that therefore influences both an outcome $Y_t$ and a lagged outcome $Y_{t-1}$---creates a spurious association between the two variables that the model incorrectly attributes to within-unit dynamics. This inflated association then contaminates the the cross-lagged coefficients [@hamaker2015critique], which no longer reflects *only* effects on change over time. This implies that the standard CLPM conflates within-unit change with between-unit differences, and cross-lagged estimates can reflect both sources of variation. 
 
-One of the biggest advantages of drawing on longitudinal data is the ability to focus exclusively on within-unit variation (i.e., change over time) and control away any stable, trait-like differences between units [@imai2019should; @allison2017maximum]. For example, by only drawing on within-unit variation, the family of regression models known as fixed effects models ensure that any confounding bias emerging from time-constant confounders is immediately accounted for [@allison2009fixed]. In the traditional cross-lagged panel model, autoregressive paths are supposed to serve as a proxy for fixed effects, capturing all stable heterogeneity and thus accounting for time-invariant traits.
+If autoregressive parameters alone do little to adjust for all unobserved time-stable confounders, one might contemplate including some fixed-effects estimator [e.g., within-unit demeaning; see @allison2009fixed]. However, this strategy introduces other problems. @imai2019should showed that unit fixed effects only consist of a non-parametric solution to adjusting for all time-stable heterogeneity under the assumption of no reverse causality or causal dynamics---that is, the assumption that past outcome does not affect current treatment, and that past treatment does not affect current outcome. Such dynamic relationships are precisely the issue that CLPMs attempt to address, so they cannot be assumed away. In addition, including fixed effects alongside autoregressive parameters in a dynamic panel model can lead to the well-known *Nickell bias*: estimates are downward biased with few periods (i.e., small $T$) because of the connection between the lagged outcome and the fixed effects [@wooldridge2010econometric]. In the econometrics literature, this is usually solved with the Arellano-Bond estimator [@arellano1991some], which removes Nickel bias and adjusts for unobserved stable heterogeneity---but it yields biased estimates with small samples and when the autoregressive parameter is near 1 (i.e., highly stable over time).
 
-However, autoregressive parameters alone are not sufficient to remove all unobserved stable heterogeneity [@morgan2014counterfactuals]. Any stable between-person trait that influences both variables creates a spurious association that the model incorrectly attributes to within-unit dynamics, contaminating the the cross-lagged coefficients [@hamaker2015critique]. This implies that the standard CLPM conflates within-unit change with between-unit differences, and cross-lagged estimates can reflect both sources of variation. Autoregressive parameters alone, therefore, do little to adjust for all unobserved time-stable confounders.
-
-One might attempt to control for stable heterogeneity by using some fixed-effects estimator (e.g., within‐unit demeaning) or by including time‐invariant covariates, but these strategies introduce other problems. @imai2019should showed that unit fixed effects only consist of a non-parametric solution to removing time-constant confounding bias under the assumption of no causal dynamics---that is, past outcome not affecting current treatment, or past treatment not affecting current outcome, which is precisely the issue that CLPMs attempt to address. In a dynamic panel model with a lagged outcome, including unit fixed effects leads to the well-known *Nickell bias*: estimates are downward biased with few periods (i.e., small $T$) because of the connection between the lagged dependent variable and the fixed effects [@wooldridge2010econometric]. This is usually solved with the Arellano-Bond estimator [@arellano1991some], which removes Nickel bias and adjusts for unobserved stable heterogeneity---but it yields biased estimates with small samples and when the autoregressive parameter is near 1 (i.e., highly stable over time).
-
-In short, neither a simple autoregressive specification nor a naïve fixed‐effects regression will necessarily handle unobserved stable heterogeneity. The standard CLPM relies on autoregressive parameters to capture temporal stability, but this does not eliminate stable heterogeneity. Any unmodeled time-stable confounder can bias the cross-lagged parameters, so CLPMs that ignore unobserved heterogeneity risk conflating between‐unit stability with within‐unit change.
+Stable unobserved heterogeneity is therefore an important issue. The standard CLPM relies on autoregressive parameters to capture temporal stability, but this does not properly ensures that only within-unit variation is taken into account. Any unmodeled time-stable confounder can bias the cross-lagged parameters, which end up conflating within-unit change with between-unit differences. The Arellano-Bond estimator of the dynamic panel model can solve this issue by including fixed effects, but it has other limitations.
 
 ## Solutions
 
-While the traditional CLPM cannot properly account for unobserved stable heterogeneity, some relatively recent extensions of the CLPM yield robust estimators that draw only on within-unit variation and effectively control for all unobserved time-stable traits [@leszczensky2019deal]. Specifically, @allison2017maximum's maximum likelihood structural equation fixed-effects dynamic panel method (ML-SEM) and @hamaker2015critique's random intercept cross-lagged panel model (RI-CLPM) model reciprocality and account for unobserved, time-stable features that impact both $Y_t$ and $X_t$.
+While the traditional CLPM cannot properly account for unobserved stable heterogeneity, some relatively recent extensions of the CLPM yield robust estimators that draw only on within-unit variation and effectively control for all unobserved time-stable traits [@leszczensky2019deal]. Specifically, Allison et al.'s [-@allison2017maximum] maximum likelihood structural equation fixed-effects dynamic panel method (ML-SEM) and Hamaker et al.'s [-@hamaker2015critique] random intercept cross-lagged panel model (RI-CLPM) model reciprocality and account for unobserved, time-stable features that impact both $Y_t$ and $X_t$.
    
 ### Fixed-effects dynamic panel model with maximum likelihood
 
 In ML‐SEM [@allison2017maximum], a standard dynamic panel model (with a lagged dependent variable) is recast as a structural equation model that explicitly partials out all unobserved stable heterogeneity. In practice, latent random intercept factor (often denoted $\alpha$) is introduced with a factor loading constrained to 1 on every observed $Y_t$. This latent random intercept factor is the same as the one often included in latent growth curve models (e.g., a random intercept reflecting the starting point of latent trajectories) and represents all between-unit differences. By fixing the factor loadings of the random intercept to 1, the model effectively "demeans" each unit’s scores and thus conditions out all time‐constant heterogeneity. 
 
-Crucially, this latent random intercept factor is allowed to freely covary with all the time‐varying exogenous predictors (including any predetermined regressors and the initial outcome $Y_1$). This model is exactly a correlated‐random‐effects model [@mundlak1978pooling]: by letting $\alpha$ correlate without restriction with the $X$’s, the SEM mimics a fixed‐effects specification (the contrast being that a classical random‐effects model would force $\alpha$ to be independent of $X$). As @allison2017maximum note, allowing $\alpha$ to covary with $X$'s enforces a fixed-effects model that accounts for all unobserved, stable confounders. This means that the ML-SEM assumes a key outcome (e.g., $Y$) and a key predictor (e.g., $X$) of interest, and the whole model is set in such a way so as to find effects of the predictor on the outcome (e.g., cross-lagged and/or contemporaneous effects of $X$ on $Y$) while accounting for a potential covariance between past outcome ($Y_{t-1}$) and current predictor ($X_t$). If cross-lagged or contemporaneous effects of the outcome $Y$ (e.g., $Y_{t-1}$ or $Y_t$) on the predictor $X_t$ are also of substantive interest, one needs to fit a separate ML-SEM with that specification.
+Crucially, this latent random intercept factor is allowed to freely covary with all the time‐varying exogenous predictors (including any predetermined regressors and the initial outcome $Y_1$). This model is exactly a correlated‐random‐effects model [@mundlak1978pooling]: by letting $\alpha$ correlate without restriction with all $X$’s, the SEM mimics a fixed‐effects specification (the contrast being that a classical random‐effects model would force $\alpha$ to be independent of $X$). As @allison2017maximum note, allowing $\alpha$ to covary with $X$'s enforces a fixed-effects model that accounts for all unobserved, stable confounders. This means that the ML-SEM assumes a key outcome (e.g., $Y$) and a key predictor (e.g., $X$) of interest, and the whole model is set in such a way so as to find effects of the predictor on the outcome (e.g., cross-lagged and/or contemporaneous effects of $X$ on $Y$) while accounting for a potential covariance between past outcome ($Y_{t-1}$) and current predictor ($X_t$). If cross-lagged or contemporaneous effects of the outcome $Y$ (e.g., $Y_{t-1}$ or $Y_t$) on the predictor $X_t$ are also of substantive interest, one needs to fit a separate ML-SEM with that specification.
 
-In implementation, the entire system of autoregressive and cross‐lagged equations is cast as a single SEM. For example, each outcome ($Y_t$) is regressed on its lagged value ($Y_{t-1}$), on a contemporaneous ($X_t$) and/or a lagged value of the predictor ($X_{t-1}$), and on a latent random intercept factor $\alpha$ with a constrained loading---here specified as a fixed effect. @fig-mlsem illustrates the ML-SEM with four waves.^[The ML-SEM requires at least four waves of data to be implemented.] $\alpha$ represents the latent random intercept factor as is reflected by all observations $Y_t$ (except for the initial observation $Y_{t=1}$) with factor loadings constrained to 1, and all $X_t$ are allowed to correlate with $\alpha$ (and with each other and with $Y_1$). In this setup, the first observation $Y_1$ is treated like any exogenous covariate. Importantly, observed time-varying regressors ($X_t$) are specified as predetermined---that is, they are allowed to correlate with past residuals (i.e., with $\epsilon_{y,t-1}$), reflecting the idea that predictors may be influenced by prior outcomes. The model is equivalent to the Arellano-Bond method estimated with the generalized method of moments [@arellano1991some], but it requires no stationarity assumption on initial conditions (given that initial observations $Y_1$ and $X_1$ are simply treated as additional exogenous predictors). The ML-SEM also expands upon the Arellano-Bond method as it can handle missing data with full information maximum likelihood, it can easily extend to multiple indicators, and it can incorporate time-constant covariates and different timing effects. The ML‐SEM model is a standard SEM with autoregressive and cross-lagged parameter using only within-unit variation and a latent random intercept $\alpha$ factor soaking up all between‐unit variation.
+In implementation, the entire system of autoregressive and cross‐lagged equations is cast as a single SEM. For example, each outcome ($Y_t$) is regressed on its lagged value ($Y_{t-1}$), on a contemporaneous ($X_t$) and/or a lagged value of the predictor ($X_{t-1}$), and on a latent random intercept factor $\alpha$ with a constrained loading---here specified as a fixed effect. @fig-mlsem illustrates the ML-SEM with four waves.^[The ML-SEM requires at least four waves of data to be implemented.] $\alpha$ represents the latent random intercept factor as is reflected by all observations $Y_t$ (except for the initial observation $Y_{t=1}$) with factor loadings constrained to 1, and all $X_t$ are allowed to correlate with $\alpha$ (and with each other and with $Y_{t=1}$). In this setup, the first observation $Y_{t=1}$ is treated like any exogenous covariate. Importantly, observed time-varying regressors ($X_t$) are specified as predetermined---that is, they are allowed to correlate with past residuals (i.e., with $\epsilon_{y,t-1}$), reflecting the idea that predictors may be influenced by prior outcomes. The model is equivalent to the Arellano-Bond method estimated with the generalized method of moments [@arellano1991some], but it requires no stationarity assumption on initial conditions (given that initial observations $Y_{t=1}$ and $X_{t=1}$ are simply treated as additional exogenous predictors). The ML-SEM also expands upon the Arellano-Bond method as it can handle missing data with full information maximum likelihood, it can easily extend to multiple indicators, and it can incorporate time-constant covariates and different timing effects. The ML‐SEM model is a standard SEM with autoregressive and cross-lagged parameter using only within-unit variation and a latent random intercept $\alpha$ factor soaking up all between‐unit variation.
 
 
 ```{tikz fig-mlsem, fig.cap = "Maximum likelihood structural equation fixed-effects dynamic panel model (Allison et al., 2017)"}
@@ -625,9 +642,9 @@ In implementation, the entire system of autoregressive and cross‐lagged equati
 
 ### Random intercept cross-lagged panel model
 
-The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is @hamaker2015critique's Random intercept cross-lagged panel model (RI-CLPM). To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to @allison2017maximum's ML-SEM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent random intercept factor is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
+The other alternative to the traditional cross-lagged panel model that actually controls for unobserved stable heterogeneity is Hamaker et al.'s [-@hamaker2015critique] random intercept cross-lagged panel model (RI-CLPM). To ensure that the model only takes into account change over time, the RI-CLPM explicitly models within-unit and between-unit variances as separate attributes. Similar to Allison et al.'s [-@allison2017maximum] ML-SEM, the first step involves estimating a latent variable that captures all stable variation between units---again drawing on the latent growth curve model specification, this latent random intercept factor is defined by all observations $Y_t$ over time with factor loadings contrained to 1, essentially creating a random intercept for $Y$ that varies between units.
 
-While @allison2017maximum's approach involves allowing latent random intercept factor to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent random intercept factor defined by all observations $X_t$ over time, thus creating a random intercept for $X$ that varies between units. Treating such unit-specific random intercepts as random variables (as opposed to fixed parameters) usually implies that they do not capture all unobserved stable heterogeneity. However, in the RI-CLPM, the two latent rando intercept factors for $Y_t$ and $X_t$ (represented by $\alpha_Y$ and $\alpha_X$ in @fig-riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. @fig-riclpm depicts the the RI-CLPM.
+While the ML-SEM involves allowing the latent random intercept factor to covary with pretedermined regressors---which implies treating it as a fixed effect that captures all unobserved stable heterogeneity---the RI-CLPM instead repeats the process and creates another latent random intercept factor defined by all observations $X_t$ over time, thus creating another latent random intercept for $X$ that varies between units. Treating such unit-specific random intercepts as random variables (as opposed to fixed parameters) usually implies that they do not capture all unobserved stable heterogeneity. However, in the RI-CLPM, the two latent random intercept factors for $Y_t$ and $X_t$ (represented by $\alpha_Y$ and $\alpha_X$ in @fig-riclpm) are allowed to covary, which ensures that they capture all unobserved stable heterogeneity across both variables. @fig-riclpm depicts the the RI-CLPM.
 
 ```{tikz fig-riclpm, fig.cap = "Random Intercept Cross-Lagged Panel Model (Hamaker et al., 2015)"}
 \usetikzlibrary{positioning}
@@ -708,28 +725,17 @@ To further ensure that only within-unit variation is taken into account, the RI-
 
 # Issue 3: Inter-temporal variation
 
-* Maybe show some illustrative math here to show that $Var(Y_2|Y_1) \rightarrow 0$ as $\rho(Y_1,Y_2) \rightarrow 1$ approaches 1; i.e., you rapidly run out of anything to explain.
-   * This is essentially a multicollinearity problem: Unbiased and consistent but high variance in estimates makes any particular estimate suspect.
-  * From time series lit: Stronger your autoregressive term is, the less there is to explain; rapidly approaches a time-stable
-* Rarely appreciated outside time series literature but common when waves are narrowly spaced
-* With random measurement error, the error becomes proportionally larger as time periods get narrower
-   * May mean you can address in part with measurement models
-   * Note the endogenous variables are regressors, so measurement error biases parameter estimates as well
-* Psychological constructs can be very stable over time! Life course trajectories are real!
-  * Peope even get more consistent over time
+<!-- CHUCK -->
+
+Many of the focal causes and effects in developmental and life course criminology are relatively stable over time in some sense, such as psychological constructs (e.g., self-control) and life-course statuses (e.g., marriage). By definition, in cross-lagged panel models the outcomes serve as predictors of later outcomes---both as lags (e.g., $Y_{t-1} \rightarrow Y_t$) and cross-lags (e.g., $Y_{t-1} \rightarrow X_t$). If an outcome is relatively stable over time---that is, strongly dependent on its past values---there may be little remaining to be explained by the predictors of interest after accounting for its prior value. Put another way, as the correlation between past and present values increases ($\rho(Y_t,Y_{t-1}) \rightarrow 1$) the remaining variance that can be explained by other covariates shrinks ($Var(Y_t|Y_{t-1}) \rightarrow 0$).^[Note that if the variables are measured with error, what is relevant is the underlying correlation between the error-free latent outcomes; when measurement error is present, it becomes an increasingly large proportion of the conditional variance as the true correlation increases. This may result in even more imprecise estimates while also attenuating estimates as the outcomes also serve as regressors. This may be addressed using measurement models or errors-in-variables estimators.] This is an imperfect multicollinearity problem: estimates may remain unbiased and consistent but imprecise and even unstable or empirically underidentified when the issue is extreme. This is exacerbated in estimators with unobserved effects as relatively stable outcomes may be largely explained by the time-stable fixed effects or correlated random intercepts.^[One may also include time-invariant covariates in unobserved effects models using a hybrid random approach, however the estimates will correspond to between-individual effects which may differ from effects of within-individual changes and must be assumed to be uncorrelated with unobserved effects.] These issues are common in developmental studies of individuals individuals but also commonly found in other criminological literatures using panel data (see Lanfear et al. 2020). Researchers may also be interested in how relatively stable factors influence faster moving processes, i.e., moderation. Low inter-temporal variation is not a problem for these research questions as interaction terms between time-stable and time-variant factors will be time-variant.
 
 ## Solutions
 
-* This is first and foremost a data problem, so you want to attack it during design of data collection if possible
-   * Sample to maximize change
-   * Look for shocks
-* Can put time stable covariates using hybrid approach, but be aware, you're now looking at between-individual effects
-* If you can't collect new data, look at different aggregations or wave skips
-   * Small change at a large unit may mask larger changes in small units
-   * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
-* IF increasing error is what you're worried about, can potentially use measurement models
-  * SHould be doing this anyway because your outcomes are regressors, so measurement error attenuates estimates
-* Give up and go get a pint
+Ideally, researchers should account for the possibility of low inter-temporal variation during design. Researchers interested in the effects of changes in relatively stable outcomes can obviously opt to collect data over long time periods. If doing so is cost prohibitive or could prevent answering a timely research question, there are at least two other options. First, if the normally time-stable factor is affected by external factors---including those that may be manipulated by researchers---then researchers can collect data on individuals exposed to shocks in these factors---or embed an intervention in their study to manipulate the external factor. This then opens the possibility of using a instrumental variables estimator to estimate a local average treatment effect. Second, even if the time stable factor is not responsive to exogenous shocks, the factor may be less stable among some subpopulations. In this case, researchers might oversample the more rapidly changing subpopulation to maximize variation, while remaining aware that the effect identified in that group may differ from that in the larger stable population. 
+
+Researchers using already-collected data may consider a number of approaches. First, they may consider estimands corresponding to shorter time aggregations or longer time intervals. Disaggregation may help as low variation at a larger temporal unit (e.g., a year) may mask higher variation in smaller units (e.g., a month). However, unless such an estimator is intractable with many time periods, researchers should default to disaggregated analysis as longer-term causal effects can always be captured using models with multiple lags of shorter periods. In extreme situations, researchers may consider skipping waves if it makes sense theoretically (e.g., skipping a mid-year wave when considering an annual process) or they are facing serious empirical underidentification problems related to a particular wave (e.g., a very short observation interval resulted in no change between waves). In any case, researchers are again advised not to substitute a good question that is difficult to answer (i.e., a theoretically-motivated estimand) for a bad question that is easy to answer (i.e., anything else).
+
+<!-- CHUCK: Could perhaps note earlier on that any model that focuses on estimating how within-unit changes in one variable produce changes in another is inappplicable to estimating the effect of a stable trait on anything --->
 
 
 # General Advice

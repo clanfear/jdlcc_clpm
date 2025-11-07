@@ -501,16 +501,32 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 <!-- CHUCK -->
 
-* GEtting lag specification wrong is a big issue
-* THis assumes true or approximately true lag specification
-* Unusual form of bias as documented by Vaisey & Miles that can flip signs:
-   * If true model is $y = \beta x_t + \alpha_i + e_{it}$ and you fit $y = \beta^* x_{t-t} + \alpha_i + e_{it}$, $E(\beta^*) = -0.5\beta$, i.e., as [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/) says "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect".
+* Getting lag specification wrong is a big issue
+* This assumes true or approximately true lag specification
+* Specify the lag structure correctly for your estimand
+
+Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure. Simulations specifying such effects show that incorrect specification of temporal lags can produce estimates with severe bias including flipped signs. As Vaisey & Miles (XXXX) document, if the "true" true model is $y = \beta x_t + \alpha_i + e_{it}$ (contemporaneos effect of $x$) and you fit $y = \beta^* x_{t-1} + \alpha_i + e_{it}$ (a lagged effect of $x$), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+
+* Largely about being wrong when there is ambiguity in the contemporaneous effect.
+* But these correspond to different estimands!
+   * Is this then a misspecification problem?
+      * If the one of interest is the lag, then strong assumption that there is no contemporaneous association
+      * If that is case, you're probably worried about reverse causality and thus should be fitting the covariance
+
+
 * Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
    * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
+   * A true null effect for a particular time lag may be compatible with a non-null effect at a different time period.
+   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+
+
 * Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
 * Estimand thinking will help a lot here
 
 ## Solutions
+
+
+* Determining which lags are of theoretical interest is an exploratory research question.
 
 * Theoretical ideal: Get it right
 * Vaisey & Miles: Do both lagged and contemporaneous
@@ -709,25 +725,15 @@ To further ensure that only within-unit variation is taken into account, the RI-
 
 <!-- CHUCK -->
 
-Many of the focal causes and effects in developmental and life course criminology are relatively stable over time in some sense, such as psychological constructs (e.g., self-control) and life-course statuses (e.g., marriage). By definition, dynamic models include lags of the dependent variables as predictors. If an outcome is relatively stable over time---that is, strongly dependent on its past values---there may be little remaining to be explained by the predictors of interest after accounting for the lagged outcome. Put another way, as the correlation between past and present values increases ($\rho(Y_t,Y_{t-1}) \rightarrow 1$) the remaining variance that can be explained by other covariates shrinks ($Var(Y_t|Y_{t-1}) \rightarrow 0$). This is an imperfect multicollinearity problem: estimates may remain unbiased and consistent but imprecise and even unstable or empirically underidentified when the issue is extreme. This is exacerbated in estimators with unobserved effects as relatively stable outcomes may be largely explained by the time-stable fixed effects or correlated random intercepts. These issues are common in developmental studies of individuals individuals but also commonly found in other criminological literatures using panel data (see Lanfear et al. 2020).
-
+Many of the focal causes and effects in developmental and life course criminology are relatively stable over time in some sense, such as psychological constructs (e.g., self-control) and life-course statuses (e.g., marriage). By definition, in cross-lagged panel models the outcomes serve as predictors of later outcomes---both as lags (e.g., $Y_{t-1} \rightarrow Y_t$) and cross-lags (e.g., $Y_{t-1} \rightarrow X_t$). If an outcome is relatively stable over time---that is, strongly dependent on its past values---there may be little remaining to be explained by the predictors of interest after accounting for its prior value. Put another way, as the correlation between past and present values increases ($\rho(Y_t,Y_{t-1}) \rightarrow 1$) the remaining variance that can be explained by other covariates shrinks ($Var(Y_t|Y_{t-1}) \rightarrow 0$).^[Note that if the variables are measured with error, what is relevant is the underlying correlation between the error-free latent outcomes; when measurement error is present, it becomes an increasingly large proportion of the conditional variance as the true correlation increases. This may result in even more imprecise estimates while also attenuating estimates as the outcomes also serve as regressors. This may be addressed using measurement models or errors-in-variables estimators.] This is an imperfect multicollinearity problem: estimates may remain unbiased and consistent but imprecise and even unstable or empirically underidentified when the issue is extreme. This is exacerbated in estimators with unobserved effects as relatively stable outcomes may be largely explained by the time-stable fixed effects or correlated random intercepts.^[One may also include time-invariant covariates in unobserved effects models using a hybrid random approach, however the estimates will correspond to between-individual effects which may differ from effects of within-individual changes and must be assumed to be uncorrelated with unobserved effects.] These issues are common in developmental studies of individuals individuals but also commonly found in other criminological literatures using panel data (see Lanfear et al. 2020). Researchers may also be interested in how relatively stable factors influence faster moving processes, i.e., moderation. Low inter-temporal variation is not a problem for these research questions as interaction terms between time-stable and time-variant factors will be time-variant.
 
 ## Solutions
 
-Ideally, researchers should account for the possibility of low inter-temporal variation during design. 
+Ideally, researchers should account for the possibility of low inter-temporal variation during design. Researchers interested in the effects of changes in relatively stable outcomes can obviously opt to collect data over long time periods. If doing so is cost prohibitive or could prevent answering a timely research question, there are at least two other options. First, if the normally time-stable factor is affected by external factors---including those that may be manipulated by researchers---then researchers can collect data on individuals exposed to shocks in these factors---or embed an intervention in their study to manipulate the external factor. This then opens the possibility of using a instrumental variables estimator to estimate a local average treatment effect. Second, even if the time stable factor is not responsive to exogenous shocks, the factor may be less stable among some subpopulations. In this case, researchers might oversample the more rapidly changing subpopulation to maximize variation, while remaining aware that the effect identified in that group may differ from that in the larger stable population. 
 
-* This is first and foremost a data problem, so you want to attack it during design of data collection if possible
-   * Sample to maximize change
-   * Look for shocks
-* Can put time stable covariates using hybrid approach, but be aware, you're now looking at between-individual effects
-* If you can't collect new data, look at different aggregations or wave skips
-   * Small change at a large unit may mask larger changes in small units
-   * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
-   
-*  Note that if $Y$ is measured with error, what is relevant is the underlying correlation between the error-free latent outcomes; when measurement error is present, it becomes an increasingly large proportion of the conditional variance as the true correlation increases.
-* IF increasing error is what you're worried about, can potentially use measurement models
-  * SHould be doing this anyway because your outcomes are regressors, so measurement error attenuates estimates
-* Give up and go get a pint
+Researchers using already-collected data may consider a number of approaches. First, they may consider estimands corresponding to shorter time aggregations or longer time intervals. Disaggregation may help as low variation at a larger temporal unit (e.g., a year) may mask higher variation in smaller units (e.g., a month). However, unless such an estimator is intractable with many time periods, researchers should default to disaggregated analysis as longer-term causal effects can always be captured using models with multiple lags of shorter periods. In extreme situations, researchers may consider skipping waves if it makes sense theoretically (e.g., skipping a mid-year wave when considering an annual process) or they are facing serious empirical underidentification problems related to a particular wave (e.g., a very short observation interval resulted in no change between waves). In any case, researchers are again advised not to substitute a good question that is difficult to answer (i.e., a theoretically-motivated estimand) for a bad question that is easy to answer (i.e., anything else).
+
+<!-- CHUCK: Could perhaps note earlier on that any model that focuses on estimating how within-unit changes in one variable produce changes in another is inappplicable to estimating the effect of a stable trait on anything --->
 
 
 # General Advice
