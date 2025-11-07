@@ -26,6 +26,9 @@ Reciprocal causal relationships are a common feature of criminological theories.
 
 # Introduction
 
+
+<!-- THIAGO -->
+
 * Initial hook
   * Tell you how to use a CLPM
   * When do you use a CLPM? [DO this later in detail]
@@ -449,6 +452,9 @@ In contrast, a period measure is one where the measured value corresponds to som
 
 <!-- CCL: It would be useful if we'd discussed consistency and exchangeability (I like ignorability myself). Exchangeability means all units have equal probability of receiving all values of outcome at time of exposure. Consistency means there are not multiple versions of the same-valued tgreatment that produce different potential outcomes. Even more useful would be to begin high up discussing counterfactuals and thinking about causal effects in those terms. Prob look at https://www.the100.ci/2025/06/25/reviewer-notes-so-youre-interested-in-lagged-effects/ -->
 
+
+<!-- CHUCK -->
+
 Composite measures present unique challenges for causal inference [@berrie2025depicting]. 
 
 * Ignorability: Need to deal with all confounders for each parent, but these may be different.
@@ -489,6 +495,8 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 # Issue 1: Temporal Order
 
+<!-- CHUCK -->
+
 * GEtting lag specification wrong is a big issue
 * THis assumes true or approximately true lag specification
 * Unusual form of bias as documented by Vaisey & Miles that can flip signs:
@@ -496,6 +504,7 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 * Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
    * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
 * Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+* Estimand thinking will help a lot here
 
 ## Solutions
 
@@ -509,6 +518,8 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 
 
 # Issue 2: Unobserved heterogeneity
+
+<!-- THIAGO -->
 
 * Probably the most commonly encountered issue; but also pretty much solved!
 * Most common concern is stable traits
@@ -708,17 +719,14 @@ To further ensure that only within-unit variation is taken into account, the RI-
 
 # Issue 3: Inter-temporal variation
 
-* Maybe show some illustrative math here to show that $Var(Y_2|Y_1) \rightarrow 0$ as $\rho(Y_1,Y_2) \rightarrow 1$ approaches 1; i.e., you rapidly run out of anything to explain.
-   * This is essentially a multicollinearity problem: Unbiased and consistent but high variance in estimates makes any particular estimate suspect.
-  * From time series lit: Stronger your autoregressive term is, the less there is to explain; rapidly approaches a time-stable
-* Rarely appreciated outside time series literature but common when waves are narrowly spaced
-* With random measurement error, the error becomes proportionally larger as time periods get narrower
-   * May mean you can address in part with measurement models
-   * Note the endogenous variables are regressors, so measurement error biases parameter estimates as well
-* Psychological constructs can be very stable over time! Life course trajectories are real!
-  * Peope even get more consistent over time
+<!-- CHUCK -->
+
+Many of the focal causes and effects in developmental and life course criminology are relatively stable over time in some sense, such as psychological constructs (e.g., self-control) and life-course statuses (e.g., marriage). By definition, dynamic models include lags of the dependent variables as predictors. If an outcome is relatively stable over time---that is, strongly dependent on its past values---there may be little remaining to be explained by the predictors of interest after accounting for the lagged outcome. Put another way, as the correlation between past and present values increases ($\rho(Y_t,Y_{t-1}) \rightarrow 1$) the remaining variance that can be explained by other covariates shrinks ($Var(Y_t|Y_{t-1}) \rightarrow 0$). This is an imperfect multicollinearity problem: estimates may remain unbiased and consistent but imprecise and even unstable or empirically underidentified when the issue is extreme. This is exacerbated in estimators with unobserved effects as relatively stable outcomes may be largely explained by the time-stable fixed effects or correlated random intercepts. These issues are common in developmental studies of individuals individuals but also commonly found in other criminological literatures using panel data (see Lanfear et al. 2020).
+
 
 ## Solutions
+
+Ideally, researchers should account for the possibility of low inter-temporal variation during design. 
 
 * This is first and foremost a data problem, so you want to attack it during design of data collection if possible
    * Sample to maximize change
@@ -727,6 +735,8 @@ To further ensure that only within-unit variation is taken into account, the RI-
 * If you can't collect new data, look at different aggregations or wave skips
    * Small change at a large unit may mask larger changes in small units
    * Should prob only consider skipping waves if it makes sense theoretically and/or you're facing serious empirical underidentification problems.
+   
+*  Note that if $Y$ is measured with error, what is relevant is the underlying correlation between the error-free latent outcomes; when measurement error is present, it becomes an increasingly large proportion of the conditional variance as the true correlation increases.
 * IF increasing error is what you're worried about, can potentially use measurement models
   * SHould be doing this anyway because your outcomes are regressors, so measurement error attenuates estimates
 * Give up and go get a pint
