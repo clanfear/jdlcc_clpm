@@ -33,6 +33,9 @@ Reciprocal relationships and reverse causality are a common feature of criminolo
 
 
 
+
+
+
 * Initial hook
   * Tell you how to use a CLPM
   * When do you use a CLPM? [DO this later in detail]
@@ -524,6 +527,22 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 # Issue 2: Unobserved heterogeneity
 
 <!-- THIAGO -->
+
+* Probably the most commonly encountered issue; but also pretty much solved!
+* Most common concern is stable traits
+   * While really same problem, we treat time-varying and time-stable confounders as different problems in longitudinal models
+   * Autoregressive term alone does not solve problem
+   * Can't just toss in fixed effects due to Nickell bias from endogenous lag (shrinks in proportion to T); Arellano-Bond (and thus Allison) is removing Nickell bias
+
+* Including time-stable covariates in FE models
+
+* Might also raise treatment heterogeneity here as different but related issue not as easily addressed in CLPMs as in TWFE
+   * DEvelopmental theories often specify age-specific (life stage) treatment heterogeneity
+   * Freeing the parameter by wave allows for time heterogeneity but also effects to differ because wave spacing is different
+     * One reason for treatment heterogeneity among individuals is differing measurement times within waves
+   * Exception is time-specific treatment heterogeneity which is easily permitted by allowing wave-specific parameters as in Allison's model
+   * A potentially useful application for wave-specific parameters is when you have unevenly spaced data; I think latent growth models would get at his too but I'm not very familiar with them.
+* Predetermined regressors (weakly exogenous, sequentially exogenous)
 
 One of the biggest advantages of drawing on longitudinal data is the ability to focus exclusively on within-unit variation (i.e., change over time) and control away any stable, trait-like differences between units [@imai2019should; @allison2017maximum]. For example, by only drawing on within-unit variation, the family of regression models known as fixed effects models ensure that any confounding bias emerging from time-constant confounders is immediately accounted for [although see @imai2019should]. In the traditional cross-lagged panel model, autoregressive paths are supposed to serve as a proxy for fixed effects, capturing all stable heterogeneity, thus accounting for time-invariant traits and ensuring that cross-lagged paths reflect effects on change over time.
 
