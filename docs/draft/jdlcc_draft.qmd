@@ -55,20 +55,21 @@ Reciprocal relationships and reverse causality are a common feature of criminolo
   * Separate theoretical and methodological concerns
 
 
-<!--CCL: -->
+<!--CCL: This section can be condensed and is a bit rough-->
 ## Estimands and the role of time
 
 An estimand is the quantitative definition of the estimate of interest such as a causal effect (see Lundberg et al. 2021). In a counterfactual framework, an estimand may be defined as a difference in potential outcomes, e.g., "how much higher is the probability that an individual will offend in a given month if they became unemployed in the prior month?" Estimands do not exist out in the world; they are chosen by researchers. We defer to other sources for a full explanation of choosing and using estimands (e.g., Lundberg et al. 2021). For the present work, what is important is recognizing that there is no "true causal timing" waiting to be discovered because causal timing is a choice a researcher makes when defining their estimand of interest.
 
-To illustrate, consider what is the true causal timing of drinking an additional pint of beer on an individual's judgment. What is this effect at 20 seconds, 20 minutes, 20 hours, and 20 years? What about the effect on thirst, headache, or heart disease? What about the effect of a pint per day per year? In this context, the reader may know intimately which exposure and which lag(s) between measurement of exposure and outcome correspond to detectable and substantively interesting causal effects. Strong theories should be specific about the role of time and thus able to inform what sort of causal timings---whether delay between exposure and outcome or aggregations of exposures---are of substantive interest. Causal processes are often (but not always) continuous but researchers discretize time for practical utility, e.g., we know drinking a pint of beer causes your blood alcohol level to ramp up then back down but one is probably more interested in knowing how they will feel in 30 minutes or when they wake up in 18 hours--or how it will impact their health in ten years if they make it regular habit. 
+To illustrate, consider this: what is the true causal timing of drinking an additional pint of beer on perceived wellbeing? What is this effect at 20 seconds, 20 minutes, 20 hours, and 20 years? What about the effect of a pint per day after 10 years? In this context, the reader may know intimately which exposure and which lag(s) between measurement of exposure and outcome correspond to detectable and substantively interesting causal effects. Strong theories should be specific about the role of time and thus able to inform what sort of causal timings---whether delay between exposure and outcome or aggregations of exposures---are of substantive interest. Causal processes are often (but not always) continuous but researchers discretize time for practical utility, e.g., we know drinking a pint of beer causes your blood alcohol level to ramp up then back down but may be interested in knowing how they will feel 30 minutes from now or when they wake up in 12 hours--or how it will impact their health in ten years if they make it regular habit.
 
 Often the estimates produced in longitudinal research do not correspond to any theoretically-motivated or substantively useful estimand. While a relatively common specification in longitudinal research, consider when we would be interested in the (lagged) effect of percent of time employed last year on crimes committed this year. Does this estimand make sense given how we think employment is related to offending? Implicit estimands such as these are often chosen by starting with a methods concern (e.g., reverse causality) and working backwards, so one arrives at a model that gives a correct answer to the wrong question.
 
-Researchers should make an argument that the the timing of the effect in the estimand they are studying is useful and can be studied with the data they have. While we focus here on longitudinal research, this applies just as much to cross-sectional research, except there researchers have less control over what timings they may examine. Even provided otherwise identical estimands, discrepant results between studies may be due to different choices of causal timing (Gollob & Reichardt 1987; see also Vaisey & Miles 2017).
-
-Relatedly, researchers should recognize that because causal effects occur over time, there are no simultaneous non-recursive causal relationships (Strotz & Wold 1960). When researchers posit non-recursive relationships, they are nearly always conducting analysis at a higher-level (i.e., macro) than where the process of interest is taking place (i.e., micro). For example, while economics depicts supply and demand as simultaneously determined, this relationship becomes recursive if we make explicit the underlying micro-macro model in which individual actors on both sides adjust to each others' behavior over time to produce the equilibrium price. Abstraction to higher levels of analysis is both useful and ubiquitous throughout the sciences and formal guidelines exist for when macro-level causal models will accurately represent (or translate) the outcomes of micro-level causal models (e.g., Rubenstein et al. 2017). These abstractions are often forced on researchers by limitations in measurement. Long time lags in longitudinal research are a special case of this micro-macro issue in which faster-operating micro processes (e.g., daily processes) are a modeled at a longer macro time scale (e.g., using waves of an annual survey). One goal of the present work is to discuss the implications this has for longitudinal research designs.
+Relatedly, researchers should recognize that because causal effects occur over time, there are no simultaneous non-recursive causal relationships (Strotz & Wold 1960). When researchers posit non-recursive relationships, they are nearly always conducting analysis at a higher-level (i.e., macro) than where the process of interest is taking place (i.e., micro). For example, while economics depicts supply and demand as simultaneously determined, this relationship becomes recursive if we make explicit the underlying micro-macro model in which individual actors on both sides adjust to each others' behavior over time to produce the equilibrium price. Abstraction to higher levels of analysis is both useful and ubiquitous throughout the sciences and formal guidelines exist for when macro-level causal models will accurately represent (or translate) the outcomes of micro-level causal models (e.g., Rubenstein et al. 2017). These abstractions are often forced on researchers by limitations in measurement. Long time lags in longitudinal research are a special case of this micro-macro issue in which faster-operating micro processes (e.g., daily processes) are a modeled at a longer macro time scale (e.g., using waves of an annual survey).
 
 <!-- CCL: Rubenstein, P. K., Weichwald, S., Bongers, S., Mooij, J. M., Janzing, D., Grosse-Wentrup, M., & Schölkopf, B. (2017). Causal consistency of structural equation models. arXiv preprint arXiv:1707.00819. --->
+
+Consequently, researchers should make an argument that the timing of the effect in the estimand they are studying is useful and can be studied with the data they have. While we focus here on longitudinal research, this applies just as much to cross-sectional research, except there researchers have even less control over what timings they may examine. Even provided otherwise identical estimands, discrepant results between studies may be due to different choices of timing (Gollob & Reichardt 1987; see also Vaisey & Miles 2017); the effect of an additional pint on perceived wellbeing will be quite different measured in one hour versus tomorrow morning.
+
 
 # Two motivating examples
 
@@ -321,15 +322,8 @@ Theory is recursive and operates at some defined pace---often discrete but somet
   }
 ```
 
-When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process. Here we focus on cases where the processes we are interested occur more quickly than data are recorded.^[Mulder et al. (2025) also note the possibility of "low process coverage" that occurs when observation intervals that are too long combine with time aggregated variables to make it so an insufficient amount of the underlying continuous process is captured by the data.] The reverse case---when recording occurs more quickly than the causal process---is easily addressed by aggregation or temporal lags.
+When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process. Here we focus on cases where the processes we are interested occur more quickly than data are recorded^[Mulder et al. (2025) also note the possibility of "low process coverage" that occurs when observation intervals that are too long combine with time aggregated variables to make it so an insufficient amount of the underlying continuous process is captured by the data.]---that is, we must model a micro-level process using a macro-level aggregation. The reverse case---when recording occurs more quickly than the causal process---is easily addressed by aggregation or temporal lags.^[This is similar to using using lags of variables from neighbors in spatial models to address the possibility that processes do not perfectly on to the chosen geographic units.]
 
-
-
-
-<!-- CCL: Focus will be on when processes we are interested in are faster than our data are observed. When your data are more granular, it is not a problem, because you can either aggregate the data or, better yet, specify more complicated lag structures. -->
-<!-- TO: I made this point in my LDA course too. At this point, it's just a matter of finding the optimal level of aggregation---not different from when dealing with spatial data -->
-
-For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than year-to-year---possibly more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity. For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive model. As a result, @fig-time-dag-unobs illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships, here represented by the dashed and double-headed arrows.
 
 <!-- CCL: Wondering about our examples and the models. What is the utility of a year-to-year fear-disorder model given the process speed?-->
 
@@ -450,7 +444,71 @@ In contrast, a period measure is one where the measured value corresponds to som
 
 <!-- TO: This is such a cool point -->
 
-Composite measures present unique challenges for causal inference [see @berrie2025depicting], of which we will highligh two: time-varying confounding and consistency violations. Time-varying confounding can be a serious problem as Berrie et al. (2025:475) note: "...if the parent variables occur at different moments in time, it is possible they will have different relationships with the supposed confounders. Indeed, it is possible that a confounder for one parent variable may be a mediator for another, leaving no means to appropriately adjust for confounding without also blocking part of the true causal effect. Identifying the causal effect of a composite derived variable, as with any analysis of multiple exposures, therefore requires no time-varying confounding."  Consistency refers to the assumption required for making causal inferences that treatments are well-defined, in particular that only one unique form of treatment exists at any given measured level of the exposure variable. This may be violated by composite variables because one can arrive at the same value of the observed child treatment variable through multiple combinations of the parent variables. This can produce composite variable bias, because the estimated average causal effect of the composite variable will be a mean of the average causal effects of the parent variables that is proportionally weighted toward the parent(s) with larger variance(s).
+Composite measures present unique challenges for causal inference [see @berrie2025depicting], of which we will highligh two: time-varying confounding and consistency violations. Time-varying confounding can be a serious problem as Berrie et al. [-@berrie2025depicting, p. 475] note:
+
+> ...if the parent variables occur at different moments in time, it is possible they will have different relationships with the supposed confounders. Indeed, it is possible that a confounder for one parent variable may be a mediator for another, leaving no means to appropriately adjust for confounding without also blocking part of the true causal effect. Identifying the causal effect of a composite derived variable, as with any analysis of multiple exposures, therefore requires no time-varying confounding.
+
+Consistency refers to the assumption required for making causal inferences that treatments are well-defined, in particular that only one unique form of treatment exists at any given measured level of the exposure variable. This may be violated by composite variables because one can arrive at the same value of the observed child treatment variable through multiple combinations of the parent variables. This can produce composite variable bias, because the estimated average causal effect of the composite variable will be a mean of the average causal effects of the parent variables that is proportionally weighted toward the parent(s) with larger variance(s).
+
+## Estimands
+
+<!--- Moved this here to talk about the estimands since it makes sense for it to come after the composite variable stuff but must necessarily come before the statistical model -->
+
+For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than year-to-year---possibly more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity. For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive model. As a result, @fig-time-dag-unobs illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships, here represented by the dashed and double-headed arrows.
+
+
+<!--CCL: HERE PUT A DIAGRAM BORROWED FROM RUBENSTEIN ET AL TO ILLUSTRATE THE OBSERVATION ISSUE -->
+
+```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
+\usetikzlibrary{positioning}
+\definecolor{black}{HTML}{000000}
+\tikzset{
+    > = stealth,
+    every node/.append style = {
+        draw = none
+    },
+    every path/.append style = {
+        arrows = ->,
+        draw = black,
+        fill = none
+    },
+    hidden/.style = {
+        draw = black,
+        shape = circle,
+        inner sep = 1pt
+    }
+}
+\tikz{
+
+    
+    \node (y1) at (0,2) {$Y_1$};
+    \node[hidden] (y15) at (2,2) {$Y_{1.5}$};
+    \node (y2) at (4,2) {$Y_2$};
+    \node[hidden] (y25) at (6,2) {$Y_{2.5}$};
+    \node (y3) at (8,2) {$Y_3$};
+    \node (x1) at (0,0) {$X_1$};
+    \node[hidden] (x15) at (2,0) {$X_{1.5}$};
+    \node (x2) at (4,0) {$X_2$};
+    \node[hidden] (x25) at (6,0) {$X_{2.5}$};
+    \node (x3) at (8,0) {$X_3$};
+    \path (x1) edge (x15);
+    \path (x15) edge (x2);
+    \path (x2) edge (x25);
+    \path (x25) edge (x3);
+    \path (x1) edge (y15);
+    \path (x15) edge (y2);
+    \path (x2) edge (y25);
+    \path (x25) edge (y3);
+    \path (y1) edge (y15);
+    \path (y15) edge (y2);
+    \path (y2) edge (y25);
+    \path (y25) edge (y3);
+    \path (y1) edge (x15);
+    \path (y15) edge (x2);
+    \path (y2) edge (x25);
+    \path (y25) edge (x3);
+  }
+```
 
 
 ## Statistical Model
