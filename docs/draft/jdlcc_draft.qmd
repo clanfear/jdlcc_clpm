@@ -325,7 +325,7 @@ Theory is recursive and operates at some defined pace---often discrete but somet
 When observation periods correspond in some way to the speed at which causal processes are believed to operate, theory may imply that you can rule out reciprocal effects or reverse causality. For example, if employment were measured as "Are you presently employed?" we could assume employment can be affected by past-year offending but employment cannot affect past-year offending. In neither of our present examples, however, do our empirical observation periods align with the theoretical causal process. Here we focus on cases where the processes we are interested occur more quickly than data are recorded^[Mulder et al. (2025) also note the possibility of "low process coverage" that occurs when observation intervals that are too long combine with time aggregated variables to make it so an insufficient amount of the underlying continuous process is captured by the data.]---that is, we must model a micro-level process using a macro-level aggregation. The reverse case---when recording occurs more quickly than the causal process---is easily addressed by aggregation or temporal lags.^[This is similar to using using lags of variables from neighbors in spatial models to address the possibility that processes do not perfectly on to the chosen geographic units.]
 
 
-<!-- CCL: Wondering about our examples and the models. What is the utility of a year-to-year fear-disorder model given the process speed?-->
+<!-- CCL: Wondering about our examples and the models. What is the utility of a year-to-year fear-disorder model given the process speed? I guess it would be about lasting changes?-->
 
 
 ### Temporality and composite variables
@@ -454,61 +454,10 @@ Consistency refers to the assumption required for making causal inferences that 
 
 <!--- Moved this here to talk about the estimands since it makes sense for it to come after the composite variable stuff but must necessarily come before the statistical model -->
 
-For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than year-to-year---possibly more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity. For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive model. As a result, @fig-time-dag-unobs illustrates that we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships, here represented by the dashed and double-headed arrows.
+For our first example of the reciprocal effects of fear of crime and disorder perceptions, we expect that both processes of updating occur more rapidly than year-to-year---possibly more quickly, even, than could be captured with *daily* data. Convincingly ruling out reciprocality would require biophysical measurements in a laboratory, an approach which would come at a cost of construct and external validity. For our second example of employment and offending, we expect the process to occur less quickly (e.g., there is a delay between when someone is caught offending and when they are fired from their job) but either employment or offending could have occurred anywhere throughout the year covered by the measurement. If we decreased gaps between waves---perhaps to daily observations---we could convincingly rule out reverse causality, at least for the contemporaneous effect of employment on offending, e.g., the "involvement" effect in Hirschi's control theory (Hirschi 1969). Thus, in both cases, our expectations for the empirical associations in our data do not correspond to a recursive model. As a result, we are confident about the the direction of the lagged and cross-lagged relationships but uncertain about the direction (or even existence) of contemporaneous relationships.
 
 
-<!--CCL: HERE PUT A DIAGRAM BORROWED FROM RUBENSTEIN ET AL TO ILLUSTRATE THE OBSERVATION ISSUE -->
 
-```{tikz fig-time-dag-unobs, echo = FALSE, fig.cap = "A theoretical model of cross-lagged effects with incompletely observed periods."}
-\usetikzlibrary{positioning}
-\definecolor{black}{HTML}{000000}
-\tikzset{
-    > = stealth,
-    every node/.append style = {
-        draw = none
-    },
-    every path/.append style = {
-        arrows = ->,
-        draw = black,
-        fill = none
-    },
-    hidden/.style = {
-        draw = black,
-        shape = circle,
-        inner sep = 1pt
-    }
-}
-\tikz{
-
-    
-    \node (y1) at (0,2) {$Y_1$};
-    \node[hidden] (y15) at (2,2) {$Y_{1.5}$};
-    \node (y2) at (4,2) {$Y_2$};
-    \node[hidden] (y25) at (6,2) {$Y_{2.5}$};
-    \node (y3) at (8,2) {$Y_3$};
-    \node (x1) at (0,0) {$X_1$};
-    \node[hidden] (x15) at (2,0) {$X_{1.5}$};
-    \node (x2) at (4,0) {$X_2$};
-    \node[hidden] (x25) at (6,0) {$X_{2.5}$};
-    \node (x3) at (8,0) {$X_3$};
-    \path (x1) edge (x15);
-    \path (x15) edge (x2);
-    \path (x2) edge (x25);
-    \path (x25) edge (x3);
-    \path (x1) edge (y15);
-    \path (x15) edge (y2);
-    \path (x2) edge (y25);
-    \path (x25) edge (y3);
-    \path (y1) edge (y15);
-    \path (y15) edge (y2);
-    \path (y2) edge (y25);
-    \path (y25) edge (y3);
-    \path (y1) edge (x15);
-    \path (y15) edge (x2);
-    \path (y2) edge (x25);
-    \path (y25) edge (x3);
-  }
-```
 
 
 ## Statistical Model
@@ -541,7 +490,14 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 * This assumes true or approximately true lag specification
 * Specify the lag structure correctly for your estimand
 
-Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure. Simulations specifying such effects show that incorrect specification of temporal lags can produce estimates with severe bias including flipped signs. As Vaisey & Miles (XXXX) document, if the "true" true model is $y = \beta x_t + \alpha_i + e_{it}$ (contemporaneos effect of $x$) and you fit $y = \beta^* x_{t-1} + \alpha_i + e_{it}$ (a lagged effect of $x$), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure. Simulations of data with true underlying causal effects existing at one time lag reveal that incorrect specifications of temporal lags in statistical models can produce estimates with severe bias including flipped signs. As Vaisey & Miles (XXXX) document, if  Equation 1 is the true model (a contemporaneous effect of $x$) and you instead specify Equation 2 in your statistical model (a lagged effect of $x$), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+
+\begin{align}\label{eq-vaiseymiles}
+y &= \beta x_t + \alpha_i + e_{it} \\
+y &= \beta^* x_{t-1} + \alpha_i + e_{it}
+\end{align}
+
+$$
 
 * Largely about being wrong when there is ambiguity in the contemporaneous effect.
 * But these correspond to different estimands!
