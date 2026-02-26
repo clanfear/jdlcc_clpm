@@ -331,7 +331,7 @@ When observation periods correspond in some way to the speed at which causal pro
 
 ### Temporality and composite variables
 
-Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, we will distinguish between two types of measure, which we will call *instantaneous measures* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.
+Before proceeding to the statistical model, it is necessary to discuss problems that can result from different measurement strategies common in panel studies. How problematic a temporally misaligned measurement is depends on the nature of the measurement. For this purpose, we will distinguish between two types of measure, which we will call *instantaneous measures* and *period measures*. An instantaneous measure is one where the measured values correspond to some single instant in time (or at least an exceedingly short period). Our perceived disorder and fear of crime variables are examples of instantaneous measures, as they would typically be measured using respondent perceptions at survey time. This situation corresponds roughly to that depicted in @fig-time-dag-unobs and be addressed with conventional approaches to causal inference with DAGs.^[Note that the theoretical causal variable of interest may instead be this variable's value in some prior period; the available instantaneous measure thus represents a proxy for the past variable. The measure may be a poor proxy if the underlying variable varies significantly over time.]
 
 In contrast, a period measure is one where the measured value corresponds to some deterministic sum (or other aggregate) calculated over a specified period of time. A count or variety score of offenses committed over the past year and proportion of time spent employed in the past year are both examples of period measures. When our observation periods do not correspond to the timing of our underlying theoretical causal model, these period measures become what we will call *composite period variables*. They are a composite because the measured value is a deterministic sum of values that would be obtained by dividing the observation period up into arbitrary smaller intervals and aggregating across them.^[See also Mulder et al. for a discussion of "time aggregation" where the measurement represents some average over the time period *as recalled by respondents*.] This situation, appearing in @fig-app-latent, produces challenges that are not well recognized in the literature and sometimes difficult to address [see @berrie2025depicting]. 
 
@@ -474,26 +474,15 @@ For both examples, following these guidelines leads us to the "classic" three-wa
 In principle, the classic CLPM permits identification of the cross-lagged effects under conventional assumptions common to most causal inference approaches (see Morgan & Winship; Wooldridge) and in paticular mediation analysis, e.g. sequential ignorability . In application, researchers using the classic CLPM may easily fall prey to a number of common issues that, if unaddressed, result in misleading inferences. Rather than providing an exhaustive list of problems that can arise with CLPMs, we focus on the three key issues we believe are the most important for researchers in developmental and life course criminology to be aware of due to the frequency with which they will be encountered and the severity of their effect on inferences: a) improperly specified temporal order, b) unobserved heterogeneity, c) insufficient inter-temporal variation. 
 
 
-# How it can go wrong!
-
-* One para introducing the three key issues
-
-<!-- divvy up after -->
-
 # Issue 1: Temporal Order
 
 <!-- CHUCK -->
 
-* Getting lag specification wrong is a big issue
-* This assumes true or approximately true lag specification
-* Specify the lag structure correctly for your estimand
 
-Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure.
 
-  * A true null effect for a particular time lag may be compatible with a non-null effect at a different time period.
-   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+Temporal order presents two key issues for studying reciprocal effects. The first is that researchers may fail to considering time in their theoretical model to begin with. This may result in choosing an estimator before specifying---or perhaps without even knowing---their estimand. If yearly panel data are available, they simply estimate the effect of some past-year measure on a present year measure. This may also result in researchers assuming that if they fail to detect an effect in one lag structure it implies effects do not exist at other temporal lags. Researchers may instead assume there exists one "true causal effect" between two variables which is ambiguous in timing and set out to use a model to determine at what timing this effect exists. This raises the question of whether different causal timings could possibly correspond to comparable or even plausible processes of interest, and secondarily whether any model is likely to be able to identify multiple causal timings simultaneously.
 
-Simulations that generate data with true underlying causal effects existing at one particular time lag reveal that incorrect specifications of temporal lags in statistical models can produce estimates with severe bias including flipped signs. As Vaisey & Miles (2017) document, if  Equation 1 is the true reduced form model of interest ($x$ has only a contemporaneous effect) and you instead specify Equation 2 in your statistical model ($x$ with only a lagged effect), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+Improper specifications of temporal order may have serious consequences for estimation. Simulations specifying a causal effect that exists at only one particular time lag reveal that incorrect specifications of temporal lags in statistical models can produce estimates with severe bias including flipped signs. As Vaisey & Miles (2017) document, if  Equation 1 is the true reduced form model of interest ($x$ has only a contemporaneous effect) and you instead specify Equation 2 in your statistical model ($x$ with only a lagged effect), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
 
 <!-- I did equations here because I was concerned they're going to be annoyed with us if we have like 15 figures, but it might be better for consistency to do figures. -->
 
@@ -502,30 +491,24 @@ y_t &= \beta x_t + \alpha_i + e_{it} \\
 y_t &= \beta^* x_{t-1} + \alpha_i + e_{it}
 \end{align}
 
-This is possibly the least appreciated and most serious common issues facing CLPMs as it may produce misleading results that reject theoretically-motivated hypotheses---and provide evidence of the *opposite* proposition. Research that finds unexpectedly negative estimates from CLPMs when theory suggests positive effects may be the result of this bias.
+This is possibly the least appreciated and most serious common issue facing CLPMs as it may produce misleading results that are interpreted as evidence not just against the theoretical proposition being tested by even of its opposite. Research that finds unexpectedly negative estimates from CLPMs when theory suggests positive effects may be the result of this bias.
 
-
-A secondary issue if temporal order
-
- 
-
-* Largely about being wrong when there is ambiguity in the contemporaneous effect.
 
 * How does the composite time variable factor into this?
    * Does it get addressed in any way by the contemporaneous covariance?
 
 
-
-
-
 ## Solutions
 
-However, as we have stated earlier, there is no "one true causal effect" but any number of potential estimands researchers may choose. In this regard, what is important is specifying the correct lag structure *for your chosen estimand*. Both equations make the strong assumption there is no reverse causality between $x_t$ and $y_t$. 
+As we have stated earlier, there is no "one true causal effect" but rather any number of potential estimands researchers may choose. In this regard, what is important is specifying the correct lag structure *for your chosen estimand*. Both equations make the strong assumption there is no reverse causality between $x_t$ and $y_t$. 
 
-* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+  * A null effect for a particular time lag may be compatible with a non-null effect at a different time period.
+   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+
 
 If the estimand is the contemporaneous effect of $x_{t}$ on $y_t$ and there is concern about reverse causality, some auxiliary information is necessary such as an instrumental variable. If the estimand of interest is the lagged effect of $x_{t-1}$ on $y_t$ however, then contemporaneous reverse causality could be addressed in a cross-lagged model with a covariance between each $x_t$ and $y_t$ to address this nuisance reciprocality that may bias the estimate of interest [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
 
+* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
 
 * Determining which lags are of theoretical interest is an exploratory research question.
 
@@ -537,6 +520,7 @@ If the estimand is the contemporaneous effect of $x_{t}$ on $y_t$ and there is c
    * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
 * Also good place to bring in predetermined regressors which are part of Allison approach and Arellano-Bond
 
+It is unlikely a researcher has no theoretical expectations about what causal timings are of interest. If this is the case, however, the researcher is not prepared to engage in a causal analysis; this is the time for descriptive and exploratory studies.
 
 # Issue 2: Unobserved heterogeneity
 
@@ -737,21 +721,30 @@ Ideally, researchers should account for the possibility of low inter-temporal va
 Researchers using already-collected data may consider a number of approaches. First, they may consider estimands corresponding to shorter time aggregations or longer time intervals. Disaggregation may help as low variation at a larger temporal unit (e.g., a year) may mask higher variation in smaller units (e.g., a month). However, unless such an estimator is intractable with many time periods, researchers should default to disaggregated analysis as longer-term causal effects can always be captured using models with multiple lags of shorter periods. In extreme situations, researchers may consider skipping waves if it makes sense theoretically (e.g., skipping a mid-year wave when considering an annual process) or they are facing serious empirical underidentification problems related to a particular wave (e.g., a very short observation interval resulted in no change between waves). In any case, researchers are again advised not to substitute a good question that is difficult to answer (i.e., a theoretically-motivated estimand) for a bad question that is easy to answer (i.e., anything else).
 
 
-
-
 # General Advice
 
-* Separate theory problems from estimation problems
-  * Theory comes first
-  * Then a clear model
-  * Then estimator
-* Default to robust estimators
-  * Allison's FE model should prob be the default as it is most robust
+Our key recommendations for researchers studying potentially reciprocal relationships with repeated observations may be summarized in three points.
+
+First, it is important to separate theory problems from estimation problems. A clear theoretical model should be constructed first based on deep knowledge of the substantive research area and the data generation process. From this, researchers should then determine what, if any, theoretically-relevant estimand can plausibly be estimated using the available data. With a theory and estimand in hand, researchers should then choose an appropriate estimator.
+
+Second, researchers should think carefully whether the data they have are suitable for answering their questions to begin with---that is, they should be prepared to stop after the second step above. Conventional longitudinal panel survey data are better equipped to test slow and lasting effects proposed by developmental and life course theories (e.g., trajectories and turning points) than rapid or transient processes from cognitive and interactional theories (e.g., decision-making and group processes). There is promise, however, in incorporating other forms of data collection into panel surveys---e.g., experiments (Farrington, Loeber, & Welsh 2009) and momentary assessments (Browning et al. 2024).
+
+https://doi.org/10.1146/annurev-soc-091523-013249
+
+Third, researchers should default to robust estimators. If the estimand is a lagged effect, include a contemporaneous covariance to adjust for potential reverse causality. If the treatment and outcome of interest vary (sufficiently) over time, adjust for unobserved heterogeneity using ML-SEM or RI-CLPM. If the estimand is a contemporaneous effect or there is insufficient variation to use these robust estimators, researchers should state outright the strong assumptions they are making---which, importantly, may still be the best that can be done to answer an important question until better data and designs are available. 
+
+
+
+
+
+Prob be good to say you simply aren't going to get anything useful from yearly panel data on fast moving things.
+
+
 * Also need to think about all these issues not specific to CLPM or reciprocal effects
   * Sequential ignorability
   * Dynamic effects
     * Other related strategies, e.g., for single outcomes with continuous time-varying confounded exposures
-* Given timing issues, longitudinal data are much better equipped to study the key elements of life course theories (e.g., trajectories and turning points) than rapid and transient processes. Prob be good to say you simply aren't going to get anything useful from yearly panel data on fast moving things.
+* 
    * Exogenous shocks and interventions can bypass a lot of these problems.
 * Recommendations for data collection include having people fill out repeated or momentary assessments, calendars, etc.
 
