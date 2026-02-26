@@ -488,7 +488,12 @@ In principle, the classic CLPM permits identification of the cross-lagged effect
 * This assumes true or approximately true lag specification
 * Specify the lag structure correctly for your estimand
 
-Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure. Simulations of data with true underlying causal effects existing at one time lag reveal that incorrect specifications of temporal lags in statistical models can produce estimates with severe bias including flipped signs. As Vaisey & Miles (2017) document, if  Equation 1 is the true reduced form model of interest ($x$ has only a contemporaneous effect) and you instead specify Equation 2 in your statistical model ($x$ with only a lagged effect), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+Researchers often assume there exists one "true causal effect" between two variables that corresponds to a particular potentially unknown lag structure.
+
+  * A true null effect for a particular time lag may be compatible with a non-null effect at a different time period.
+   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+
+Simulations that generate data with true underlying causal effects existing at one particular time lag reveal that incorrect specifications of temporal lags in statistical models can produce estimates with severe bias including flipped signs. As Vaisey & Miles (2017) document, if  Equation 1 is the true reduced form model of interest ($x$ has only a contemporaneous effect) and you instead specify Equation 2 in your statistical model ($x$ with only a lagged effect), then $E(\beta^*) = -0.5\beta$, i.e., "a positive contemporaneous effect of $x$ gets transformed into an artifactually negative lagged effect" [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
 
 <!-- I did equations here because I was concerned they're going to be annoyed with us if we have like 15 figures, but it might be better for consistency to do figures. -->
 
@@ -497,23 +502,29 @@ y_t &= \beta x_t + \alpha_i + e_{it} \\
 y_t &= \beta^* x_{t-1} + \alpha_i + e_{it}
 \end{align}
 
-However, as we have stated earlier, there is generally not "one true causal effect" but an infinite number of potential estimands researchers may specify. In this regard, what is important is specifying the correct lag structure *for your chosen estimand*. Both equations make the strong assumption there is no reverse causality between $x_t$ and $y_t$. If the estimand is the effect of $x_{t-1} \rightarrow y_t$ and there is concerned about contemporaneous reverse causality, some auxiliary information is necessary such as an instrumental variable. If the estimand of interest is the lagged effect of $x_{t-1} \rightarrow y_t$ however, then the correct estimator for dealing with contemporaneous reverse causality is the cross-lagged model with a covariance between each $x_t$ and $y_t$ to address the nuisance reciprocality that may bias the estimate of interest [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
+This is possibly the least appreciated and most serious common issues facing CLPMs as it may produce misleading results that reject theoretically-motivated hypotheses---and provide evidence of the *opposite* proposition. Research that finds unexpectedly negative estimates from CLPMs when theory suggests positive effects may be the result of this bias.
 
+
+A secondary issue if temporal order
+
+ 
 
 * Largely about being wrong when there is ambiguity in the contemporaneous effect.
 
 * How does the composite time variable factor into this?
    * Does it get addressed in any way by the contemporaneous covariance?
 
-* Probably the most underappreciated issue as it may produce misleading results that reject or overturn theories
-   * Papers that find negative effects when theory suggests positive ones may be the result of this bias.
-   * A true null effect for a particular time lag may be compatible with a non-null effect at a different time period.
-   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
 
-* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
-* Estimand thinking will help a lot here
+
+
 
 ## Solutions
+
+However, as we have stated earlier, there is no "one true causal effect" but any number of potential estimands researchers may choose. In this regard, what is important is specifying the correct lag structure *for your chosen estimand*. Both equations make the strong assumption there is no reverse causality between $x_t$ and $y_t$. 
+
+* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
+
+If the estimand is the contemporaneous effect of $x_{t}$ on $y_t$ and there is concern about reverse causality, some auxiliary information is necessary such as an instrumental variable. If the estimand of interest is the lagged effect of $x_{t-1}$ on $y_t$ however, then contemporaneous reverse causality could be addressed in a cross-lagged model with a covariance between each $x_t$ and $y_t$ to address this nuisance reciprocality that may bias the estimate of interest [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
 
 
 * Determining which lags are of theoretical interest is an exploratory research question.
