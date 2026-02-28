@@ -509,27 +509,10 @@ This is possibly the least appreciated and most serious common issue facing CLPM
 
 ## Solutions
 
-As we have stated earlier, there is no "one true causal effect" but rather any number of potential estimands researchers may choose. In this regard, what is important is specifying the correct lag structure *for your chosen estimand*. Both equations make the strong assumption there is no reverse causality between $x_t$ and $y_t$. 
+As we have stated earlier, there is no "one true causal effect" but rather a number of causal effects corresponding to different estimands researchers choose. In this regard, what is important is specifying the correct lag structure *for the chosen estimand*. A null effect for a particular time lag may be compatible with a non-null effect at a different time period; a study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour. It is unlikely a researcher has no theoretical expectations about what causal timings are of interest. If this is the case, however, the researcher is not prepared to engage in a causal analysis. Determining which lags are of theoretical interest is a question for literature reviews and exploratory analyses.
 
-  * A null effect for a particular time lag may be compatible with a non-null effect at a different time period.
-   * A study that finds no effect of an additional pint of beer on decision-making with a lag of one day provides little information on the effect at one hour.
+The prior equations specify different estimands of interest, though both make the strong assumption there is no reverse causality between $x_t$ and $y_t$. If the estimand is the contemporaneous effect of $x_{t}$ on $y_t$ and there is concern about reverse causality, some auxiliary information is necessary such as an instrumental variable. Without a theoretical justification otherwise, it is reasonable to default to including a cross-lagged effect as well ($x_{t-1} \rightarrow y_t$), though this introduces new complications discussed in our next section. If the estimand of interest is the lagged effect of $x_{t-1}$ on $y_t$ however, then reverse causality could be addressed in a cross-lagged model with a covariance between each $x_t$ and $y_t$ to address this nuisance reciprocality that may bias the estimate of interest [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/). This is the robust specification if the parameter of interest is $\beta x_{t-1}$ above, but it cannot estimate $\beta x_{t}$ or determine the direction of contemporaneous effects. 
 
-
-If the estimand is the contemporaneous effect of $x_{t}$ on $y_t$ and there is concern about reverse causality, some auxiliary information is necessary such as an instrumental variable. If the estimand of interest is the lagged effect of $x_{t-1}$ on $y_t$ however, then contemporaneous reverse causality could be addressed in a cross-lagged model with a covariance between each $x_t$ and $y_t$ to address this nuisance reciprocality that may bias the estimate of interest [Allison (2022)](https://statisticalhorizons.com/getting-the-lags-right-a-new-solution/).
-
-* Key takeaway: Don't just be worried about your research but also be skeptical about interpreting other research with unexpected sign flips!
-
-* Determining which lags are of theoretical interest is an exploratory research question.
-
-* Theoretical ideal: Get it right
-* Vaisey & Miles: Do both lagged and contemporaneous
-   * If no contemporaneous effect, only lagged, you're probably fine. If contemporaneous shows up, you can't definitively determine direction of contemporaneous effect.
-* Allison: Partial correlation model with lagged effect and contemporaneous residual covariance
-   * This is least biased approach if parameter of interest is $\beta x_{t-1}$, but cannot estimate $\beta x_{t}$
-   * This still does not adjudicate between direction of contemporaneous effects; if effect is entirely contemporaneous, all relationship will be in residual covariance.
-* Also good place to bring in predetermined regressors which are part of Allison approach and Arellano-Bond
-
-It is unlikely a researcher has no theoretical expectations about what causal timings are of interest. If this is the case, however, the researcher is not prepared to engage in a causal analysis; this is the time for descriptive and exploratory studies.
 
 # Issue 2: Unobserved heterogeneity
 
@@ -732,31 +715,32 @@ Researchers using already-collected data may consider a number of approaches. Fi
 
 # General Advice
 
+<!-- This coould actually be the conclusion section? -->
+
 Our key recommendations for researchers studying potentially reciprocal relationships with repeated observations may be summarized in three points.
 
-First, it is important to separate theory problems from estimation problems. A clear theoretical model should be constructed first based on deep knowledge of the substantive research area and the data generation process. From this, researchers should then determine what, if any, theoretically-relevant estimand can plausibly be estimated using the available data. With a theory and estimand in hand, researchers should then choose an appropriate estimator.
+First, it is important to separate theory problems from estimation problems. A clear theoretical model should be constructed first based on deep knowledge of the substantive research area and the data generation process. From this, researchers should then determine what, if any, theoretically-relevant estimand can plausibly be estimated using the available data. With a theory and estimand in hand, researchers should then choose an appropriate estimator. Readers may also apply this logic when reading research, asking if the stated or implied estimand one of substantive interest or one that corresponds to a plausible mechanism. If not, a strong estimation strategy cannot make up for a theoretical deficit.
 
-Second, researchers should think carefully whether the data they have are suitable for answering their questions to begin with---that is, they should be prepared to stop after the second step above. Conventional longitudinal panel survey data are better equipped to test slow and lasting effects proposed by developmental and life course theories (e.g., trajectories and turning points) than rapid or transient processes from cognitive and interactional theories (e.g., decision-making and group processes). There is promise, however, in incorporating other forms of data collection into panel surveys---e.g., experiments (Farrington, Loeber, & Welsh 2009) and momentary assessments (Browning et al. 2024).
+Second, researchers should think carefully whether the data they have are suitable for answering their questions to begin with---that is, they should be prepared to stop after the second step above. Conventional longitudinal panel survey data are better equipped to test slow and lasting effects proposed by developmental and life course theories (e.g., trajectories and turning points) than rapid or transient processes from cognitive and interactional theories (e.g., decision-making and group processes). For testing theories that connect long-term and short-term processes, researchers should consider incorporating other forms of data collection into panel studies---e.g., experiments (Farrington, Loeber, & Welsh 2009) and momentary assessments (Browning et al. 2024). Panel data with narrow observation intervals are sometimes also poorly suited for testing slow processes. Researchers and readers of longitudinal research should be attentive to high intertemporal correlations and proportions of variance explained which may be signals there is insufficient change over time to produce precise estimates.
 
 https://doi.org/10.1146/annurev-soc-091523-013249
 
-Third, researchers should default to robust estimators. If the estimand is a lagged effect, include a contemporaneous covariance to adjust for potential reverse causality. If the treatment and outcome of interest vary (sufficiently) over time, adjust for unobserved heterogeneity using ML-SEM or RI-CLPM. If the estimand is a contemporaneous effect or there is insufficient variation to use these robust estimators, researchers should state outright the strong assumptions they are making---which, importantly, may still be the best that can be done to answer an important question until better data and designs are available. 
+
+Third, researchers should default to robust estimators. If the estimand is a lagged effect, include a contemporaneous covariance to adjust for potential reverse causality. If the treatment and outcome of interest vary (sufficiently) over time, adjust for unobserved heterogeneity using ML-SEM or RI-CLPM. If the estimand is a contemporaneous effect (or the effect of a stable trait) or there is insufficient variation to use these robust estimators, researchers should state outright the strong assumptions they are making---which, importantly, may still be the best that can be done to answer an important question until better data and designs are available. When evaluating research, readers should ask whether the chosen estimator is robust to common issues we describe. In particular, unexpectedly negative signs deserve additional scrutiny.
 
 
+Finally, while we set aside these issues for the present work, researchers and readers should also be attentive to key issues that are not specific to CLPMs or studies of reciprocal effects such as plausibly establishing (conditional) ignorability and sequential ignorability. In longitudinal contexts, this includes considering dynamic effects (i.e., lagged outcomes) and time-varying confounding. Where these are difficult to address, exogenous shocks, field interventions, and embedded lab experiments may provide plausible identification strategies. General training in principles for causal inference thus serve as a foundation for strong longitudinal research designs.
 
-
-
-Prob be good to say you simply aren't going to get anything useful from yearly panel data on fast moving things.
-
-
-* Also need to think about all these issues not specific to CLPM or reciprocal effects
-  * Sequential ignorability
-  * Dynamic effects
-    * Other related strategies, e.g., for single outcomes with continuous time-varying confounded exposures
-* 
-   * Exogenous shocks and interventions can bypass a lot of these problems.
-* Recommendations for data collection include having people fill out repeated or momentary assessments, calendars, etc.
 
 # Conclusion
+
+
+* What to do for a strong conclusion? Revisit each key idea?
+   * Know yout theory and use it to specify an estimand
+   * Thinking carefully about temporal order is important for both designing and interpreting research.
+     * For interpretation, readers should longitudinal studies with unexpectedly negative signs deserve additional scrutiny.
+   * Unobserved heterogeneity
+   * Intertemporal variation
+* Or do something else? Pontificate in some way? Kind of feel prior section is the pontification...
 
 # References
