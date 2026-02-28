@@ -702,7 +702,7 @@ Ideally, researchers should account for the possibility of low inter-temporal va
 Researchers using already-collected data may consider a number of approaches. First, they may consider estimands corresponding to shorter time aggregations or longer time intervals. Disaggregation may help as low variation at a larger temporal unit (e.g., a year) may mask higher variation in smaller units (e.g., a month). However, unless such an estimator is intractable with many time periods, researchers should default to disaggregated analysis as longer-term causal effects can always be captured using models with multiple lags of shorter periods. In extreme situations, researchers may consider skipping waves if it makes sense theoretically (e.g., skipping a mid-year wave when considering an annual process) or they are facing serious empirical underidentification problems related to a particular wave (e.g., a very short observation interval resulted in no change between waves). In any case, researchers are again advised not to substitute a good question that is difficult to answer (i.e., a theoretically-motivated estimand) for a bad question that is easy to answer (i.e., anything else).
 
 
-# General Advice
+# Conclusion
 
 <!-- This coould actually be the conclusion section? -->
 
@@ -723,16 +723,5 @@ Finally, while this work focuses on issues specific to studies positing reciproc
 
 <!-- Original SUTVA note: Rubin DB. 1986. Comment. J. Am. Stat. Assoc. 81(396):961–62 ->
 <!-- Chance to plug all the different great causal inference books out there -->
-
-# Conclusion
-
-
-* What to do for a strong conclusion? Revisit each key idea?
-   * Know yout theory and use it to specify an estimand
-   * Thinking carefully about temporal order is important for both designing and interpreting research.
-     * For interpretation, readers should longitudinal studies with unexpectedly negative signs deserve additional scrutiny.
-   * Unobserved heterogeneity
-   * Intertemporal variation
-* Or do something else? Pontificate in some way? Kind of feel prior section is the pontification...
 
 # References
