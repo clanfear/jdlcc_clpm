@@ -1,14 +1,13 @@
 ---
 title: "Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
-author:
-  - Charles C. Lanfear
-  - Thiago R. Oliveira
 format: 
   pdf:
     citeproc: true
     link-citations: true
     colorlinks: true
     linkcolor: blue
+    keep-tex: true
+    extract-media: "./"
 editor: source
 bibliography: mybib.bib
 execute:

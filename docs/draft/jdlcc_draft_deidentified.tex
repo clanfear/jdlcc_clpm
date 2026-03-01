@@ -1,0 +1,1750 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Reciprocal relationships, reverse causality, and temporal
+ordering: Testing theories with cross-lagged panel models}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+Reciprocal causal relationships are a common feature of criminological
+theories. For example, stable employment may reduce offending while
+offending may lead to job loss, and perceived disorder may increase fear
+of crime while fear of crime may increase sensitivity to signs of
+disorder. When multiple observations over time are available,
+cross-lagged panel models are commonly used to estimate these reciprocal
+effects. Yet this is often done without careful attention to how they
+map on to the theoretical process they are meant to capture or whether
+key assumptions of the models are satisfied. This may result in
+estimates that are not substantively meaningful or are biased or even
+reversed in sign. Reciprocal relationships also pose challenges for
+causal assumptions based on graphical tools; theories that posit
+reciprocal causation often rely on underlying macro--micro mechanisms
+not explicitly represented in empirical models. We provide guidance on
+how to align theory, model specification, and choice of estimator,
+illustrated with two motivating examples: the relationship between
+employment and offending and the relationship between perceived disorder
+and fear of crime. We distinguish theoretical reciprocality---in which
+feedback processes are of substantive interest---from reverse
+causality---in which reciprocal processes are a nuisance threatening
+identification of an effect of interest---and discuss three common
+issues for cross-lagged panel models: unobserved time-stable
+heterogeneity, improperly specified temporal order, and insufficient
+variation over time. We conclude by reminding researchers of the
+importance of aligning methods with theory in longitudinal research.
+
+\section{Introduction}\label{introduction}
+
+Reciprocal relationships and reverse causality are a common feature of
+criminological theories. In some cases, theories suggest that two
+variables are reciprocally related, reproducing each other over time in
+a cycle. For example, labeling theory suggests individuals labeled as
+criminals are more likely to engage in criminal activity, which then
+contributes to reinforcing their labels as criminals, forming a cyclic
+pattern of criminal reproduction
+(\citeproc{ref-becker1963outsiders}{Becker 1963}). In other cases,
+competing theories suggest distinct explanations regarding the causal
+direction of an established association. For example, the broken windows
+thesis posits social and physical disorder in the neighborhood increases
+people's fear of crime, whereas socio-psychological theories suggest
+that fear of crime contributes to heightened perceptions of neighborhood
+disorder (\citeproc{ref-sampson2004seeing}{Sampson and Raudenbush 2004};
+\citeproc{ref-jackson2004experience}{Jackson 2004}). In still other
+cases, theories suggest a causal effect of a treatment on an outcome,
+while also cautioning that the outcome can affect the treatment over
+time. For example, developmental and life-course criminology suggests
+that stable employment reduces criminal behavior, whereas criminal
+behavior can also lead to job loss
+(\citeproc{ref-ramakers2017not}{Ramakers et al. 2017};
+\citeproc{ref-crutchfield2014get}{Crutchfield 2014}). Across all these
+examples, reciprocality---the possibility that two variables influence
+each other over time---is at the heart of the theoretical process.
+
+When repeated observations over time are available, the cross-lagged
+panel model (CLPM) is one of the most commonly used tools for studying
+these reciprocal processes. In its simplest form, a CLPM regresses each
+variable on its own lagged value and on the lagged value of the other
+variable, producing autoregressive and cross-lagged parameter estimates.
+A credible non-zero cross-lagged coefficient is typically interpreted as
+evidence that one variable influences the other over time, net of their
+respective stabilities. Because both cross-lagged paths can be estimated
+simultaneously, the CLPM appears to offer a convenient way to assess
+reciprocality or to adjudicate between competing causal directions---and
+it has been applied to a wide range of topics in criminology and beyond
+(e.g., \citeproc{ref-matsueda1998dynamics}{Matsueda and Anderson 1998};
+\citeproc{ref-brunton2011untangling}{Brunton-Smith 2011};
+\citeproc{ref-pina2020reassessing}{Pina-Sánchez and Brunton-Smith
+2020}).
+
+Yet CLPMs are frequently used without careful attention to the
+theoretical process they are meant to capture. In particular, studies
+sometimes fail to consider the role of time when specifying temporal
+processes. Causal processes unfold at particular speeds---for example,
+while employment may constrain offending on a daily basis simply by
+occupying one's time (\citeproc{ref-hirschi1969causes}{Hirschi 1969}),
+the reputational consequences of a criminal record may take months to
+translate into job loss (\citeproc{ref-crutchfield2014get}{Crutchfield
+2014}). These temporal dynamics should inform not only modeling
+strategies but, more importantly, the definition of the causal quantity
+of interest---the \emph{estimand}, which is often left implicit,
+determined not by theory but by the structure of the available data.
+When the starting point is not a clearly specified causal process, one
+risks arriving at an estimator that produces a correct answer to the
+wrong question. In addition, the apparent simplicity of the CLPM belies
+a number of assumptions that must be satisfied for its estimates to be
+valid. These include proper accounting for unobserved heterogeneity that
+might confound the estimated relationships, correctly specified temporal
+lags between exposure and outcome, and sufficient within-unit variation
+over time to detect cross-lagged effects. Failure to satisfy these
+assumptions can produce severe problems, including spurious
+associations, imprecise estimates, and parameter estimates that are
+biased or even reversed in direction.
+
+Our goal in this paper is to provide practical guidance for researchers
+studying reciprocal relationships or dealing with reverse causality
+using panel data. We do not develop new estimators or derive new formal
+results, but we synthesize several recent methodological contributions
+that have been developed by different disciplinary traditions (e.g.,
+\citeproc{ref-allison2017maximum}{Allison, Williams, and Moral-Benito
+2017}; \citeproc{ref-hamaker2015critique}{Hamaker, Kuiper, and Grasman
+2015}; \citeproc{ref-zyphur2020data}{Zyphur et al. 2020}) in a way that
+is accessible to applied researchers in criminology. First, we highlight
+the distinction between \emph{theoretical reciprocality}, when feedback
+processes are the core of the theories being tested, and \emph{reverse
+causality}, when reciprocal effects are a nuisance of the theory being
+tested. We focus on three key problems that we believe are the most
+consequential for applied research in developmental and life-course
+criminology: (a) unobserved heterogeneity, (b) improperly specified
+temporal lags, and (c) insufficient inter-temporal variation. These are
+not the only issues that can arise with CLPMs, but they are the ones
+that researchers will most frequently encounter and that can have the
+most severe consequences for inference. For each, we explain why it
+matters, how it arises in practice, and what solutions are available.
+
+We ground our discussion in two motivating examples that represent the
+two broad reasons one might turn to a CLPM. The first is the
+relationship between employment and criminal offending---a staple of
+life-course criminology (\citeproc{ref-sampson1995crime}{Sampson and
+Laub 1995}; \citeproc{ref-laub2006shared}{Laub and Sampson 2006}). Here,
+the primary research question concerns the causal effect of employment
+on crime, but reverse causality (i.e., crime involvement leading to job
+loss) threatens to bias estimates of this effect. In this case,
+reciprocality is a nuisance to be controlled for. The second is the
+relationship between perceived neighborhood disorder and fear of
+crime---a central topic for neighborhood researchers
+(\citeproc{ref-sampson2004seeing}{Sampson and Raudenbush 2004};
+\citeproc{ref-obrien2019looking}{O'Brien, Farrell, and Welsh 2019}).
+Here, competing theories propose opposite causal directions, and the
+reciprocal relationship itself is the substantive question. We use these
+examples to illustrate how the same general class of models can serve
+different research purposes, and how the distinction between reverse
+causality as a nuisance and theoretical reciprocality as a substantive
+question should also shape model specification.
+
+The paper proceeds as follows. We first discuss estimands and the role
+of time, highlighting what we mean by reciprocal effects in the context
+of theory testing and the role of unexamined mechanisms operating at a
+lower, more temporally disaggregated level than observed measures. We
+then present our two motivating examples in detail, with focus on the
+distinction between reverse causality and theoretical reciprocality. We
+then develop the statistical framework and discuss why we recommend
+using directed acyclic graphs (DAGs) to represent the theoretical model
+and structural equation models (SEMs) to represent the statistical
+model, while being attentive to where these two representations
+necessarily diverge. The main body of the paper addresses the three main
+issues---unobserved heterogeneity, temporal order, and insufficient
+inter-temporal variation---as well as solutions for each of them. We
+conclude with general recommendations for researchers studying
+reciprocal relationships with panel data.
+
+\section{Estimands and the role of
+time}\label{estimands-and-the-role-of-time}
+
+An estimand is the quantitative definition of the estimate of interest,
+such as a causal effect (see \citeproc{ref-lundberg2021your}{Lundberg,
+Johnson, and Stewart 2021}). In a counterfactual framework, an estimand
+may be defined as a difference in potential outcomes
+(\citeproc{ref-morgan2014counterfactuals}{Morgan and Winship 2014}),
+e.g., ``how much higher is the probability that an individual will
+offend in a given month if they became unemployed in the prior month?''
+Estimands do not exist out in the world waiting to be found; they are
+chosen by researchers. We defer to other sources for a full explanation
+of choosing and using estimands (e.g.,
+\citeproc{ref-lundberg2021your}{Lundberg, Johnson, and Stewart 2021}).
+For the present work, what is important is recognizing that there is no
+``true causal timing'' waiting to be discovered because causal timing is
+a choice a researcher makes when defining their estimand of interest.
+
+To illustrate, consider this: what is the true causal timing of drinking
+an additional pint of beer on one's perceived wellbeing? What is this
+effect at 20 seconds, 20 minutes, 20 hours, or 20 years? What about the
+effect of an additional pint per day after 10 years? In this context,
+the reader may know intimately which exposure and which lags between
+measurement of exposure and outcome correspond to detectable and
+substantively interesting causal effects. Strong theories should be
+specific about the role of time and thus able to inform what sort of
+causal timings---whether delay between exposure and outcome or
+aggregations of exposures---are of substantive interest. Causal
+processes are often (but not always) continuous but researchers
+discretize time for practical utility, e.g., we know drinking a pint of
+beer causes one's blood alcohol level to ramp up then back down but
+someone may be most interested in knowing how they will feel 30 minutes
+from now or when they wake up in 12 hours---or how it will impact their
+health in ten years if they make it a regular habit.
+
+Often the estimates produced in longitudinal research do not correspond
+to any theoretically-motivated or substantively useful estimand. While a
+relatively common specification in longitudinal research, consider when
+we would be interested in the (lagged) effect of proportion of time
+employed last year on crimes committed this year. Does this estimand
+make sense if one believes employment reduces crime by keeping people
+busy? Implicit estimands such as these are often chosen by starting with
+a methods concern (e.g., reverse causality) and working backwards, so
+one arrives at a model that gives a correct answer to the wrong
+question.
+
+Relatedly, researchers should recognize that, because causal effects
+occur over time, there are no simultaneous non-recursive causal
+relationships (\citeproc{ref-strotz1960recursive}{Strotz and Wold
+1960}). When researchers posit non-recursive relationships, they are
+nearly always conducting analyses at a higher-level (i.e., macro) than
+where the process of interest is taking place (i.e., micro). For
+example, while economics depicts supply and demand as simultaneously
+determined, this relationship becomes recursive if we make explicit the
+underlying micro-macro model in which individual actors on both sides
+adjust to each others' behavior over time to produce the equilibrium
+price. Abstraction and aggregation to higher levels of analysis is both
+useful and ubiquitous throughout the sciences, and formal guidelines
+exist for when macro-level causal models will accurately represent (or
+translate) the outcomes of micro-level causal models (e.g.,
+\citeproc{ref-rubenstein2017causal}{Rubenstein et al. 2017}). These
+abstractions are often forced on researchers by limitations in
+measurement. Long time lags in longitudinal research are a special case
+of this micro-macro issue in which faster-operating micro processes
+(e.g., daily processes) are modeled at a longer macro time scale (e.g.,
+using waves of an annual survey).
+
+Consequently, researchers should make an argument that the timing of the
+effect in the estimand they are studying is useful and can be studied
+with the data they have. While we focus here on longitudinal research,
+this applies just as much to cross-sectional research, except there
+researchers have even less control over what timings they may examine.
+Even provided otherwise identical estimands, discrepant results between
+studies may be due to different choices of timing
+(\citeproc{ref-gollob1987taking}{Gollob and Reichardt 1987}; see also
+\citeproc{ref-vaisey2017you}{Vaisey and Miles 2017}); the effect of an
+additional pint on perceived wellbeing will be quite different measured
+in one hour versus in the following morning.
+
+\section{Two motivating examples}\label{two-motivating-examples}
+
+To illustrate our points, we consider two canonical longitudinal
+relationships in criminology. The first is the link between employment
+and offending---a focus of classic life‐course research (e.g.,
+\citeproc{ref-sampson1995crime}{Sampson and Laub 1995};
+\citeproc{ref-laub2006shared}{Laub and Sampson 2006};
+\citeproc{ref-crutchfield2014get}{Crutchfield 2014}). The second is the
+link between residents' perceptions of neighborhood disorder and their
+fear of crime---a central topic for neighborhood scholars
+(\citeproc{ref-sampson2004seeing}{Sampson and Raudenbush 2004};
+\citeproc{ref-obrien2019looking}{O'Brien, Farrell, and Welsh 2019}). In
+the employment--crime example, theory and policy emphasize the effect of
+employment on future offending, whereas in the fear--disorder example
+the direction of causation is itself debated.
+
+\subsection{Employment and crime}\label{employment-and-crime}
+
+Life‐course studies routinely find that obtaining stable employment
+reduces criminal behavior (\citeproc{ref-ramakers2017not}{Ramakers et
+al. 2017}; \citeproc{ref-lageson2012work}{Lageson and Uggen 2012}). The
+logic is straightforward. In the short run, being employed occupies
+one's time and builds conventional social bonds, which constrains
+opportunities and incentives for offending
+(\citeproc{ref-hirschi1969causes}{Hirschi 1969}). In the long run, it is
+not employment per se but stable, committed work that enhances social
+control and thereby reduces crime
+(\citeproc{ref-sampson1995crime}{Sampson and Laub 1995};
+\citeproc{ref-laub2006shared}{Laub and Sampson 2006}). In other words,
+the accumulation of conventional ties and responsibilities that are
+often associated with stable employment provides an identity that deters
+future offending (\citeproc{ref-ramakers2017not}{Ramakers et al. 2017}).
+For example, longitudinal reviews show that employed individuals have
+significantly lower recidivism rates than the unemployed
+(\citeproc{ref-uggen2008have}{Uggen and Wakefield 2008}; although see
+\citeproc{ref-crutchfield2014get}{Crutchfield 2014}). Indeed, some
+experimental job‐program evaluations have found that random assignment
+to job training can yield lower subsequent crime
+(\citeproc{ref-redcross2011more}{Redcross et al. 2011}).
+
+Crucially, however, the reverse causal path is also possible. After all,
+criminal arrests or behavior can lead to job loss
+(\citeproc{ref-crutchfield2014get}{Crutchfield 2014}). Therefore, when
+estimating the effects of employment on crime, one needs to account for
+the effects of crime on employment---i.e., one needs to control for
+reverse causality. The crime \(\rightarrow\) employment relationship is
+not of immediate substantive interest to most criminologists, so in this
+example we regard that as an endogeneity problem. The substantive
+interest is in the effect of employment on later crime, treating any
+effects of crime involvement on employment as a nuisance and a source of
+bias which needs to be controlled for.
+
+\subsection{Fear of crime and perceived
+disorder}\label{fear-of-crime-and-perceived-disorder}
+
+By contrast, the relationship between perceived disorder and fear of
+crime is typically viewed as reciprocal. Some posit that visible
+disorder in the environment raises fear of crime---disorderly cues
+signal that an area is in decline and unable to control deviance
+(\citeproc{ref-kelling1982broken}{Kelling, Wilson, et al. 1982}). Others
+emphasize the opposite interpretation, that individuals with high levels
+of fear of crime are sensitized to local disorder, causing them to
+perceive and interpret ambiguous cues as physical and social disorder
+(\citeproc{ref-sampson2004seeing}{Sampson and Raudenbush 2004};
+\citeproc{ref-jackson2004experience}{Jackson 2004}). In practice, both
+processes may occur (\citeproc{ref-brunton2011untangling}{Brunton-Smith
+2011}). Fear and disorder perceptions may result from rapid updating
+processes. Given the theoretical ambiguity and the possibility for
+reciprocal relationships over time, this example does not have clearly
+defined dependent and independent variables. Both fear of crime and
+perceived disorder are outcomes as well as predictors of interest. The
+substantive interest is therefore the reciprocality itself. In this
+case, one can use panel models either to adjudicate between competing
+theories or to discover actual reciprocal effects over time.
+
+\section{Theoretical and statistical
+models}\label{theoretical-and-statistical-models}
+
+These examples are contrasted by how they are framed theoretically. In
+the employment--crime case, the cross‐lagged panel model is used to
+account for reverse causality (crime \(\rightarrow\) employment) and
+isolate the employment \(\rightarrow\) crime effect of interest. In the
+fear--disorder case, both cross-lagged paths (disorder \(\rightarrow\)
+fear; fear \(\rightarrow\) disorder) are of substantive interest,
+reflecting genuine theoretical ambiguity. Which direction we emphasize
+is dictated by the research question. In the first example we treat the
+reverse path as a nuisance (i.e., reverse causality), whereas in the
+second we treat it as part of a mutually reciprocal process to be tested
+(i.e., theoretical reciprocality).
+
+Good empirical research starts with a strong theoretical foundation. It
+is from a clearly defined theoretical framework that observable
+implications can be deduced, and it is those observable implications
+which can then be contrasted against empirical data
+(\citeproc{ref-king1994designing}{King, Keohane, and Verba 1994};
+\citeproc{ref-mayo2018statistical}{Mayo 2018}). Theory-testing empirical
+research is therefore conditional on a thorough and transparent
+theoretical model (\citeproc{ref-nagin2019real}{Nagin and Sampson
+2019}). Given that most criminological theories presume causal
+processes, the first step should normally involve deriving a
+non-recursive model that accurately represents the theorized
+relationships---e.g., the theoretical model could be represented by a
+directed acyclic graph (DAG). DAGs can formally represent a
+nonparametric structural equation model, avoiding functional-form and
+distributional assumptions (\citeproc{ref-pearl2009causality}{Pearl
+2009}), and are increasingly used to portray premised causal
+relationships in criminological theory
+(\citeproc{ref-nivette2025assessing}{Nivette and Vegt 2025};
+\citeproc{ref-oliveira2024aggressive}{Oliveira 2024}). The DAG should be
+comprehensive and include all relevant theorized pathways, including
+unobserved mechanisms.
+
+Once the theoretical model is specified, it should guide the selection
+of an appropriate estimator. It is important to distinguish the
+theoretical model from the statistical model: while the latter should
+approximate the former as much as possible, the statistical model will
+unavoidably have to handle imprecision and uncertainty that are bound to
+exist when dealing with empirical data, such as distributional and
+parametric assumptions and unanalyzed covariances due to theoretical
+ambiguities. When dealing with situations involving potential reciprocal
+relationships and/or reverse causality, we propose leveraging DAGs for
+theoretical models and drawing on the structural equation modeling (SEM)
+framework for estimation (\citeproc{ref-bollen2013eight}{Bollen and
+Pearl 2013}). A clear theoretical model is a necessary prerequisite for
+specifying an estimator. While both diagrams will not be exactly the
+same, we suggest that the premised DAG inform some elements of the SEM.
+Specifically, unidirectional arrows in the structural model should be
+non-recursive, as per the theoretical model.\footnote{SEMs include a
+  measurement component, which specifies measurement models linking
+  manifest indicators and latent variables, and a structural component,
+  which specifies the relationships between latent variables. For now,
+  we are exclusively referring to the structural component of an SEM.
+  Those include bi-directional arrows, which depict the estimation of a
+  covariance between two variables (or their error terms if they are
+  endogenous), and unidirectional arrows, which indicate the estimation
+  of directional associations based on regression modeling.} For
+example, as depicted in Figure~\ref{fig-classic-clpm}, a key
+consideration in this process is the timing of effects: theorized
+effects can be contemporaneous (i.e., occur quickly) or lagged (i.e.,
+unfold more gradually over time).
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-classic-clpm-1.pdf}}
+
+}
+
+\caption{\label{fig-classic-clpm}Directed acyclic graph representation
+of cross-lagged panel models with (a) lagged effects only or (b)
+contemporaneous effects as well}
+
+\end{figure}%
+
+Yet, while the theoretical model displays a non-parametric
+representation of theorized causal relationships, the SEM can include
+bi-directional arrows representing empirically observed covariances
+between variables not explained by the premised DAG. Panel (a) in
+Figure~\ref{fig-sem-clpm} depicts a statistical model corresponding to
+the theoretical model in panel (a) of Figure~\ref{fig-classic-clpm},
+where the reciprocal effects of interest between \(X\) and \(Y\) occur
+only across periods but we additionally include unanalyzed (or nuisance)
+covariances between them to account for contemporaneous causal effects
+of ambiguous direction. In contrast, panel (b) in
+Figure~\ref{fig-sem-clpm}, which corresponds to the theoretical model in
+panel (b) of Figure~\ref{fig-classic-clpm}, features contemporaneous
+structural paths \(X_t \rightarrow Y_t\). This means there are no longer
+any unanalyzed covariances, so the statistical model is nearly identical
+to the DAG.\footnote{Provided an instrument for \(X_t\), one could add a
+  covariance between \(\zeta_t\) and \(\epsilon_t\) to adjust for
+  contemporaneous reverse causality.} Note here \(Y_1\) is now
+endogenous (and has an error term) while it was exogenous (no error
+term) in panel (a). The models in both panels assume no serial
+correlation as indicated by the absence of paths between the error terms
+in different time periods. While, unlike a DAG, an SEM permits
+contemporaneous reciprocal causal effects, we suggest that the necessary
+non-recursive simultaneous equations be used only as a last resort,
+given their often tenuous theoretical grounding and in particular strong
+assumptions required for identification
+(\citeproc{ref-wooldridge2010econometric}{Wooldridge 2010}).\footnote{Plausible
+  instrumental variables are notoriously difficult to find and
+  non-recursive simultaneous equations require instruments for
+  \emph{each} endogenous variable of interest.}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-sem-clpm-1.pdf}}
+
+}
+
+\caption{\label{fig-sem-clpm}SEM path diagram representations of
+three-wave CLPM. Panel (a) features only lagged effects but permits
+ambiguous contemporaneous covariances between \(X\) and \(Y\). Panel (b)
+features contemporaneous effects of \(X\) on \(Y\).}
+
+\end{figure}%
+
+\subsection{When is a CLPM needed?}\label{when-is-a-clpm-needed}
+
+A cross-lagged panel model is only needed when reciprocal effects over
+time are presumed in the theoretical model. When the researcher can
+theoretically assume no effects of the dependent variable on the
+independent variable over time, other statistical models will be more
+appropriate than a cross-lagged panel model (see
+\citeproc{ref-imai2019should}{Imai and Kim 2019}). For example, research
+focused on the effects of a single-event exposure---including the role
+of turning points commonly studied in life-course criminology such as
+the long-term effects of school drop-out or marriage on offending
+(\citeproc{ref-sampson2016turning}{Sampson and Laub 2016};
+\citeproc{ref-nguyen2018measurement}{Nguyen and Loughran 2018})---would
+not benefit from cross-lagged panel models. Instead, reciprocal effects
+over time are most often a threat when the exposure is a continuous
+process occurring repeatedly. There are two situations in which
+reciprocal effects could emerge from theoretical models, thus
+highlighting the need of cross-lagged panel models. We refer to them as
+\emph{reverse causality} and \emph{theoretical reciprocality}.
+
+Reverse causality refers to situations in which researchers are
+primarily interested in assessing the effects of an exposure on an
+outcome but are concerned about the possibility that the outcome also
+influences future exposures. From our empirical example, assessing the
+effects of employment on crime involvement is of particular theoretical
+and policy relevance (\citeproc{ref-sampson1995crime}{Sampson and Laub
+1995}; \citeproc{ref-crutchfield2014get}{Crutchfield 2014}); in order to
+assess that relationship, however, one needs to take into account that
+offending behavior may also have an effect on future employment, even
+though examining prospects of job loss following a criminal arrest or
+behavior is not of substantive interest. This is a classic endogeneity
+problem, in which not accounting for reverse causality introduces bias.
+This has been a long concern of econometricians---e.g., the
+Arellano-Bond estimator, which is essentially a cross-lagged panel
+model, was developed specifically to address endogeneity in dynamic
+economic relationships (\citeproc{ref-arellano1991some}{Arellano and
+Bond 1991}; \citeproc{ref-moral2019dynamic}{Moral-Benito, Allison, and
+Williams 2019}). When dealing with reverse causality, researchers have a
+predefined exposure and an outcome of interest and simply aim to control
+away the effects of the outcome on the exposure over time.
+
+What we call theoretical reciprocality, on the other hand, refers to
+situations in which the directionality of the effects is ambiguous or of
+substantive interest. This could be due to, for instance, competing
+theories suggesting opposing pathways between two variables
+(\citeproc{ref-sturgis2004using}{Sturgis et al. 2004}). From our
+empirical example, some researchers argue that perceived disorder leads
+to increases in fear of crime (\citeproc{ref-kelling1982broken}{Kelling,
+Wilson, et al. 1982}) whereas others approach this relationship from the
+opposite direction, arguing that fear of crime leads local residents to
+view disorderly signs in the neighborhood as problematic
+(\citeproc{ref-sampson2004seeing}{Sampson and Raudenbush 2004};
+\citeproc{ref-jackson2004experience}{Jackson 2004}). This theoretical
+ambiguity implies that reciprocality is an empirical problem---a
+question that can be adjudicated by theory testers
+(\citeproc{ref-brunton2011untangling}{Brunton-Smith 2011}). When dealing
+with theoretical reciprocality, researchers often do not have a
+predefined exposure and an outcome of interest and instead aim to assess
+both directions.
+
+In both cases, the theoretical model will highlight the threat of
+reciprocal relationships. A DAG will not distinguish between reciprocal
+effects due to theoretical reciprocality or due to reverse causality;
+this distinction is purely conceptual and should be dictated by the
+research question. Yet, we maintain that this is an important
+distinction. While in some cases the empirical solution will be similar,
+in other situations dealing with theoretical reciprocality or reverse
+causality may lead to different statistical estimators---we expand on
+this point below.
+
+\subsection{Panel Data}\label{panel-data}
+
+For the discussion that follows, let us assume that in both example
+cases we have panel data with three yearly waves of observation and
+continuous measures of our concepts. In our first example---the effect
+of employment on offending and attendant reverse causality---employment
+is measured as the proportion of weeks spent employed in the last year
+and offending is a self-reported count of offenses committed in the past
+year. Both measures are taken at survey time but describe conditions or
+events occurring some time over the span of the year prior to each
+survey wave. In our second example---the theoretical reciprocal effects
+of perceived disorder and fear of crime---both perceived disorder and
+fear of crime are measured at survey time. That is, we observe
+respondents' ``current'' perceptions of disorder in their neighborhood
+and their ``current'' fear of crime in that neighborhood. To simplify
+examples, we will assume this is measured using a validated battery of
+indicators that produce a proportional score from 0 (no perceived
+disorder or fear) to 1 (maximum possible disorder or fear).
+
+Theory is recursive and operates at some defined pace---often discrete
+but sometimes continuous---but practical limitations of measurement
+commonly result in data collected in waves. The widths of time intervals
+between waves are usually determined by pragmatic considerations rather
+than theory, and thus the timing of observations rarely corresponds to
+the timing we expect in our theories. Often timing is inconsistent
+across variables as well, e.g., measures describing activities in the
+past year sit alongside measures of present perceptions. More generally,
+we can imagine the discordance between our theoretical model and our
+empirical data collection as a missing data or latent variable problem
+as illustrated in Figure~\ref{fig-time-dag-unobs}. As noted, in the real
+world, time is continuous, so one might imagine there exists an infinite
+number of these ``missing waves'' between observations. Whether explicit
+or not, researchers always make assumptions about the way variables and
+relationships operate within these unobserved intervals. Theory should
+and sometimes even does provide a guide to what assumptions are
+reasonable to make.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-time-dag-unobs-1.pdf}}
+
+}
+
+\caption{\label{fig-time-dag-unobs}A theoretical model of cross-lagged
+effects where observations do not correspond to the timing of the
+underlying causal process. Circled variables are latent.}
+
+\end{figure}%
+
+When observation periods correspond in some way to the speed at which
+causal processes are believed to operate, theory may imply that one can
+rule out reciprocal effects or reverse causality. For example, if
+employment were measured as ``Are you presently employed?'', one could
+assume employment can be affected by past-year offending but employment
+cannot affect past-year offending. In neither of our present examples,
+however, do our empirical observation periods align with the theoretical
+causal process. Here we focus on cases where the processes in which we
+are interested occur more quickly than data are
+recorded\footnote{Mulder, Voelkle, and Hamaker
+  (\citeproc{ref-mulder2025time}{2025}) also note the possibility of
+  ``low process coverage'' that occurs when observation intervals that
+  are too long combine with time aggregated variables to make it so an
+  insufficient amount of the underlying continuous process is captured
+  by the data.}---that is, we must model a micro-level process using a
+macro-level aggregation. The reverse case---when recording occurs more
+quickly than the causal process---is easily addressed by aggregation or
+temporal lags.\footnote{This is similar to using lags of variables from
+  neighbors in spatial models to address the possibility that processes
+  do not perfectly map on to the chosen geographic units.} While we
+treat time as discrete in both theory and analyses---as this is the
+dominant approach in the field of criminology---it is also possible to
+model cross-lagged relationships using continuous time dynamic models
+(see \citeproc{ref-voelkle2018role}{Voelkle et al. 2018}).
+
+\subsubsection{Temporality and composite
+variables}\label{temporality-and-composite-variables}
+
+Before proceeding to the statistical model, it is necessary to discuss
+problems that can result from measurement strategies common in panel
+studies. For this purpose, we will distinguish between two types of
+measure, which we will call \emph{instantaneous measures} and
+\emph{period measures}. An instantaneous measure is one where the
+measured values correspond to some single instant in time (or at least
+an exceedingly short period). Our perceived disorder and fear of crime
+variables are examples of instantaneous measures, as they would
+typically be measured using respondent perceptions at survey time. This
+situation corresponds roughly to that depicted in
+Figure~\ref{fig-time-dag-unobs} and can be addressed with conventional
+approaches to causal inference with DAGs.\footnote{Note that the
+  theoretical causal variable of interest may instead be this variable's
+  value in some prior period; the available instantaneous measure thus
+  represents a proxy for the past variable. The measure may be a poor
+  proxy if the underlying variable varies significantly over time or is
+  subject to time-varying confounding.}
+
+In contrast, a period measure is one where the measured value
+corresponds to some deterministic sum (or other aggregate) calculated
+over a specified period of time. A count or variety score of offenses
+committed over the past year and proportion of time spent employed in
+the past year are both examples of period measures. When our observation
+periods do not correspond to the timing of our underlying theoretical
+causal model, these period measures become what we will call
+\emph{composite period variables}. They are a composite because the
+measured value is a deterministic sum of values that would be obtained
+by dividing the observation period up into smaller intervals and
+aggregating across them.\footnote{See also Mulder, Voelkle, and Hamaker
+  (\citeproc{ref-mulder2025time}{2025}) for a discussion of ``time
+  aggregation'' where the measurement represents some average over the
+  time period \emph{as recalled by respondents}.} This situation,
+appearing in Figure~\ref{fig-app-latent}, produces challenges that are
+not well recognized in the literature and sometimes difficult to address
+(see \citeproc{ref-berrie2025depicting}{Berrie et al. 2025}).
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-app-latent-1.pdf}}
+
+}
+
+\caption{\label{fig-app-latent}Reciprocality due to composite period
+variable. Circled variables are latent. Double-arrows indicate observed
+variables are composite variables determined by their parents}
+
+\end{figure}%
+
+Figure~\ref{fig-app-latent} illustrates a case where we are interested
+in the relationship between two period variables \(X\) and \(Y\). The
+recall period for data collection encompasses 1 unit of time (e.g., an
+entire year) but the causal process relating the two period variables
+operates over smaller intervals (e.g., six months) denoted \(A\) and
+\(B\). This is represented by cross-lagged effects between latent \(X\)
+and \(Y\) variables occurring across each smaller interval. Because data
+were only collected at each observation time, the measured values
+represent a composite period variable combining the values from periods
+\(A\) and \(B\). For example, if \(Y_1\) is the number of self-reported
+criminal offenses in a year, it would be the simple sum of the offenses
+in each six month period \(Y_{1A} + Y_{1B}\). While we may know this
+sum, without additional information, we are uncertain of the value of
+either \(Y_{1A}\) or \(Y_{1B}\) (unless \(Y_1=0\)). Borrowing the
+notation of Berrie et al. (\citeproc{ref-berrie2025depicting}{2025}),
+the double-arrows indicate that \(Y_t\) and \(X_t\) are
+\emph{deterministic} variables, i.e., they are fully determined by
+\emph{some} combination of the underlying latent parent variables, even
+if we do not know their relative contribution\footnote{If \(Y_{tA}\)
+  and/or \(Y_{tB}\) contain measurement error, this full measurement
+  error is propagated into the composite variable as well.}. Note that
+despite \(X_t = X_{ta} + X_{tb}\), \(X_t\) is not a compositional
+variable as defined by Berrie et al.
+(\citeproc{ref-berrie2025depicting}{2025}), because the parents
+\(X_{tA}\) and \(X_{tB}\) are not simultaneously determined. Rather,
+\(X_t\) is a composite derived variable where the parents are
+unobservable or latent.\footnote{If you have a strong theoretical reason
+  to assume a variable affects one parent but is exogenous to the other,
+  you could use it as an instrument to isolate the parent you are
+  interested in, e.g., a randomized employment program affecting only
+  the second half of the year.} Composite measures present unique
+challenges for causal inference (see
+\citeproc{ref-berrie2025depicting}{Berrie et al. 2025}), of which we
+will highlight two: time-varying confounding and consistency violations.
+Time-varying confounding can be a serious problem as Berrie et al.
+(\citeproc{ref-berrie2025depicting}{2025, 475}) note:
+
+\begin{quote}
+\ldots if the parent variables occur at different moments in time, it is
+possible they will have different relationships with the supposed
+confounders. Indeed, it is possible that a confounder for one parent
+variable may be a mediator for another, leaving no means to
+appropriately adjust for confounding without also blocking part of the
+true causal effect. Identifying the causal effect of a composite derived
+variable, as with any analysis of multiple exposures, therefore requires
+no time-varying confounding.
+\end{quote}
+
+Consistency refers to the assumption required for making causal
+inferences that treatments are well-defined, in particular that only one
+unique form of treatment exists at any given measured level of the
+exposure variable. This may be violated by composite variables because
+one can arrive at the same value of the observed child treatment
+variable through multiple combinations of the parent variables; i.e.,
+someone who worked half of the past year could have worked only first
+half, only second half, or some mix of those extremes. This can produce
+composite variable bias, because the estimated average causal effect of
+the composite variable will be a mean of the average causal effects of
+the parent variables that is proportionally weighted toward the
+parent(s) with larger variance(s).
+
+\subsection{Estimands}\label{estimands}
+
+For our first example---the effect of employment on offending which is
+threatened by reverse causality---we expect that there is a delay
+between when someone is caught offending and when they could be fired
+from their job but either employment or offending could have occurred
+anywhere throughout the year covered by the measurement. If we decreased
+gaps between waves---perhaps to daily or weekly observations---or could
+obtain a plausible instrumental variable we could convincingly rule out
+reverse causality (\citeproc{ref-jha2026instrumental}{Jha and Nagin
+2026}), at least for the contemporaneous effect of employment on
+offending, e.g., the ``involvement'' effect in Hirschi's
+(\citeproc{ref-hirschi1969causes}{1969}) control theory. With the
+available data, however, we can only consider employment effects
+occurring over a considerable amount of time, such as the effect of
+``commitment'' to conventional lines of action
+(\citeproc{ref-hirschi1969causes}{Hirschi 1969}). Accordingly, we
+specify our estimand as the effect of proportion of weeks employed in
+the prior year (\(X_{t-1}\)) on offending in the following year
+(\(Y_t\)). For our second example---the theoretically reciprocal effects
+of fear of crime and disorder perceptions---we expect that both
+processes of updating could occur quite rapidly---possibly more quickly,
+even, than could be captured with \emph{daily} data. Convincingly
+determining causal ordering could require biophysical measurements in a
+laboratory, an approach which would come at a cost of construct and
+external validity. But perhaps we are interested in how this updating
+process produces lasting changes in how the environment is perceived and
+if one side of the process operates more strongly than the other. Based
+on this, we will specify two estimands of interest: the effect of
+disorder perceptions measured in the prior year (\(X_{t-1}\)) on fear
+perceptions measured in the present year (\(Y_t\)) and vice versa
+(\(Y_{t-1} \rightarrow X_t\)). Thus, in both cases, we are confident
+about the direction of the lagged and cross-lagged relationships we
+expect to observe in our available data but uncertain about the
+direction (or even existence) of contemporaneous relationships.
+
+\subsection{Statistical Model}\label{statistical-model}
+
+Once the theoretical model and estimands have been established, one can
+proceed to developing a statistical model that accounts for the
+constraints from the research design---including ambiguity about causal
+directions. Here, path diagrams from the SEM tradition become useful.
+SEM diagrams encode both causal relations between variables---indicated
+by single-headed arrows pointing from cause to effect---and unanalyzed,
+unexplained, or ``nuisance'' associations---indicated by double-headed
+arrows pointing between two variables. That is, one explicitly
+distinguishes between causal relationships and ambiguous associations.
+Variables with any causal path leading into them are termed
+``endogenous'' variables and those with no causal path leading into them
+are termed ``exogenous''. SEM diagrams depart from most DAGs by
+depicting the residuals or unexplained variation of endogenous variables
+as latent variables causally affecting the observed variable.
+
+Our recommendation is that the causal part of the SEM diagram should be
+recursive, corresponding as closely as possible to the theoretical
+model. Reciprocal simultaneous effects should generally be avoided as
+they require strong identifying assumptions, e.g., valid and relevant
+instrumental variables
+(\citeproc{ref-wooldridge2010econometric}{Wooldridge 2010};
+\citeproc{ref-jha2026instrumental}{Jha and Nagin 2026}). When the timing
+of observation results in ambiguity regarding the causal direction
+within any given time period---such as when periods \(t=1.5\) and
+\(t=2.5\) were not observed in Figure~\ref{fig-time-dag-unobs}---we
+encode this ambiguity as an unanalyzed covariance between the variables
+in question. When the timing of observations closely corresponds to
+theory, these covariances are unnecessary and the resulting statistical
+model similarly corresponds directly to the theoretical model.
+
+For both examples, following these guidelines leads us to the
+``classic'' three-wave CLPM depicted in panel (a) of
+Figure~\ref{fig-sem-clpm}. The causal relations consist of two sets of
+relationships: a) lagged (autoregressive) effects of variables in one
+period on their value in the next period, e.g.,
+\(X_{t} \rightarrow X_{t+1}\), and b) cross-lagged effects of variables
+in one period on the other variable in the next period, e.g.,
+\(X_{t} \rightarrow Y_{t+1}\). The non-causal relations consist of two
+sets of covariances: (a) between the exogenous \(X_1\) and \(Y_1\),
+which merely permit the predictors to be correlated as in any typical
+regression model, and (b) between the residuals of the endogenous
+variables (\(\zeta_t\) and \(\epsilon_t\))\footnote{Omitting the
+  residual covariances yields the oft-maligned cross-lagged correlations
+  model.}. The residual covariances account for the ambiguous
+contemporaneous association between \(X_t\) and \(Y_t\) but cannot tell
+us the direction of any causal effect between the two variables.
+
+In principle, the classic CLPM permits identification of the
+cross-lagged effects under conventional assumptions common to most
+causal inference approaches (see
+\citeproc{ref-morgan2014counterfactuals}{Morgan and Winship 2014};
+\citeproc{ref-wooldridge2010econometric}{Wooldridge 2010}) and in
+particular mediation analysis, such as sequential ignorability. In
+application, researchers using the classic CLPM may easily fall prey to
+a number of common issues that, if unaddressed, result in misleading
+inferences. Rather than providing an exhaustive list of problems that
+can arise with CLPMs, we focus on the three key issues we believe are
+the most important for researchers in developmental and life course
+criminology to be aware of due to the frequency with which they will be
+encountered and the severity of their effect on inferences: (a)
+unobserved heterogeneity, (b) improperly specified temporal order, and
+(c) insufficient inter-temporal variation.
+
+\section{Issue 1: Unobserved
+heterogeneity}\label{issue-1-unobserved-heterogeneity}
+
+One of the main advantages of drawing on longitudinal data is the
+ability to focus exclusively on within-unit variation (i.e., change over
+time) and control away any stable, trait-like differences between units
+(\citeproc{ref-imai2019should}{Imai and Kim 2019};
+\citeproc{ref-allison2017maximum}{Allison, Williams, and Moral-Benito
+2017}). For example, by only drawing on within-unit variation, the
+family of regression models known as fixed effects models ensure that
+any bias emerging from time-constant confounders is accounted for
+(although see \citeproc{ref-imai2019should}{Imai and Kim 2019}). In the
+traditional cross-lagged panel model, autoregressive paths are supposed
+to function similarly to fixed effects, capturing all stable
+heterogeneity, thus accounting for time-invariant traits and ensuring
+that cross-lagged paths reflect effects on change over time.
+
+However, autoregressive parameters alone are not sufficient to remove
+all unobserved stable heterogeneity
+(\citeproc{ref-morgan2014counterfactuals}{Morgan and Winship 2014}). Any
+stable between-person confounder---that therefore influences both an
+outcome \(Y_t\) and a lagged outcome \(Y_{t-1}\)---creates a spurious
+association between the two variables that the model incorrectly
+attributes to within-unit dynamics. This inflated association then
+biases the cross-lagged coefficients
+(\citeproc{ref-hamaker2015critique}{Hamaker, Kuiper, and Grasman 2015}),
+which no longer reflects \emph{only} effects on change over time. This
+implies that the standard CLPM conflates within-unit change with
+between-unit differences, and cross-lagged estimates can reflect both
+sources of variation.
+
+If autoregressive parameters alone do little to adjust for all
+unobserved time-stable confounders, one might contemplate including some
+fixed-effects estimator {[}e.g., within-unit demeaning; see Allison
+(\citeproc{ref-allison2009fixed}{2009}){]}. However, this strategy
+introduces other problems. Imai and Kim
+(\citeproc{ref-imai2019should}{2019}) showed that unit fixed effects
+only consist of a non-parametric solution to adjusting for all
+time-stable heterogeneity under the assumption of no reverse causality
+or causal dynamics---that is, that the past outcome does not affect the
+current treatment, and that the past outcome does not affect the current
+outcome. Such dynamic relationships are precisely the issue that CLPMs
+attempt to address, so they cannot be assumed away. In addition,
+including fixed effects alongside autoregressive parameters in a dynamic
+panel model can lead to the well-known \emph{Nickell bias}
+(\citeproc{ref-nickell1981biases}{Nickell 1981}): estimates are downward
+biased with few periods (i.e., small \(T\)) because of the connection
+between the lagged outcome and the fixed effects
+(\citeproc{ref-wooldridge2010econometric}{Wooldridge 2010}). In the
+econometrics literature, this is usually solved with the Arellano-Bond
+estimator (\citeproc{ref-arellano1991some}{Arellano and Bond 1991}),
+which removes Nickell bias and adjusts for unobserved stable
+heterogeneity---but it yields biased estimates with small samples and
+when the autoregressive parameter is near 1 (i.e., the outcome is highly
+stable over time).
+
+Stable unobserved heterogeneity is therefore an important issue. The
+standard CLPM relies on autoregressive parameters to capture temporal
+stability, but this does not properly ensure that only within-unit
+variation is taken into account. Any unmodeled time-stable confounder
+can bias the cross-lagged parameters, which end up conflating
+within-unit change with between-unit differences. The Arellano-Bond
+estimator of the dynamic panel model can solve this issue by including
+fixed effects, but it has other limitations.
+
+\subsection{Solutions}\label{solutions}
+
+While the traditional CLPM cannot properly account for unobserved stable
+heterogeneity, some relatively recent extensions of the CLPM yield
+robust estimators that draw only on within-unit variation and
+effectively control for all unobserved time-stable traits
+(\citeproc{ref-leszczensky2019deal}{Leszczensky and Wolbring 2019}).
+Specifically, Allison et al.'s (\citeproc{ref-allison2017maximum}{2017})
+maximum likelihood structural equation fixed-effects dynamic panel
+method (ML-SEM) and Hamaker et al.'s
+(\citeproc{ref-hamaker2015critique}{2015}) random intercept cross-lagged
+panel model (RI-CLPM) model reciprocality and account for unobserved,
+time-stable features that impact both \(Y_t\) and \(X_t\).
+
+\subsubsection{Fixed-effects dynamic panel model with maximum
+likelihood}\label{fixed-effects-dynamic-panel-model-with-maximum-likelihood}
+
+In ML‐SEM (\citeproc{ref-allison2017maximum}{Allison, Williams, and
+Moral-Benito 2017}), a standard dynamic panel model (with a lagged
+dependent variable) is estimated as a structural equation model that
+explicitly partials out all unobserved stable heterogeneity. In
+practice, a latent random intercept factor (often denoted \(\alpha\)) is
+introduced with a factor loading constrained to 1 on every observed
+outcome \(Y_t\). This latent random intercept factor is the same as the
+one often included in latent growth curve models (e.g., a random
+intercept reflecting the starting point of latent trajectories) and
+represents all between-unit differences. By fixing the factor loadings
+of the random intercept to 1, the model effectively ``demeans'' each
+unit's scores and thus conditions out all time‐constant heterogeneity.
+
+Crucially, this latent random intercept factor is allowed to freely
+covary with all the time‐varying exogenous predictors (including any
+predetermined regressors and the initial outcome \(Y_1\)). This model is
+exactly a correlated‐random‐effects model
+(\citeproc{ref-mundlak1978pooling}{Mundlak 1978}): by letting \(\alpha\)
+correlate without restriction with all \(X\)'s, the SEM mimics a
+fixed‐effects specification (the contrast being that a classical
+random‐effects model would force \(\alpha\) to be independent of \(X\)).
+As Allison, Williams, and Moral-Benito
+(\citeproc{ref-allison2017maximum}{2017}) note, allowing \(\alpha\) to
+covary with \(X\)'s enforces a fixed-effects model that accounts for all
+unobserved, stable confounders. This means that the ML-SEM assumes a key
+outcome (e.g., \(Y\)) and a key predictor (e.g., \(X\)) of interest, and
+the whole model is set in such a way so as to find effects of the
+predictor on the outcome (e.g., cross-lagged and/or contemporaneous
+effects of \(X\) on \(Y\)) while accounting for a potential covariance
+between past outcome (\(Y_{t-1}\)) and current predictor (\(X_t\)). If
+cross-lagged or contemporaneous effects of the outcome \(Y_t\) (e.g.,
+\(Y_{t-1}\) or \(Y_t\)) on the predictor \(X_t\) are also of substantive
+interest, one needs to fit a separate ML-SEM with that specification. If
+fitting separate models, researchers should take care that these are
+theoretically and empirically coherent, e.g., that both do not include
+contemporaneous effects.
+
+In implementation, the entire system of autoregressive and cross‐lagged
+equations is estimated as one SEM. For example, each outcome (\(Y_t\))
+is regressed on its lagged value (\(Y_{t-1}\)), on a contemporaneous
+(\(X_t\)) and/or a lagged value of the predictor (\(X_{t-1}\)), and on a
+latent random intercept factor \(\alpha\) with a constrained loading.
+Figure~\ref{fig-mlsem} illustrates an ML-SEM with four waves with both
+contemporaneous and lagged effects of \(X\) on \(Y\).\footnote{The
+  ML-SEM with lagged effects requires at least four waves of data to be
+  implemented.} \(\alpha\) represents the latent random intercept factor
+as is reflected by all observations \(Y_t\) (except for the initial
+observation \(Y_{t=1}\)) with factor loadings constrained to 1, and all
+\(X_t\) are allowed to correlate with \(\alpha\) (and with each other
+and with \(Y_{t=1}\)). In this setup, the first observation \(Y_{t=1}\)
+is treated like any exogenous covariate. Importantly, observed
+time-varying regressors (\(X_t\)) are specified as predetermined---that
+is, they are allowed to correlate with past residuals (i.e., with
+\(\epsilon_{t-1}\)), reflecting that predictors are permitted to be
+influenced by prior outcomes. The presence of contemporaneous effects
+means a strict assumption of no contemporaneous reverse causality (i.e.,
+\(Y_t \rightarrow X_t\) does not exist). The resulting model is
+asymptotically equivalent to the Arellano-Bond method estimated with the
+generalized method of moments (\citeproc{ref-arellano1991some}{Arellano
+and Bond 1991}; \citeproc{ref-allison2017maximum}{Allison, Williams, and
+Moral-Benito 2017}), but it requires no stationarity assumption on
+initial conditions given that initial observations \(Y_{t=1}\) and
+\(X_{t=1}\) are treated as additional exogenous predictors. The ML-SEM
+also expands upon the Arellano-Bond method as it can handle missing data
+with full information maximum likelihood, extends to multiple
+indicators, and can incorporate time-constant covariates and different
+timing effects such as period-specific coefficients on regressors.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-mlsem-1.pdf}}
+
+}
+
+\caption{\label{fig-mlsem}Maximum likelihood structural equation
+fixed-effects dynamic panel model with contemporaneous and lagged
+effects}
+
+\end{figure}%
+
+\subsubsection{Random intercept cross-lagged panel
+model}\label{random-intercept-cross-lagged-panel-model}
+
+Another alternative to the traditional cross-lagged panel model that
+controls for unobserved stable heterogeneity is Hamaker et al.'s
+(\citeproc{ref-hamaker2015critique}{2015}) random intercept cross-lagged
+panel model (RI-CLPM). To ensure that the model only takes into account
+change over time, the RI-CLPM models within-unit and between-unit
+variances as separate attributes. Similar to Allison et al.'s
+(\citeproc{ref-allison2017maximum}{2017}) ML-SEM, RI-CLPM as depicted in
+Figure~\ref{fig-riclpm} estimates a latent variable that captures all
+stable variation between units---again drawing on the latent growth
+curve model specification, this latent random intercept factor is
+defined by all observations \(Y_t\) over time with factor loadings
+constrained to 1, essentially creating a random intercept for \(Y\) that
+varies between units.
+
+While the ML-SEM allows the latent random intercept factor to covary
+with predetermined regressors---which implies treating it as a fixed
+effect that captures all unobserved stable heterogeneity---the RI-CLPM
+instead repeats the process and creates another latent random intercept
+factor defined by all observations \(X_t\) over time that varies between
+units. Treating such unit-specific random intercepts as random variables
+(as opposed to fixed parameters) usually implies that they do not
+capture all unobserved stable heterogeneity. However, in the RI-CLPM,
+the two latent random intercept factors for \(Y_t\) and \(X_t\)
+(represented by \(\alpha_Y\) and \(\alpha_X\) in
+Figure~\ref{fig-riclpm}) are allowed to covary, which ensures that they
+capture all unobserved stable heterogeneity across both variables.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{./jdlcc_draft_deidentified_files/figure-pdf/fig-riclpm-1.pdf}}
+
+}
+
+\caption{\label{fig-riclpm}Random Intercept Cross-Lagged Panel Model
+(Hamaker et al., 2015)}
+
+\end{figure}%
+
+To ensure that only within-unit variation is taken into account in the
+structural model, the RI-CLPM relies on another set of latent variables:
+For each variable \(Y_t\) and \(X_t\), a new latent variable is
+estimated with a factor loading constrained to 1. These latent variables
+are represented in the diagram in Figure~\ref{fig-riclpm} as \(W_{Y_t}\)
+and \(W_{X_t}\). This implies that every observed variable \(Y_t\) and
+\(X_t\) is determined by two latent variables: one capturing all
+time-stable differences between units (i.e., \(\alpha_Y\) and
+\(\alpha_X\)) and one capturing everything else, i.e., within-unit
+differences over time (i.e., \(W_{Y_t}\) and \(W_{X_t}\)).
+Autoregressive and cross-lagged parameters are then included linking
+\(W_{Y_t}\) and \(W_{X_t}\)---resembling the traditional cross-lagged
+panel model, but exclusively focused on within-unit variation over time.
+By allowing both latent random intercept factors to covary, the RI-CLPM
+ensures that all unobserved stable heterogeneity is accounted for; and
+by estimating autoregressive and cross-lagged effects on latent
+variables capturing only within-unit variation, the model ensures that
+cross-lagged estimates reflect change over time. The RI-CLPM can also be
+extended to other common features in SEMs, such as multiple indicators,
+covariate adjustment, and multiple-group analysis
+(\citeproc{ref-mulder2021three}{Mulder and Hamaker 2021}).
+
+\section{Issue 2: Temporal Order}\label{issue-2-temporal-order}
+
+Temporal order presents two key issues for studying reciprocal effects.
+The first is that researchers may fail to consider time in their
+theoretical model to begin with. This may result in choosing an
+estimator before specifying---or perhaps without even knowing---their
+estimand. If yearly panel data are available, they simply estimate the
+effect of some past-year measure on a present year measure. This may
+also result in researchers assuming that if they fail to detect an
+effect in one lag structure it implies effects do not exist at other
+temporal lags. Researchers may instead assume there exists one ``true
+causal effect'' between two variables which is ambiguous in timing and
+set out to use a model to determine at what timing this effect exists.
+This raises the question of whether different causal timings could
+possibly correspond to comparable or even plausible processes of
+interest, and secondarily whether any model is likely to be able to
+identify multiple causal timings simultaneously.
+
+Improper specifications of temporal order may have serious consequences
+for estimation. Simulations specifying a causal effect that exists at
+only one particular time lag reveal that incorrect specifications of
+temporal lags in statistical models with fixed effects can produce
+estimates with severe bias including flipped signs. As Vaisey and Miles
+(\citeproc{ref-vaisey2017you}{2017}) document, if Equation \ref{eq1} is
+the true reduced form model of interest (\(x\) has only a
+contemporaneous effect) and one instead specifies Equation \ref{eq2} in
+their statistical model (\(x\) with only a lagged effect), then
+\(E(\beta^*) = -0.5\beta\), i.e., ``a positive contemporaneous effect of
+\(x\) gets transformed into an artifactually negative lagged effect''
+(\citeproc{ref-allison2022getting}{Allison 2022}).
+
+\begin{align}
+y_{ti} &= \beta x_t + \alpha_i + e_{it} \label{eq1}\\
+y_{ti} &= \beta^* x_{t-1} + \alpha_i + e_{it} \label{eq2}
+\end{align}
+
+This is possibly the least appreciated and most serious common issue
+facing CLPMs as it may produce misleading results that are interpreted
+as evidence not just against the theoretical proposition being tested
+but even of its opposite; to use one of our examples, this could result
+in research finding employment increases future offending even when it
+has only a preventive contemporaneous effect.\footnote{Note that this is
+  not the result of signs differing between estimands but rather a
+  biased estimate resulting from model misspecification in equation 2.}
+Research that finds unexpectedly negative estimates from CLPMs when
+theory suggests positive effects may be the result of this bias.
+
+\subsection{Solutions}\label{solutions-1}
+
+As we have stated earlier, there is no ``one true causal effect'' but
+rather a number of causal effects corresponding to different estimands
+researchers choose. In this regard, what is important is specifying the
+correct lag structure \emph{for the chosen estimand}. A null effect for
+a particular time lag may be compatible with a non-null effect at a
+different time period; a study that finds no effect of an additional
+pint of beer on decision-making with a lag of one day provides little
+information on the effect at one hour. It is unlikely a researcher has
+no theoretical expectations about what causal timings are of interest.
+If this is the case, however, the researcher is not prepared to engage
+in a causal analysis. Determining which lags are of theoretical interest
+is a question for literature reviews and exploratory analyses.
+
+The prior equations specify different estimands of interest, though both
+make the strong assumption there is no reverse causality between \(x_t\)
+and \(y_t\). If the estimand is the contemporaneous effect of \(x_{t}\)
+on \(y_t\) (Equation \ref{eq1}) and there is concern about reverse
+causality, some auxiliary information is necessary such as an
+instrumental variable. Without a theoretical justification otherwise, it
+is reasonable to default to including a cross-lagged effect as well
+(\(x_{t-1} \rightarrow y_t\)). If also accounting for unobserved
+heterogeneity, this necessitates use of the models above which address
+Nickell bias occurring in dynamic panel models with unobserved effects.
+If the estimand of interest is the lagged effect of \(x_{t-1}\) on
+\(y_t\) (Equation \ref{eq2}) however, then reverse causality could be
+addressed in a cross-lagged model with a covariance between each \(x_t\)
+and \(y_t\) to address this nuisance reciprocality that may bias the
+estimate of interest (\citeproc{ref-allison2022getting}{Allison 2022}).
+This is a more robust specification if the parameter of interest is
+\(\beta x_{t-1}\) above, but it cannot estimate \(\beta x_{t}\) or
+adjudicate between the different directions of contemporaneous effects.
+
+\section{Issue 3: Inter-temporal
+variation}\label{issue-3-inter-temporal-variation}
+
+Many of the focal causes and effects in developmental and life course
+criminology are relatively stable over time in some sense, such as
+psychological constructs (e.g., self-control) and life-course statuses
+(e.g., marriage). By definition, in cross-lagged panel models the
+outcomes serve as predictors of later outcomes---both as lags (e.g.,
+\(Y_{t-1} \rightarrow Y_t\)) and cross-lags (e.g.,
+\(Y_{t-1} \rightarrow X_t\)). If an outcome is relatively stable over
+time---that is, strongly dependent on its past values---there may be
+little remaining to be explained by the predictors of interest after
+accounting for its prior value. Put another way, as the correlation
+between past and present values increases
+(\(\rho(Y_t,Y_{t-1}) \rightarrow 1\)) the remaining variance that can be
+explained by other covariates shrinks
+(\(Var(Y_t|Y_{t-1}) \rightarrow 0\)).\footnote{Note that if the
+  variables are measured with error, what is relevant is the underlying
+  correlation between the error-free latent outcomes; when measurement
+  error is present, it becomes an increasingly large proportion of the
+  conditional variance as the true correlation increases. This may
+  result in even more imprecise estimates while also attenuating
+  estimates as the outcomes also serve as regressors. This may be
+  addressed using measurement models or errors-in-variables estimators.}
+This is an imperfect multicollinearity problem: estimates may remain
+unbiased and consistent but imprecise and even unstable or empirically
+underidentified when the issue is extreme. This is exacerbated in
+estimators with unobserved effects as relatively stable outcomes may be
+largely explained by the time-stable fixed effects or correlated random
+intercepts.\footnote{One may also include time-invariant covariates in
+  unobserved effects models using a hybrid random effects approach,
+  however the estimates will correspond to between-individual effects
+  which may differ from effects of within-individual changes and must be
+  assumed to be uncorrelated with unobserved effects.} These issues are
+common in developmental studies of individuals but also commonly found
+in other criminological literatures using panel data (see
+\citeproc{ref-lanfear2020broken}{Lanfear, Matsueda, and Beach 2020}).
+Researchers may also be interested in how relatively stable factors
+influence faster moving processes, i.e., moderation. Low inter-temporal
+variation is not inherently a problem for these research questions as
+interaction terms between time-stable and time-variant factors will be
+time-variant, though interaction terms still make strong demands of the
+data (e.g., \citeproc{ref-gelman2023looking}{Gelman 2023}).
+
+\subsection{Solutions}\label{solutions-2}
+
+Ideally, researchers should account for the possibility of low
+inter-temporal variation during design. Researchers interested in the
+effects of changes in relatively stable outcomes can obviously opt to
+collect data over long time periods. If doing so is cost prohibitive or
+could prevent answering a timely research question, there are at least
+two other options. First, if the normally time-stable factor is affected
+by external factors---including those that may be manipulated by
+researchers---then researchers can collect data on individuals exposed
+to shocks in these factors---or embed an intervention in their study to
+manipulate the external factor. This then opens the possibility of using
+an instrumental variables estimator to estimate a local average
+treatment effect (\citeproc{ref-jha2026instrumental}{Jha and Nagin
+2026}). Second, even if the time stable factor is not responsive to
+exogenous shocks, the factor may be less stable among some
+subpopulations. In this case, researchers might oversample the more
+rapidly changing subpopulation to maximize variation, while remaining
+aware that the effect identified in that group may differ from that in
+the larger stable population.
+
+Researchers using already-collected data may consider a number of
+approaches. First, they may consider estimands corresponding to shorter
+time aggregations or longer time intervals. Disaggregation may help as
+low variation at a larger temporal unit (e.g., a year) may mask higher
+variation in smaller units (e.g., a month). However, unless such an
+estimator is intractable with many time periods, researchers should
+already default to disaggregated analysis as longer-term causal effects
+can always be captured using models with multiple lags of shorter
+periods. In extreme situations, researchers may consider skipping waves
+if it makes sense theoretically (e.g., skipping a mid-year wave when
+considering an annual process) or they are facing serious empirical
+underidentification problems related to a particular wave (e.g., a very
+short observation interval resulted in no change between waves). In any
+case, researchers are again advised not to substitute a good question
+that is difficult to answer (i.e., a theoretically-motivated estimand)
+for a bad question that is easy to answer (i.e., anything else).
+
+\section{Conclusion}\label{conclusion}
+
+Our key recommendations for researchers studying potentially reciprocal
+relationships with repeated observations may be summarized in three
+points.
+
+First, it is important to separate theory problems from estimation
+problems. A clear theoretical model should be constructed first based on
+deep knowledge of the substantive research area and the data generation
+process. From this, researchers should then determine what, if any,
+theoretically-relevant estimand can plausibly be estimated using the
+available data. With a theory and estimand in hand, researchers should
+then choose an appropriate estimator. Readers may also apply this logic
+when reading research, asking if the stated or implied estimand is one
+of substantive interest or one that corresponds to a plausible
+mechanism. If not, a strong estimation strategy cannot make up for a
+theoretical deficit.
+
+Second, researchers should think carefully about whether the data they
+have are suitable for answering their questions to begin with---that is,
+they should be prepared to stop after the first step above. Conventional
+longitudinal panel survey data are better equipped to test slow and
+lasting effects proposed by developmental and life course theories
+(e.g., trajectories and turning points) than rapid or transient
+processes from cognitive and interactional theories (e.g.,
+decision-making and group processes). For testing theories that connect
+long-term and short-term processes, researchers should consider
+incorporating other forms of data collection into panel studies---e.g.,
+experiments (\citeproc{ref-farrington2009longitudinal}{Farrington,
+Loeber, and Welsh 2009}) or momentary assessments
+(\citeproc{ref-browning2024leveraging}{Browning et al. 2024}). Panel
+data with narrow observation intervals are sometimes also poorly suited
+for testing slow processes; high intertemporal correlations and
+proportions of variance explained may be signals there is insufficient
+change over time to produce precise estimates. Researchers and readers
+should also consider if they are using composite period variables and
+how this may impact the validity of their designs and estimates; these
+variables may correspond to unusual estimands, violate consistency
+assumptions for making causal inferences, and make it difficult to
+plausibly address reverse causality.
+
+Third, researchers should default to robust estimators. If the estimand
+is a lagged effect, include a contemporaneous covariance to adjust for
+potential reverse causality. If the treatment and outcome of interest
+vary (sufficiently) over time, adjust for unobserved heterogeneity using
+ML-SEM or RI-CLPM. If one has clearly defined dependent and independent
+variables, but reverse causality is an important nuisance that needs to
+be handled, the ML-SEM is likely the best choice of estimator; if, on
+the other hand, this is a case of theoretical reciprocality, then the
+RI-CLPM is likely the strongest estimator. If the estimand is a
+contemporaneous effect (or the effect of a stable trait) or there is
+insufficient variation to use these robust estimators, researchers
+should state outright the strong assumptions they are making---which,
+importantly, may still be the best that can be done to answer an
+important question until better data and designs are available. When
+evaluating research, readers should ask whether the chosen estimator is
+consistent with the theoretical model and robust to common issues we
+describe. In particular, estimates opposite in sign of theoretical
+expectations should invite skepticism and scrutiny.
+
+Finally, while this work focuses on issues specific to studies positing
+reciprocal effects, researchers and readers should also be attentive to
+key issues that apply to all quantitative studies testing theories such
+as plausibly establishing (conditional) ignorability, consistency, and
+absence of interference (\citeproc{ref-morgan2014counterfactuals}{Morgan
+and Winship 2014}; \citeproc{ref-rubin1986comment}{Rubin 1986}). In
+longitudinal contexts, this includes considering dynamic effects (i.e.,
+lagged outcomes) and time-varying confounding. Where these are difficult
+to address, exogenous shocks, field interventions, and embedded lab
+experiments may provide plausible identification strategies. General
+training in principles for causal inference thus serves as a foundation
+for strong longitudinal research designs. Fortunately, barriers to entry
+for developing these skills have rapidly eroded with the proliferation
+of accessible introductory materials (e.g.,
+\citeproc{ref-morgan2014counterfactuals}{Morgan and Winship 2014};
+\citeproc{ref-huntington2021effect}{Huntington-Klein 2021};
+\citeproc{ref-cunningham2021causal}{Cunningham 2021};
+\citeproc{ref-llaudet2023data}{Llaudet and Imai 2023}).
+
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-allison2009fixed}
+Allison, Paul D. 2009. \emph{Fixed Effects Regression Models}. SAGE
+publications.
+
+\bibitem[\citeproctext]{ref-allison2022getting}
+---------. 2022. {``Getting the Lags Right -- a New Solution.''}
+\emph{Statistical Horizons}.
+
+\bibitem[\citeproctext]{ref-allison2017maximum}
+Allison, Paul D, Richard Williams, and Enrique Moral-Benito. 2017.
+{``Maximum Likelihood for Cross-Lagged Panel Models with Fixed
+Effects.''} \emph{Socius} 3.
+
+\bibitem[\citeproctext]{ref-arellano1991some}
+Arellano, Manuel, and Stephen Bond. 1991. {``Some Tests of Specification
+for Panel Data: Monte Carlo Evidence and an Application to Employment
+Equations.''} \emph{The Review of Economic Studies} 58 (2): 277--97.
+
+\bibitem[\citeproctext]{ref-becker1963outsiders}
+Becker, Howard S. 1963. \emph{Outsiders: Studies in the Sociology of
+Deviance}.
+
+\bibitem[\citeproctext]{ref-berrie2025depicting}
+Berrie, Laurie, Kellyn F Arnold, Georgia D Tomova, Mark S Gilthorpe, and
+Peter WG Tennant. 2025. {``Depicting Deterministic Variables Within
+Directed Acyclic Graphs: An Aid for Identifying and Interpreting Causal
+Effects Involving Derived Variables and Compositional Data.''}
+\emph{American Journal of Epidemiology} 194 (2): 469--79.
+
+\bibitem[\citeproctext]{ref-bollen2013eight}
+Bollen, Kenneth A, and Judea Pearl. 2013. {``Eight Myths about Causality
+and Structural Equation Models.''} In \emph{Handbook of Causal Analysis
+for Social Research}, 301--28. Springer.
+
+\bibitem[\citeproctext]{ref-browning2024leveraging}
+Browning, Christopher R, Nicolo P Pinchak, Catherine A Calder, and
+Bethany Boettner. 2024. {``Leveraging Experience Sampling/Ecological
+Momentary Assessment for Sociological Investigations of Everyday
+Life.''} \emph{Annual Review of Sociology} 50 (1): 41--59.
+
+\bibitem[\citeproctext]{ref-brunton2011untangling}
+Brunton-Smith, Ian. 2011. {``Untangling the Relationship Between Fear of
+Crime and Perceptions of Disorder: Evidence from a Longitudinal Study of
+Young People in {E}ngland and {W}ales.''} \emph{The British Journal of
+Criminology} 51 (6): 885--99.
+
+\bibitem[\citeproctext]{ref-crutchfield2014get}
+Crutchfield, Robert D. 2014. \emph{Get a Job: Labor Markets, Economic
+Opportunity, and Crime}. New York University Press.
+
+\bibitem[\citeproctext]{ref-cunningham2021causal}
+Cunningham, Scott. 2021. \emph{Causal Inference: The Mixtape}. Yale
+university press.
+
+\bibitem[\citeproctext]{ref-farrington2009longitudinal}
+Farrington, David P, Rolf Loeber, and Brandon C Welsh. 2009.
+{``Longitudinal-Experimental Studies.''} \emph{Handbook of Quantitative
+Criminology}, 503--18.
+
+\bibitem[\citeproctext]{ref-gelman2023looking}
+Gelman, Susan A. 2023. {``Looking Beyond the Obvious.''} \emph{American
+Psychologist} 78 (5): 667.
+
+\bibitem[\citeproctext]{ref-gollob1987taking}
+Gollob, Harry F, and Charles S Reichardt. 1987. {``Taking Account of
+Time Lags in Causal Models.''} \emph{Child Development} 58 (1): 80--92.
+
+\bibitem[\citeproctext]{ref-hamaker2015critique}
+Hamaker, Ellen L, Rebecca M Kuiper, and Raoul PPP Grasman. 2015. {``A
+Critique of the Cross-Lagged Panel Model.''} \emph{Psychological
+Methods} 20 (1): 102.
+
+\bibitem[\citeproctext]{ref-hirschi1969causes}
+Hirschi, Travis. 1969. \emph{Causes of Delinquency}. UC Berkeley Press.
+
+\bibitem[\citeproctext]{ref-huntington2021effect}
+Huntington-Klein, Nick. 2021. \emph{The Effect: An Introduction to
+Research Design and Causality}. Chapman; Hall/CRC.
+
+\bibitem[\citeproctext]{ref-imai2019should}
+Imai, Kosuke, and In Song Kim. 2019. {``When Should We Use Unit Fixed
+Effects Regression Models for Causal Inference with Longitudinal
+Data?''} \emph{American Journal of Political Science} 63 (2): 467--90.
+
+\bibitem[\citeproctext]{ref-jackson2004experience}
+Jackson, Jonathan. 2004. {``Experience and Expression: Social and
+Cultural Significance in the Fear of Crime.''} \emph{British Journal of
+Criminology} 44 (6): 946--66.
+
+\bibitem[\citeproctext]{ref-jha2026instrumental}
+Jha, Akshaya, and Daniel Nagin. 2026. {``Instrumental Variables
+Regression for Criminological Research.''} \emph{Annual Review of
+Criminology} 9: 197--216.
+
+\bibitem[\citeproctext]{ref-kelling1982broken}
+Kelling, George L, James Q Wilson, et al. 1982. {``Broken Windows.''}
+\emph{Atlantic Monthly} 249 (3): 29--38.
+
+\bibitem[\citeproctext]{ref-king1994designing}
+King, Gary, Robert O Keohane, and Sidney Verba. 1994. \emph{Designing
+Social Inquiry: Scientific Inference in Qualitative Research}. Princeton
+university press.
+
+\bibitem[\citeproctext]{ref-lageson2012work}
+Lageson, Sarah, and Christopher Uggen. 2012. {``How Work Affects
+Crime---and Crime Affects Work---over the Life Course.''} In
+\emph{Handbook of Life-Course Criminology: Emerging Trends and
+Directions for Future Research}, 201--12. Springer.
+
+\bibitem[\citeproctext]{ref-lanfear2020broken}
+Lanfear, Charles C, Ross L Matsueda, and Lindsey R Beach. 2020.
+{``Broken Windows, Informal Social Control, and Crime: Assessing
+Causality in Empirical Studies.''} \emph{Annual Review of Criminology} 3
+(1): 97--120.
+
+\bibitem[\citeproctext]{ref-laub2006shared}
+Laub, John H, and Robert J Sampson. 2006. \emph{Shared Beginnings,
+Divergent Lives: Delinquent Boys to Age 70}. Harvard University Press.
+
+\bibitem[\citeproctext]{ref-leszczensky2019deal}
+Leszczensky, Lars, and Tobias Wolbring. 2019. {``How to Deal with
+Reverse Causality Using Panel Data? Recommendations for Researchers
+Based on a Simulation Study.''} \emph{Sociological Methods \& Research},
+0049124119882473.
+
+\bibitem[\citeproctext]{ref-llaudet2023data}
+Llaudet, Elena, and Kosuke Imai. 2023. \emph{Data Analysis for Social
+Science: A Friendly and Practical Introduction}. Princeton University
+Press.
+
+\bibitem[\citeproctext]{ref-lundberg2021your}
+Lundberg, Ian, Rebecca Johnson, and Brandon M Stewart. 2021. {``What Is
+Your Estimand? Defining the Target Quantity Connects Statistical
+Evidence to Theory.''} \emph{American Sociological Review} 86 (3):
+532--65.
+
+\bibitem[\citeproctext]{ref-matsueda1998dynamics}
+Matsueda, Ross L, and Kathleen Anderson. 1998. {``The Dynamics of
+Delinquent Peers and Delinquent Behavior.''} \emph{Criminology} 36 (2):
+269--308.
+
+\bibitem[\citeproctext]{ref-mayo2018statistical}
+Mayo, Deborah G. 2018. \emph{Statistical Inference as Severe Testing:
+How to Get Beyond the Statistics Wars}. Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-moral2019dynamic}
+Moral-Benito, Enrique, Paul D Allison, and Richard Williams. 2019.
+{``Dynamic Panel Data Modelling Using Maximum Likelihood: An Alternative
+to Arellano-Bond.''} \emph{Applied Economics} 51 (20): 2221--32.
+
+\bibitem[\citeproctext]{ref-morgan2014counterfactuals}
+Morgan, Stephen L, and Christopher Winship. 2014. \emph{Counterfactuals
+and Causal Inference: Methods and Principles for Social Research}.
+Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-mulder2021three}
+Mulder, Jeroen D, and Ellen L Hamaker. 2021. {``Three Extensions of the
+Random Intercept Cross-Lagged Panel Model.''} \emph{Structural Equation
+Modeling: A Multidisciplinary Journal} 28 (4): 638--48.
+
+\bibitem[\citeproctext]{ref-mulder2025time}
+Mulder, Jeroen D, Manuel Voelkle, and Ellen Hamaker. 2025. {``Time
+Aggregation and Missing Time Frames in Causal Research with Panel
+Data.''} \emph{PsyArXiv Preprings}.
+
+\bibitem[\citeproctext]{ref-mundlak1978pooling}
+Mundlak, Yair. 1978. {``On the Pooling of Time Series and Cross Section
+Data.''} \emph{Econometrica: Journal of the Econometric Society},
+69--85.
+
+\bibitem[\citeproctext]{ref-nagin2019real}
+Nagin, Daniel S, and Robert J Sampson. 2019. {``The Real Gold Standard:
+Measuring Counterfactual Worlds That Matter Most to Social Science and
+Policy.''} \emph{Annual Review of Criminology} 2 (1): 123--45.
+
+\bibitem[\citeproctext]{ref-nguyen2018measurement}
+Nguyen, Holly, and Thomas A Loughran. 2018. {``On the Measurement and
+Identification of Turning Points in Criminology.''} \emph{Annual Review
+of Criminology} 1 (1): 335--58.
+
+\bibitem[\citeproctext]{ref-nickell1981biases}
+Nickell, Stephen. 1981. {``Biases in Dynamic Models with Fixed
+Effects.''} \emph{Econometrica} 49 (6): 1417--26.
+
+\bibitem[\citeproctext]{ref-nivette2025assessing}
+Nivette, Amy, and Isabelle van der Vegt. 2025. {``Assessing the Causal
+Mechanisms Underlying Procedural Justice Theory in the Netherlands.''}
+
+\bibitem[\citeproctext]{ref-obrien2019looking}
+O'Brien, Daniel T, Chelsea Farrell, and Brandon C Welsh. 2019.
+{``Looking Through Broken Windows: The Impact of Neighborhood Disorder
+on Aggression and Fear of Crime Is an Artifact of Research Design.''}
+\emph{Annual Review of Criminology} 2 (1): 53--71.
+
+\bibitem[\citeproctext]{ref-oliveira2024aggressive}
+Oliveira, Thiago R. 2024. {``Aggressive Policing and Undermined
+Legitimacy: Assessing the Impact of Police Stops at Gunpoint on
+Perceptions of Police in s{ã}o Paulo, Brazil.''} \emph{Journal of
+Experimental Criminology} 20 (1): 83--121.
+
+\bibitem[\citeproctext]{ref-pearl2009causality}
+Pearl, Judea. 2009. \emph{Causality}. Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-pina2020reassessing}
+Pina-Sánchez, Jose, and Ian Brunton-Smith. 2020. {``Reassessing the
+Relationship Between Procedural Justice and Police Legitimacy.''}
+\emph{Law and Human Behavior} 44 (5): 377.
+
+\bibitem[\citeproctext]{ref-ramakers2017not}
+Ramakers, Anke, Paul Nieuwbeerta, Johan Van Wilsem, and Anja Dirkzwager.
+2017. {``Not Just Any Job Will Do: A Study on Employment Characteristics
+and Recidivism Risks After Release.''} \emph{International Journal of
+Offender Therapy and Comparative Criminology} 61 (16): 1795--1818.
+
+\bibitem[\citeproctext]{ref-redcross2011more}
+Redcross, Cindy, Megan Millenky, Timothy Rudd, and Valerie Levshin.
+2011. {``More Than a Job: Final Results from the Evaluation of the
+Center for Employment Opportunities (CEO) Transitional Jobs Program.''}
+\emph{OPRE Report} 18.
+
+\bibitem[\citeproctext]{ref-rubenstein2017causal}
+Rubenstein, Paul K, Sebastian Weichwald, Stephan Bongers, Joris M Mooij,
+Dominik Janzing, Moritz Grosse-Wentrup, and Bernhard Schölkopf. 2017.
+{``Causal Consistency of Structural Equation Models.''} arXiv.
+\url{https://doi.org/10.48550/arXiv.1707.00819}.
+
+\bibitem[\citeproctext]{ref-rubin1986comment}
+Rubin, Donald B. 1986. {``Comment: Which Ifs Have Causal Answers.''}
+\emph{Journal of the American Statistical Association} 81 (396):
+961--62.
+
+\bibitem[\citeproctext]{ref-sampson1995crime}
+Sampson, Robert J, and John H Laub. 1995. \emph{Crime in the Making:
+Pathways and Turning Points Through Life}. Harvard University Press.
+
+\bibitem[\citeproctext]{ref-sampson2016turning}
+---------. 2016. {``Turning Points and the Future of Life-Course
+Criminology: Reflections on the 1986 Criminal Careers Report.''}
+\emph{Journal of Research in Crime and Delinquency} 53 (3): 321--35.
+
+\bibitem[\citeproctext]{ref-sampson2004seeing}
+Sampson, Robert J, and Stephen W Raudenbush. 2004. {``Seeing Disorder:
+Neighborhood Stigma and the Social Construction of {`Broken
+Windows'}.''} \emph{Social Psychology Quarterly} 67 (4): 319--42.
+
+\bibitem[\citeproctext]{ref-strotz1960recursive}
+Strotz, Robert H, and H O A Wold. 1960. {``Recursive Vs. Nonrecursive
+Systems: An Attempt at Synthesis (Part i of a Triptych on Causal Chain
+Systems).''} \emph{Econometrica} 28 (2).
+
+\bibitem[\citeproctext]{ref-sturgis2004using}
+Sturgis, Patrick, Peter Smith, Ann Berrington, and Yiongjean Hu. 2004.
+{``Using Repeated Measures Data to Analyse Reciprocal Effects: The Case
+of Economic Perceptions and Economic Values.''} \emph{ESRC Methods
+Festival}.
+
+\bibitem[\citeproctext]{ref-uggen2008have}
+Uggen, Chris, and Sara Wakefield. 2008. {``What Have We Learned from
+Longitudinal Studies of Work and Crime?, w: The Long View of Crime: A
+Synthesis of Longitudinal Research, Red.''} \emph{AM Liberman, New
+York}.
+
+\bibitem[\citeproctext]{ref-vaisey2017you}
+Vaisey, Stephen, and Andrew Miles. 2017. {``What You Can---and
+Can't---Do with Three-Wave Panel Data.''} \emph{Sociological Methods \&
+Research} 46 (1): 44--67.
+
+\bibitem[\citeproctext]{ref-voelkle2018role}
+Voelkle, Manuel C, Christian Gische, Charles C Driver, and Ulman
+Lindenberger. 2018. {``The Role of Time in the Quest for Understanding
+Psychological Mechanisms.''} \emph{Multivariate Behavioral Research} 53
+(6): 782--805.
+
+\bibitem[\citeproctext]{ref-wooldridge2010econometric}
+Wooldridge, Jeffrey M. 2010. \emph{Econometric Analysis of Cross Section
+and Panel Data}. MIT press.
+
+\bibitem[\citeproctext]{ref-zyphur2020data}
+Zyphur, Michael J, Paul D Allison, Louis Tay, Manuel C Voelkle,
+Kristopher J Preacher, Zhen Zhang, Ellen L Hamaker, et al. 2020. {``From
+Data to Causes i: Building a General Cross-Lagged Panel Model (GCLM).''}
+\emph{Organizational Research Methods} 23 (4): 651--87.
+
+\end{CSLReferences}
+
+
+
+
+\end{document}
