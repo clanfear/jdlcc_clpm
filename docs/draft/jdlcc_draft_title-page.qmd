@@ -1,0 +1,24 @@
+---
+title: "Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models"
+author:
+  - Charles C. Lanfear
+  - Thiago R. Oliveira
+format: 
+  pdf:
+    citeproc: true
+    link-citations: true
+    colorlinks: true
+    linkcolor: blue
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+# An empty R setup chunk indicates to Quarto that it should render using knitr
+# without it, it defaults to Jupyter and blows up.
+```
+
+
