@@ -41,3 +41,6 @@
 # ignore dirs
 /lit/
 /ignore/
+
+# .DS store files
+.DS_Store
