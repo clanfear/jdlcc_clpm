@@ -422,6 +422,10 @@ In contrast, a period measure is one where the measured value corresponds to som
 
 Consistency refers to the assumption required for making causal inferences that treatments are well-defined, in particular that only one unique form of treatment exists at any given measured level of the exposure variable. This may be violated by composite variables because one can arrive at the same value of the observed child treatment variable through multiple combinations of the parent variables; i.e., someone who worked half of the past year could have worked only first half, only second half, or some mix of those extremes. This can produce composite variable bias, because the estimated average causal effect of the composite variable will be a mean of the average causal effects of the parent variables that is proportionally weighted toward the parent(s) with larger variance(s).
 
+<!-- 
+CCL: I wonder perhaps about adding something here to bridge this section with the following.
+--->
+
 
 ## Estimands
 
