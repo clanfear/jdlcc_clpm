@@ -297,20 +297,21 @@ using panel data. We do not develop new estimators or derive new formal
 results, but we synthesize several recent methodological contributions
 that have been developed by different disciplinary traditions (e.g.,
 \citeproc{ref-allison2017maximum}{Allison, Williams, and Moral-Benito
-2017}; \citeproc{ref-hamaker2015critique}{Hamaker, Kuiper, and Grasman
-2015}; \citeproc{ref-zyphur2020data}{Zyphur et al. 2020}) in a way that
-is accessible to applied researchers in criminology. First, we highlight
-the distinction between \emph{theoretical reciprocality}, when feedback
-processes are the core of the theories being tested, and \emph{reverse
-causality}, when reciprocal effects are a nuisance of the theory being
-tested. We focus on three key problems that we believe are the most
-consequential for applied research in developmental and life-course
-criminology: (a) unobserved heterogeneity, (b) improperly specified
-temporal lags, and (c) insufficient inter-temporal variation. These are
-not the only issues that can arise with CLPMs, but they are the ones
-that researchers will most frequently encounter and that can have the
-most severe consequences for inference. For each, we explain why it
-matters, how it arises in practice, and what solutions are available.
+2017}; \citeproc{ref-hamaker2015critique}{Ellen L. Hamaker, Kuiper, and
+Grasman 2015}; \citeproc{ref-zyphur2020data}{Zyphur et al. 2020}) in a
+way that is accessible to applied researchers in criminology. First, we
+highlight the distinction between \emph{theoretical reciprocality}, when
+feedback processes are the core of the theories being tested, and
+\emph{reverse causality}, when reciprocal effects are a nuisance of the
+theory being tested. We focus on three key problems that we believe are
+the most consequential for applied research in developmental and
+life-course criminology: (a) unobserved heterogeneity, (b) improperly
+specified temporal lags, and (c) insufficient inter-temporal variation.
+These are not the only issues that can arise with CLPMs, but they are
+the ones that researchers will most frequently encounter and that can
+have the most severe consequences for inference. For each, we explain
+why it matters, how it arises in practice, and what solutions are
+available.
 
 We ground our discussion in two motivating examples that represent the
 two broad reasons one might turn to a CLPM. The first is the
@@ -375,13 +376,15 @@ measurement of exposure and outcome correspond to detectable and
 substantively interesting causal effects. Strong theories should be
 specific about the role of time and thus able to inform what sort of
 causal timings---whether delay between exposure and outcome or
-aggregations of exposures---are of substantive interest. Causal
-processes are often (but not always) continuous but researchers
-discretize time for practical utility, e.g., we know drinking a pint of
-beer causes one's blood alcohol level to ramp up then back down but
-someone may be most interested in knowing how they will feel 30 minutes
-from now or when they wake up in 12 hours---or how it will impact their
-health in ten years if they make it a regular habit.
+aggregations of exposures---are of substantive interest
+(\citeproc{ref-hamaker2026}{Ellen L. Hamaker 2026};
+\citeproc{ref-nivette2026}{Nivette and Eisner 2026}). Causal processes
+are often (but not always) continuous but researchers discretize time
+for practical utility, e.g., we know drinking a pint of beer causes
+one's blood alcohol level to ramp up then back down but someone may be
+most interested in knowing how they will feel 30 minutes from now or
+when they wake up in 12 hours---or how it will impact their health in
+ten years if they make it a regular habit.
 
 Often the estimates produced in longitudinal research do not correspond
 to any theoretically-motivated or substantively useful estimand. While a
@@ -760,7 +763,8 @@ number of these ``missing waves'' between observations. Whether explicit
 or not, researchers always make assumptions about the way variables and
 relationships operate within these unobserved intervals. Theory should
 and sometimes even does provide a guide to what assumptions are
-reasonable to make.
+reasonable to make (\citeproc{ref-nivette2026}{Nivette and Eisner
+2026}).
 
 \begin{figure}
 
@@ -820,7 +824,10 @@ is generally not uniquely solvable without either frequent observations
 or strong functional-form assumptions about how processes unfold between
 waves. Continuous-time models are therefore most useful when researchers
 have either fine-grained data (e.g., experience sampling) or strong
-theoretical commitments about within-interval dynamics.{]}
+theoretical commitments about within-interval dynamics.\footnote{See
+  Nivette \& Eisner (\citeproc{ref-nivette2026}{2026}) for an extended
+  discussion of the relationship between continuous time processes and
+  discrete observations in developmental and life course research.}
 
 \subsubsection{Temporality and composite
 variables}\label{temporality-and-composite-variables}
@@ -1077,11 +1084,11 @@ outcome \(Y_t\) and a lagged outcome \(Y_{t-1}\)---creates a spurious
 association between the two variables that the model incorrectly
 attributes to within-unit dynamics. This inflated association then
 biases the cross-lagged coefficients
-(\citeproc{ref-hamaker2015critique}{Hamaker, Kuiper, and Grasman 2015}),
-which no longer reflects \emph{only} effects on change over time. This
-implies that the standard CLPM conflates within-unit change with
-between-unit differences, and cross-lagged estimates can reflect both
-sources of variation.
+(\citeproc{ref-hamaker2015critique}{Ellen L. Hamaker, Kuiper, and
+Grasman 2015}), which no longer reflects \emph{only} effects on change
+over time. This implies that the standard CLPM conflates within-unit
+change with between-unit differences, and cross-lagged estimates can
+reflect both sources of variation.
 
 If autoregressive parameters alone do little to adjust for all
 unobserved time-stable confounders, one might contemplate including some
@@ -1128,79 +1135,92 @@ Specifically, Allison et al.'s (\citeproc{ref-allison2017maximum}{2017})
 maximum likelihood structural equation fixed-effects dynamic panel
 method (ML-SEM) and Hamaker et al.'s
 (\citeproc{ref-hamaker2015critique}{2015}) random intercept cross-lagged
-panel model (RI-CLPM) model reciprocality and account for unobserved,
-time-stable features that impact both \(Y_t\) and \(X_t\).
+panel model (RI-CLPM) model reciprocality and account for unobserved
+time-stable features that impact both \(Y_t\) and \(X_t\). It is our
+position that the ML-SEM method is better suited to cases of reverse
+causality (e.g., our work and crime example) and RI-CLPM is better
+suited to cases of theoretical reciprocality (e.g., our disorder and
+fear example).
 
 \subsubsection{Fixed-effects dynamic panel model with maximum
 likelihood}\label{fixed-effects-dynamic-panel-model-with-maximum-likelihood}
 
 In ML‐SEM (\citeproc{ref-allison2017maximum}{Allison, Williams, and
-Moral-Benito 2017}), a standard dynamic panel model (with a lagged
+Moral-Benito 2017}), a dynamic panel model (i.e., with a lagged
 dependent variable) is estimated as a structural equation model that
-explicitly partials out all unobserved stable heterogeneity. In
-practice, a latent random intercept factor (often denoted \(\alpha\)) is
-introduced with a factor loading constrained to 1 on every observed
+partials out all unobserved time-stable heterogeneity. This is
+accomplished using a latent random intercept factor (often denoted
+\(\alpha\)) with a factor loading constrained to 1 on every observed
 outcome \(Y_t\). This latent random intercept factor is the same as the
 one often included in latent growth curve models (e.g., a random
 intercept reflecting the starting point of latent trajectories) and
 represents all between-unit differences. By fixing the factor loadings
 of the random intercept to 1, the model effectively ``demeans'' each
 unit's scores and thus conditions out all time‐constant heterogeneity.
-
 Crucially, this latent random intercept factor is allowed to freely
 covary with all the time‐varying exogenous predictors (including any
-predetermined regressors and the initial outcome \(Y_1\)). This model is
-exactly a correlated‐random‐effects model
-(\citeproc{ref-mundlak1978pooling}{Mundlak 1978}): by letting \(\alpha\)
-correlate without restriction with all \(X\)'s, the SEM mimics a
-fixed‐effects specification (the contrast being that a classical
-random‐effects model would force \(\alpha\) to be independent of \(X\)).
-As Allison, Williams, and Moral-Benito
+predetermined regressors and the initial outcome \(Y_1\)).\footnote{This
+  is a correlated random‐effects model or latent Mundlak model
+  (\citeproc{ref-mundlak1978pooling}{Mundlak 1978}): by letting
+  \(\alpha\) correlate without restriction with all \(X\), the SEM
+  mimics a conventional fixed‐effects specification. In contrast, a
+  conventional uncorrelated random‐effects model would force \(\alpha\)
+  to be independent of \(X\).} As Allison, Williams, and Moral-Benito
 (\citeproc{ref-allison2017maximum}{2017}) note, allowing \(\alpha\) to
-covary with \(X\)'s enforces a fixed-effects model that accounts for all
-unobserved, stable confounders. This means that the ML-SEM assumes a key
-outcome (e.g., \(Y\)) and a key predictor (e.g., \(X\)) of interest, and
-the whole model is set in such a way so as to find effects of the
-predictor on the outcome (e.g., cross-lagged and/or contemporaneous
-effects of \(X\) on \(Y\)) while accounting for a potential covariance
-between past outcome (\(Y_{t-1}\)) and current predictor (\(X_t\)). If
-cross-lagged or contemporaneous effects of the outcome \(Y_t\) (e.g.,
-\(Y_{t-1}\) or \(Y_t\)) on the predictor \(X_t\) are also of substantive
-interest, one needs to fit a separate ML-SEM with that specification. If
-fitting separate models, researchers should take care that these are
-theoretically and empirically coherent, e.g., that both do not include
-contemporaneous effects.
+covary with \(X\)'s mimics fixed-effects model that account for all
+unobserved confounders that are time-stable within the observation
+period. In contrast with the conventional CLPM, ML-SEM focuses on
+estimating one side of the cross-lagged relationship (e.g., cross-lagged
+and/or contemporaneous effects of \(X\) on \(Y\)) while accounting for
+the opposite reciprocal effect (the lagged effect of \(Y\) on \(X\))
+using a covariance between past outcome (\(Y_{t-1}\)) and current
+predictor (\(X_t\)).\footnote{If cross-lagged or contemporaneous effects
+  of the outcome \(Y_t\) (e.g., \(Y_{t-1}\) or \(Y_t\)) on the predictor
+  \(X_t\) are also of substantive interest, one needs to fit a separate
+  ML-SEM with that specification---taking care that these are
+  theoretically and empirically coherent, e.g., that both do not include
+  contemporaneous effects. If this is the case, however, we advise
+  instead fitting an RI-CLPM described below that is better suited to
+  studying cases of theoretical reciprocality.} This makes it most
+applicable to cases of reverse causality, where the reciprocal feedback
+effect is not of substantive interest, such as in our work and crime
+example.
 
 In implementation, the entire system of autoregressive and cross‐lagged
-equations is estimated as one SEM. For example, each outcome (\(Y_t\))
-is regressed on its lagged value (\(Y_{t-1}\)), on a contemporaneous
-(\(X_t\)) and/or a lagged value of the predictor (\(X_{t-1}\)), and on a
-latent random intercept factor \(\alpha\) with a constrained loading.
-Figure~\ref{fig-mlsem} illustrates an ML-SEM with four waves with both
-contemporaneous and lagged effects of \(X\) on \(Y\).\footnote{The
+equations is estimated as one SEM. For example, Figure~\ref{fig-mlsem}
+illustrates an ML-SEM with four waves with both contemporaneous and
+lagged effects of \(X\) on \(Y\), that is each outcome (\(Y_t\)) is
+regressed on its lagged value (\(Y_{t-1}\)), on a contemporaneous
+(\(X_t\)) and lagged value of the predictor (\(X_{t-1}\)).\footnote{The
   ML-SEM with lagged effects requires at least four waves of data to be
   implemented.} \(\alpha\) represents the latent random intercept factor
-as is reflected by all observations \(Y_t\) (except for the initial
+reflected by all observations \(Y_t\) (except for the initial
 observation \(Y_{t=1}\)) with factor loadings constrained to 1, and all
 \(X_t\) are allowed to correlate with \(\alpha\) (and with each other
 and with \(Y_{t=1}\)). In this setup, the first observation \(Y_{t=1}\)
 is treated like any exogenous covariate. Importantly, observed
 time-varying regressors (\(X_t\)) are specified as predetermined---that
 is, they are allowed to correlate with past residuals (i.e., with
-\(\epsilon_{t-1}\)), reflecting that predictors are permitted to be
-influenced by prior outcomes. The presence of contemporaneous effects
-means a strict assumption of no contemporaneous reverse causality (i.e.,
-\(Y_t \rightarrow X_t\) does not exist). The resulting model is
-asymptotically equivalent to the Arellano-Bond method estimated with the
-generalized method of moments (\citeproc{ref-arellano1991some}{Arellano
-and Bond 1991}; \citeproc{ref-allison2017maximum}{Allison, Williams, and
-Moral-Benito 2017}), but it requires no stationarity assumption on
-initial conditions given that initial observations \(Y_{t=1}\) and
-\(X_{t=1}\) are treated as additional exogenous predictors. The ML-SEM
-also expands upon the Arellano-Bond method as it can handle missing data
-with full information maximum likelihood, extends to multiple
-indicators, and can incorporate time-constant covariates and different
-timing effects such as period-specific coefficients on regressors.
+\(\epsilon_{t-1}\))---reflecting that predictors may be influenced by
+prior outcomes. The presence of contemporaneous effects means a strict
+assumption of no contemporaneous reverse causality (i.e.,
+\(Y_t \rightarrow X_t\) does not exist); if reverse causality is a
+risk---such as in our work and crime example---the researcher would
+replace these contemporaneous effects with covariances to reflect the
+causal ambiguity. The resulting model is asymptotically equivalent to
+the Arellano-Bond method (\citeproc{ref-arellano1991some}{Arellano and
+Bond 1991}; \citeproc{ref-allison2017maximum}{Allison, Williams, and
+Moral-Benito 2017})\footnote{It however requires no stationarity
+  assumption on initial conditions given that initial observations
+  \(Y_{t=1}\) and \(X_{t=1}\) are treated as additional exogenous
+  predictors and does not suffer from issues regarding instrument
+  proliferation (\citeproc{ref-allison2017maximum}{Allison, Williams,
+  and Moral-Benito 2017}).}, but can additionally handle missing data
+via full information maximum likelihood, include measurement models for
+multiple indicators, incorporate time-constant covariates (uncorrelated
+with the fixed effects), and fit period-specific coefficients on
+regressors to account for practical issues like uneven observation
+periods or theoretical concerns like effects that differ by life stage.
 
 A number of recent studies used ML-SEM to examine (potentially)
 reciprocal relationships. In life course and developmental criminology,
@@ -1237,30 +1257,25 @@ model}\label{random-intercept-cross-lagged-panel-model}
 
 Another alternative to the traditional cross-lagged panel model that
 controls for unobserved stable heterogeneity is Hamaker et al.'s
-(\citeproc{ref-hamaker2015critique}{2015}) random intercept cross-lagged
-panel model (RI-CLPM). To ensure that the model only takes into account
-change over time, the RI-CLPM models within-unit and between-unit
-variances as separate attributes. Similar to Allison et al.'s
-(\citeproc{ref-allison2017maximum}{2017}) ML-SEM, RI-CLPM as depicted in
-Figure~\ref{fig-riclpm} estimates a latent variable that captures all
-stable variation between units---again drawing on the latent growth
-curve model specification, this latent random intercept factor is
-defined by all observations \(Y_t\) over time with factor loadings
-constrained to 1, essentially creating a random intercept for \(Y\) that
-varies between units.
-
-While the ML-SEM allows the latent random intercept factor to covary
-with predetermined regressors---which implies treating it as a fixed
-effect that captures all unobserved stable heterogeneity---the RI-CLPM
-instead repeats the process and creates another latent random intercept
-factor defined by all observations \(X_t\) over time that varies between
-units. Treating such unit-specific random intercepts as random variables
-(as opposed to fixed parameters) usually implies that they do not
-capture all unobserved stable heterogeneity. However, in the RI-CLPM,
-the two latent random intercept factors for \(Y_t\) and \(X_t\)
-(represented by \(\alpha_Y\) and \(\alpha_X\) in
-Figure~\ref{fig-riclpm}) are allowed to covary, which ensures that they
-capture all unobserved stable heterogeneity across both variables.
+(\citeproc{ref-hamaker2015critique}{2015}) RI-CLPM. To ensure that the
+model only takes into account change over time, the RI-CLPM models
+within-unit and between-unit variances as separate attributes. Similar
+to Allison et al.'s (\citeproc{ref-allison2017maximum}{2017}) ML-SEM,
+RI-CLPM as depicted in Figure~\ref{fig-riclpm} estimates a latent
+variable that captures all stable variation between units---again
+drawing on the latent growth curve model specification, this latent
+random intercept factor is defined by all observations \(Y_t\) over time
+with factor loadings constrained to 1, essentially creating a random
+intercept for \(Y\) that varies between units. While the ML-SEM allows
+the latent random intercept factor to covary with predetermined
+regressors---which implies treating it as a fixed effect that captures
+all unobserved stable heterogeneity---the RI-CLPM instead repeats the
+process and creates another latent random intercept factor defined by
+all observations \(X_t\) over time that varies between units. The two
+latent random intercept factors for \(Y_t\) and \(X_t\) (represented by
+\(\alpha_Y\) and \(\alpha_X\) in Figure~\ref{fig-riclpm}) are allowed to
+covary, which ensures that they capture all unobserved stable
+heterogeneity across both variables.
 
 \begin{figure}
 
@@ -1292,9 +1307,14 @@ By allowing both latent random intercept factors to covary, the RI-CLPM
 ensures that all unobserved stable heterogeneity is accounted for; and
 by estimating autoregressive and cross-lagged effects on latent
 variables capturing only within-unit variation, the model ensures that
-cross-lagged estimates reflect change over time. The RI-CLPM can also be
-extended to other common features in SEMs, such as multiple indicators,
-covariate adjustment, and multiple-group analysis
+cross-lagged estimates reflect only change over time. In contrast to
+ML-SEM, which focuses on one side of the reciprocal relationship,
+RI-CLPM produces a symmetrical model that considers both reciprocal
+pathways at once and is thus better suited to studying theoretical
+reciprocality---such as our example of the reciprocal relationship
+between disorder and fear. Like ML-SEM, the RI-CLPM can also be extended
+to other common features in SEMs, such as multiple indicators, covariate
+adjustment, period-specific effects, and multiple-group analysis
 (\citeproc{ref-mulder2021three}{Mulder and Hamaker 2021}) as well as
 simultaneous reciprocal effects under strong identifying assumptions
 (\citeproc{ref-speyer2025importance}{Speyer et al. 2025};
@@ -1328,8 +1348,8 @@ causal effect'' between two variables which is ambiguous in timing and
 set out to use a model to determine at what timing this effect exists.
 This raises the question of whether different causal timings could
 possibly correspond to comparable or even plausible processes of
-interest, and secondarily whether any model is likely to be able to
-identify multiple causal timings simultaneously.
+interest, and secondarily whether any model is able to identify multiple
+causal timings simultaneously.
 
 Improper specifications of temporal order may have serious consequences
 for estimation. Simulations specifying a causal effect that exists at
@@ -1357,11 +1377,13 @@ research finding employment increases future offending even when it has
 only a preventive contemporaneous effect. Note that this is not the
 result of signs differing between estimands but rather a biased estimate
 resulting from model misspecification equation 2, specifically the
-assumption of no contemporaneous effects beteween \(y_t and x_t\).
-Research that finds unexpectedly negative estimates from CLPMs when
-theory suggests positive effects may be the result of this bias (e.g.,
+assumption of no contemporaneous effects between \(y_t\) and \(x_t\). In
+our example, this is would be assuming crime has no effect on employment
+within the same year, i.e., assuming away reverse causality. Research
+that finds unexpectedly negative estimates from CLPMs when theory
+suggests positive effects may be the result of this bias (e.g.,
 \citeproc{ref-lanfear2020broken}{Lanfear, Matsueda, and Beach 2020,
-114}).
+114}; \citeproc{ref-allison2022getting}{Allison 2022}).
 
 Applied to our employment--crime example: if Hirschi's
 (\citeproc{ref-hirschi1969causes}{1969}) involvement hypothesis is
@@ -1384,19 +1406,20 @@ large (e.g., annual in this case) lag, a flip sign occurs. It is
 plausible that victimization and offending are actually positively
 related, and the negative coefficients reported by Ousey, Wilcox, and
 Fisher (\citeproc{ref-ousey2011something}{2011}) is a flip sign due to
-an inappropriate lag structure. This study is otherwise methodologically
-thoughtful, as authors applied state-of-the-start methods at the time,
-when the sign flip issue was not as well recognized.
+an inappropriate lag or covariance specification. This study is
+otherwise methodologically thoughtful, as authors applied
+state-of-the-start methods at the time, when the sign flip issue was not
+as well recognized.
 
 It is difficult to know how widespread this issue is in the
 criminological literature---in part because model specifications are not
-always clearly described, in part because unexpected results may be less
-likely to get published---but we argue the potential consequences
+always clearly described---but we argue the potential consequences
 warrant a systematic examination of its frequency and consequences given
 that lag-only specifications are a common default (e.g.,
 \citeproc{ref-allison2017maximum}{Allison, Williams, and Moral-Benito
-2017}) and that research with unexpected sign flips may be more likely
-to be published.
+2017}) and that research may be more likely to be published when it
+produces novel findings such as those resulting from unexpected sign
+flips.
 
 \subsection{Solutions}\label{solutions-1}
 
@@ -1442,10 +1465,10 @@ justify contemporaneous effects from the longer to shorter
 timeframe---i.e., theory regarding measurement permits establishing
 within-wave temporal order. Similarly, Lanfear and Kirk
 (\citeproc{ref-lanfear2024promise}{2024}) justified ML-SEM models with
-both lagged and contemporaneous effects of lettings on crime under the
-assumption that lettings present immediate criminal opportunities but
-the letting market adjusts slowly to local changes in crime---i.e.,
-theory regarding the causal process permits establishing order.
+both lagged and contemporaneous effects of short-term Airbnb lettings on
+crime under the assumption that lettings present immediate criminal
+opportunities but the letting market adjusts slowly to local changes in
+crime---i.e., assumptions about causal order came from theory.
 
 \section{Issue 3: Inter-temporal
 variation}\label{issue-3-inter-temporal-variation}
@@ -1461,8 +1484,8 @@ time---that is, strongly dependent on its past values---there may be
 little remaining to be explained by the predictors of interest after
 accounting for its prior value. Put another way, as the correlation
 between past and present values increases
-(\(\rho(Y_t,Y_{t-1}) \rightarrow 1\)) the remaining variance that can be
-explained by other covariates shrinks
+(\(\rho(Y_t,Y_{t-1}) \rightarrow 1\)) the remaining conditional variance
+that can be explained by other covariates shrinks
 (\(Var(Y_t|Y_{t-1}) \rightarrow 0\)).\footnote{Note that if the
   variables are measured with error, what is relevant is the underlying
   correlation between the error-free latent outcomes; when measurement
@@ -1529,24 +1552,26 @@ results.
 \subsection{Solutions}\label{solutions-2}
 
 Ideally, researchers should account for the possibility of low
-inter-temporal variation during design, but choice of temporal
-resolution should be guided by strong theory. Researchers interested
-slow processes and relatively stable outcomes can obviously opt to
-collect data over long time periods. If doing so is cost prohibitive or
-could prevent answering a timely research question, there are at least
-two other options. First, if the normally time-stable factor is affected
-by external factors---including those that may be manipulated by
-researchers---then researchers can collect data on individuals exposed
-to shocks in these factors---or embed an intervention in their study to
-manipulate the external factor. This then opens the possibility of using
-an instrumental variables estimator to estimate a local average
-treatment effect (\citeproc{ref-jha2026instrumental}{Jha and Nagin
-2026}). Second, even if the time stable factor is not responsive to
-exogenous shocks, the factor may be less stable among some
-subpopulations. In this case, researchers might oversample the more
-rapidly changing subpopulation to maximize variation, while remaining
-aware that the effect identified in that group may differ from that in
-the larger stable population.
+inter-temporal variation during design, but in general choice of
+temporal resolution should be guided by strong theory
+(\citeproc{ref-hamaker2026}{Ellen L. Hamaker 2026};
+\citeproc{ref-nivette2026}{Nivette and Eisner 2026}). Researchers
+interested slow processes and relatively stable outcomes can obviously
+opt to collect data over long time periods. If doing so is cost
+prohibitive or could prevent answering a timely research question, there
+are at least two other options. First, if the normally time-stable
+factor is affected by external factors---including those that may be
+manipulated by researchers---then researchers can collect data on
+individuals exposed to shocks in these factors---or embed an
+intervention in their study to manipulate the external factor. This then
+opens the possibility of using an instrumental variables estimator to
+estimate a local average treatment effect
+(\citeproc{ref-jha2026instrumental}{Jha and Nagin 2026}). Second, even
+if the time stable factor is not responsive to exogenous shocks, the
+factor may be less stable among some subpopulations. In this case,
+researchers might oversample the more rapidly changing subpopulation to
+maximize variation, while remaining aware that the effect identified in
+that group may differ from that in the larger stable population.
 
 Researchers using already-collected data may consider a number of
 approaches. First, they may consider estimands corresponding to shorter
@@ -1600,15 +1625,15 @@ Loeber, and Welsh 2009}), experience sampling or momentary assessments
 experiential cascade analysis (\citeproc{ref-roman2026}{Roman 2026}), or
 retrospective calendar methods (\citeproc{ref-apel2017}{Apel and Horney
 2017}; \citeproc{ref-wikstruxf6m2024}{Wikström, Treiber, and Roman
-2024}). Panel data with narrow observation intervals are sometimes also
-poorly suited for testing slow processes; high intertemporal
-correlations and proportions of variance explained may be signals there
-is insufficient change over time to produce precise estimates.
-Researchers and readers should also consider if they are using composite
-period variables and how this may impact the validity of their designs
-and estimates; these variables may correspond to unusual estimands,
-violate consistency assumptions for making causal inferences, and make
-it difficult to plausibly address reverse causality.
+2024}). Panel data with narrow observation intervals are also poorly
+suited for testing slow processes; high intertemporal correlations and
+proportions of variance explained may be signals there is insufficient
+change over time to produce precise estimates. Researchers and readers
+should also consider if they are using composite period variables and
+how this may impact the validity of their designs and estimates; these
+variables may correspond to unusual estimands, violate consistency
+assumptions for making causal inferences, and make it difficult to
+plausibly address reverse causality.
 
 Third, researchers should default to robust estimators. If the estimand
 is a lagged effect, include a contemporaneous covariance to adjust for
@@ -1766,6 +1791,11 @@ Transformation.''} \emph{American Journal of Sociology} 107 (4):
 Gollob, Harry F, and Charles S Reichardt. 1987. {``Taking Account of
 Time Lags in Causal Models.''} \emph{Child Development} 58 (1): 80--92.
 
+\bibitem[\citeproctext]{ref-hamaker2026}
+Hamaker, Ellen L. 2026. {``The Within-Between Dispute in Cross-Lagged
+Panel Research and How to Move Forward.''} \emph{Psychological Methods}
+31 (1): 56--76. \url{https://doi.org/10.1037/met0000600}.
+
 \bibitem[\citeproctext]{ref-hamaker2015critique}
 Hamaker, Ellen L, Rebecca M Kuiper, and Raoul PPP Grasman. 2015. {``A
 Critique of the Cross-Lagged Panel Model.''} \emph{Psychological
@@ -1900,6 +1930,11 @@ of Criminology} 1 (1): 335--58.
 \bibitem[\citeproctext]{ref-nickell1981biases}
 Nickell, Stephen. 1981. {``Biases in Dynamic Models with Fixed
 Effects.''} \emph{Econometrica} 49 (6): 1417--26.
+
+\bibitem[\citeproctext]{ref-nivette2026}
+Nivette, Amy, and Manuel Eisner. 2026. {``Time Matters: Rethinking
+Temporal Dynamics in Criminology.''} \emph{SocArXiv}.
+\url{https://doi.org/10.31235/osf.io/ynx32_v1}.
 
 \bibitem[\citeproctext]{ref-nivette2025assessing}
 Nivette, Amy, and Isabelle van der Vegt. 2025. {``Assessing the Causal
