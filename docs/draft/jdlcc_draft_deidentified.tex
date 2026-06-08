@@ -1,4 +1,5 @@
 % Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
@@ -7,21 +8,22 @@
   letterpaper,
   DIV=11,
   numbers=noendperiod]{scrartcl}
-
+\usepackage{xcolor}
 \usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 \usepackage{lmodern}
-\ifPDFTeX\else  
-    % xetex/luatex font selection
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -39,9 +41,6 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -67,8 +66,7 @@
 \makeatother
 
 
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -93,6 +91,8 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
+
+
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -126,6 +126,18 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
 
 \KOMAoption{captions}{tableheading}
 \makeatletter
@@ -169,11 +181,9 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-
 \usepackage{bookmark}
-
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Reciprocal relationships, reverse causality, and temporal ordering: Testing theories with cross-lagged panel models},
   colorlinks=true,
@@ -188,7 +198,6 @@
 ordering: Testing theories with cross-lagged panel models}
 \author{}
 \date{}
-
 \begin{document}
 \maketitle
 
@@ -358,7 +367,7 @@ Johnson, and Stewart 2021}). In a counterfactual framework, an estimand
 may be defined as a difference in potential outcomes
 (\citeproc{ref-morgan2014counterfactuals}{Morgan and Winship 2014}),
 e.g., ``how much higher is the probability that an individual will
-offend in a given month if they became unemployed in the prior month?''
+offend in a given month had they become unemployed in the prior month?''
 Estimands do not exist out in the world waiting to be found; they are
 chosen by researchers. We defer to other sources for a full explanation
 of choosing and using estimands (e.g.,
@@ -471,7 +480,7 @@ job‐program evaluations have found that random assignment to job
 training can yield lower subsequent crime
 (\citeproc{ref-redcross2011more}{Redcross et al. 2011}). The effect of
 work on offending is of particular interest for intervention research,
-because is easier for policy to manipulate employment than other
+because it is easier for policy to manipulate employment than other
 candidate causes of crime such as deviant peers or neighborhood
 conditions and to target it at high-risk populations
 (\citeproc{ref-uggen2008have}{Uggen and Wakefield 2008}).
@@ -486,17 +495,17 @@ and make getting a job difficult
 \citeproc{ref-pager2003}{Pager 2003}). Therefore, if interested in
 estimating the effects of employment on crime, one needs to account for
 the effects of crime on employment---i.e., one needs to adjust for
-reverse causality. Here we adopt the interventionist perspective and
-focus on the the effect of employment on crime, treating effects of
+\emph{reverse causality}. Here we adopt the interventionist perspective
+and focus on the the effect of employment on crime, treating effects of
 crime on employment as reverse causality that needs to be controlled
 for. This is, of course, a choice. For example, a researcher interested
 in employment and offending in a long term desistance process (e.g.,
 \citeproc{ref-giordano2002}{Giordano, Cernkovich, and Rudolph 2002}) or
 in the fluidity of engagement in conventional work and crime
 (\citeproc{ref-fagan1999}{Fagan and Freeman 1999}) might instead
-approach this as a theoretical reciprocality problem. As with estimands
-before, how to approach reciprocality is a choice by the researcher that
-should be motivated by theory and the research question.
+approach this as a \emph{theoretical reciprocality} problem. As with
+estimands before, how to approach reciprocality is a choice by the
+researcher that should be motivated by theory and the research question.
 
 \subsection{Fear of crime and perceived
 disorder}\label{fear-of-crime-and-perceived-disorder}
@@ -540,19 +549,19 @@ models}\label{theoretical-and-statistical-models}
 These examples are contrasted by how they are framed theoretically. In
 the employment--crime case, the cross‐lagged panel model is used to
 account for reverse causality (crime \(\rightarrow\) employment) and
-isolate the employment \(\rightarrow\) crime effect of interest. In the
-fear--disorder case, both cross-lagged paths (disorder \(\rightarrow\)
-fear; fear \(\rightarrow\) disorder) are of substantive interest,
-reflecting genuine theoretical ambiguity. Which direction we emphasize
-is dictated by the research question. In the first example we treat the
-reverse path as a nuisance (i.e., reverse causality), whereas in the
-second we treat it as part of a mutually reciprocal process to be tested
-(i.e., theoretical reciprocality).
+isolate the main effect of interest (employment \(\rightarrow\) crime).
+In the fear--disorder case, both cross-lagged paths (disorder
+\(\rightarrow\) fear; fear \(\rightarrow\) disorder) are of substantive
+interest, reflecting genuine theoretical ambiguity. Which direction we
+emphasize is dictated by the research question. In the first example we
+treat the reverse path as a nuisance (i.e., reverse causality), whereas
+in the second we treat it as part of a mutually reciprocal process to be
+tested (i.e., theoretical reciprocality).
 
 Good empirical research starts with a strong theoretical foundation. It
 is from a clearly defined theoretical framework that observable
 implications can be deduced, and it is those observable implications
-which can then be contrasted against empirical data
+that can then be contrasted against empirical data
 (\citeproc{ref-king1994designing}{King, Keohane, and Verba 1994};
 \citeproc{ref-mayo2018statistical}{Mayo 2018}). Theory-testing empirical
 research is therefore conditional on a thorough and transparent
